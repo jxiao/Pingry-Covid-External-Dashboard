@@ -1,0 +1,17 @@
+/* Center the "Overview" Text */
+.center {
+  margin: auto;
+}
+
+/* Individual card icons */
+.icon {
+  float: right;
+  height: 100px;
+  width: 100px;
+}
+
+/* Text formatting */
+h2, h3 {
+  text-align: center;
+  font-weight: 900;
+}

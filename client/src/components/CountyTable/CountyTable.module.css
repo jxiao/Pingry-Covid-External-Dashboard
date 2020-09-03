@@ -1,0 +1,99 @@
+/* Table */
+.table {
+  overflow-y: hidden;
+  height: 500px;
+  margin-bottom: 30px;
+  /* width: 100%; */
+}
+
+/* Formatting text of table entries and aesthetics of last rows */
+.small {
+  font-size: 14px;
+}
+
+.large {
+  font-size: 1.3rem !important;
+}
+
+.paragraph {
+  margin: 0;
+}
+
+/* .noBottom {
+  margin-bottom: 0px;
+} */
+
+.highlight {
+  background-color: #f4fbfe;
+}
+
+
+.theadTable, .tbodyTable, .trTable, .tdTable {
+  display: block !important;
+}
+.thTable {
+  display: flex !important;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  /* position: absolute; */
+}
+
+.trTable:after {
+  content: '';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+.tbodyTable {
+  height: 300px;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.tbodyTable .tdTable, .theadTable .thTable {
+  width: 20%;
+  float: left;
+}
+
+p {
+  margin: 0px;
+}
+
+
+.trTable .thTable {
+  background-color: #dbecf0 !important;
+  border: none;
+  height: 100%;
+}
+
+.noTopPadding {
+  padding-top: 0px !important;
+}
+
+.one {
+  left: 0% !important;
+  height: 100%;
+}
+.two {
+  left: 20% !important;
+  height: 100%;
+}
+.three {
+  left: 40% !important;
+  height: 100%;
+}
+.four {
+  left: 60% !important;
+  height: 100%;
+}
+.five {
+  left: 80% !important;
+  height: 100%;
+}
+
+thead .trTable {
+  position: relative !important;
+  height: 90px;
+}

@@ -1,0 +1,12 @@
+@import "~bootstrap/dist/css/bootstrap";
+
+// General theme contents
+@import "partials/variables";
+@import "partials/general";
+@import "partials/generic";
+
+// important Element
+@import "partials/menu/menu-lite";
+
+// Theme Element
+@import "partials/theme-elements/data-tables";

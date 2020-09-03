@@ -1,0 +1,37 @@
+/* Heading text sizes */
+h5, h6 {
+  font-size: 1.5rem;
+}
+
+/* Header Logo */
+.center {
+  text-align: center;
+}
+
+.pingryLogo {
+  display: inline-block;
+  margin: auto;
+  max-height: 75px;
+  width: auto;
+}
+
+.link:hover {
+  filter: brightness(105%);
+}
+
+/* Footer attributions */
+.attributions {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+

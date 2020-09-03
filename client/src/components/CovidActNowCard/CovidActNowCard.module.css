@@ -1,0 +1,23 @@
+.back {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.background {
+  background: none;
+  box-shadow: none;
+  height: 500px;
+  margin-bottom: 0px;
+}
+
+.frame {
+  background: none;
+  background-color: none;
+  box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+}
+
+@media (max-width: 1199px) {
+  .back {
+    margin: 0 auto 30px;
+  }
+}
