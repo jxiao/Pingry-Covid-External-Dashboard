@@ -9,21 +9,46 @@ import cx from 'classnames';
 
 const CardSet = (function (props) {
 
+    var prev6IR = 0;
+    props.fetchedCountyProjections[0].averages.forEach((average) => {
+        prev6IR += average.Rt;
+    })
+    prev6IR = (prev6IR - props.fetchedCountyProjections[0].averages[0].Rt) / 13;
+
     const pingryInfectionRate = props.fetchedCountyProjections[0].pingryCountiesInfectionRate;
-    const pingryInfectionRateIcon = (props.fetchedCountyProjections[0].averages[0].Rt - pingryInfectionRate < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
-    (props.fetchedCountyProjections[0].averages[0].Rt - pingryInfectionRate > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5");
+    const pingryInfectionRateIcon = (prev6IR - pingryInfectionRate < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
+    (prev6IR - pingryInfectionRate > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5");
+
+    var prev6CR = 0;
+    props.fetchedCountyData.averages.forEach((average) => {
+        prev6CR += average.caseRate;
+    })
+    prev6CR = (prev6CR - props.fetchedCountyData.averages[0].caseRate) / 6;
   
     const pingryCaseRate = props.fetchedCountyData.pingryCountiesCaseRate;
-    const pingryCaseRateIcon = (props.fetchedCountyData.averages[0].caseRate - pingryCaseRate < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
-                    (props.fetchedCountyData.averages[0].caseRate - pingryCaseRate > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
+    const pingryCaseRateIcon = (prev6CR - pingryCaseRate < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
+                    (prev6CR - pingryCaseRate > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
 
     const shortHillsPercentage = props.internal.shortHills7DayIsolationQuarantine;
-    const shortHillsPercentageIcon = (props.internal.averages[0].shortHillsIsolationQuarantine - shortHillsPercentage < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
-    (props.internal.averages[0].shortHillsIsolationQuarantine - shortHillsPercentage > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
+
+    var prev6SH = 0;
+    props.internal.averages.forEach((average) => {
+        prev6SH += average.shortHillsIsolationQuarantine;
+    })
+    prev6SH = (prev6SH - props.internal.averages[0].shortHillsIsolationQuarantine) / 6;
+
+    const shortHillsPercentageIcon = (prev6SH - shortHillsPercentage < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
+    (prev6SH - shortHillsPercentage > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
+
+    var prev6BR = 0;
+    props.internal.averages.forEach((average) => {
+        prev6BR += average.baskingRidgeIsolationQuarantine;
+    })
+    prev6BR = (prev6BR - props.internal.averages[0].baskingRidgeIsolationQuarantine) / 6;
 
     const baskingRidgePercentage = props.internal.baskingRidge7DayIsolationQuarantine;
-    const baskingRidgePercentageIcon = (props.internal.averages[0].baskingRidgeIsolationQuarantine - baskingRidgePercentage < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
-    (props.internal.averages[0].baskingRidgeIsolationQuarantine - baskingRidgePercentage > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
+    const baskingRidgePercentageIcon = (prev6BR - baskingRidgePercentage < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
+    (prev6BR - baskingRidgePercentage > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
     
 
     return (
