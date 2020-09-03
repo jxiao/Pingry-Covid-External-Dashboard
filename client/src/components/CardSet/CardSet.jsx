@@ -68,7 +68,7 @@ const CardSet = (function (props) {
                         </div>
                     </div>
                     <div>
-                        14 day average
+                        14 day moving average
                     </div>
                 </Card.Body>
             </Card>
@@ -87,7 +87,7 @@ const CardSet = (function (props) {
                         </div>
                     </div>
                     <div>
-                        7 day average
+                        7 day moving average
                     </div>
                 </Card.Body>
             </Card>
