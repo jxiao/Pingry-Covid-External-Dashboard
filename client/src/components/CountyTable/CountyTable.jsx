@@ -1,10 +1,8 @@
 import React from 'react';
-import {Col, Card, Table} from 'react-bootstrap';
+import {Col, Card} from 'react-bootstrap';
 
-import Aux from "../../hoc/_Aux";
 import styles from "./CountyTable.module.css";
 import cx from "classnames";
-import ReactTooltip from 'react-tooltip';
 var ReactFitText = require('react-fittext');
 
 // Morris, Essex, Hudson, Hunterdon, Somerset and Union
@@ -33,7 +31,7 @@ const CountyTable = (function (props) {
                   <table className={cx("table", styles.noBottom, styles.tableFixed)}>
                     <thead className={styles.theadTable}>
                       <tr className={styles.trTable}>
-                        <th  className={cx(styles.thTable, styles.one)}><ReactFitText compressor={0}><p>County</p></ReactFitText></th>
+                      <th  className={cx(styles.thTable, styles.one)}><ReactFitText compressor={0}><p>County</p></ReactFitText></th>
                         <th  className={cx(styles.thTable, styles.two)}><ReactFitText compressor={0}><p>Total Cases</p></ReactFitText></th>
                         <th  className={cx(styles.thTable, styles.three)}><ReactFitText compressor={0}><p>New Cases ({removeYear(d1.date)} - {removeYear(d7.date)})</p></ReactFitText></th>
                         <th  className={cx(styles.thTable, styles.four)}><ReactFitText compressor={0}><p>New Cases ({removeYear(d8.date)} - {removeYear(d14.date)})</p></ReactFitText></th>

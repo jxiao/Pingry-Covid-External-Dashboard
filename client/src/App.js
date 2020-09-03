@@ -17,30 +17,6 @@ import FadeIn from 'react-fade-in';
 
 class App extends Component {
 
-    /**
-     * THRESHOLDS FOR COLOR CODE
-     * Each inner array corresponds to the column of the matrix
-     * Each inner array [a,b] works as follows:
-     *      Safe        = 0 to a
-     *      Warning     = a to b
-     *      Shutdown    = b to infinity
-     */
-    static thresholds = [[1.1, 1.4], [10, 25], [25, 40]];
-
-    // Each zipcode correlates to 1 county (all 21 NJ counties in alphabetical order)
-    static zipcodesNJ = ['08201', '07661', '08016', '08103', '08204', '08332', '07039', '08097', '07310', '08809',
-    '08638', '08846', '07703', '07950', '08722', '07011', '08079', '08873', '07875', '07208',
-    '07820'];
-
-    // Local Counties: Essex, Morris, Somerset, Union
-    // Condition: all zipcodes must correlate to 1 singular county
-    static localCounties = ['07039', '07950', '08873', '07208', '08809', '08846', '08638', '07310', '07875', '07820', '07661', '08103', '07011'];
-    static localCountiesIndices = [6, 13, 17, 19, 9, 11, 10, 8, 18, 20, 1, 3, 15];
-
-    // Tooltip message to show on hover of status
-    static STATUS_TOOLTIP_MESSAGE = "Operating with greatest risk in mind. See matrix below for more details.";
-
-
     constructor(props) {
         super(props);
         this.state = {
