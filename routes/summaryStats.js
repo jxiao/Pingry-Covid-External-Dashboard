@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let Summarystat = require('../models/summarystat.model');
+let Summarystat = require('../models/summarystat.model'); 
 
 router.route('/').get((req, res) => {
   Summarystat.find()

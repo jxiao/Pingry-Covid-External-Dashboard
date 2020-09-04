@@ -5,7 +5,7 @@ const summarystatSchema = new mongoose.Schema ({
   pingryCountiesInfectionRate: Number,
   shortHills7DayIsolationQuarantine: Number,
   baskingRidge7DayIsolationQuarantine: Number
-}, {timestamps: true});
+}, {timestamps: true}); 
 
 const Summarystat = mongoose.model("Summarystat", summarystatSchema);
 module.exports = Summarystat;
