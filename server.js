@@ -286,7 +286,7 @@ async function repopulateCountyProjectionsCollection() {
       .then(response => {
         const index = i;
         // Insert newest (daily) data into CountyProjection internal DB
-        CountyProjection.updateOne({_id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) }, {$push: { [`data.${index}.infectionRates`] : {$each: [{Rt: response.data.projections.Rt}], $position: 0} }}, (err) => {
+        CountyProjection.updateOne({_id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) }, {$push: { [`data.${index}.infectionRates`] : {$each: [{Rt: response.data.metrics.infectionRate}], $position: 0} }}, (err) => {
           if (err) {
             console.log(err);
           } else {
