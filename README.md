@@ -4,7 +4,8 @@ External, public-facing dashboard for the Pingry community regarding COVID-19 ca
 
 Statistics of cases at the state and county levels are provided by [The New York Times](https://github.com/nytimes/covid-19-data/blob/master/us-counties.csv), [The Covid Tracking Project](https://covidtracking.com/), and [CovidActNow.org](https://www.covidactnow.org/). Detailed statistics involving the Pingry community are monitored both internally and alongside local health departments.
 
-Link here: [Pingry COVID-19 Dashboard - External](https://pingry-covid-metrics.herokuapp.com/)
+Link to Pingry Anywhere Site: [Pingry COVID-19 Dashboard - Pingry Anywhere](http://dashboard.pingryanywhere.org/)
+Link to Heroku Site: [Pingry COVID-19 Dashboard - Heroku](https://pingry-covid-metrics.herokuapp.com/)
 
 ## Primary Features
 
