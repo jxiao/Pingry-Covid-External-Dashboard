@@ -44,6 +44,9 @@ app.use('/pingryInternals', pingryInternalsRouter);
 const countyProjectionsRouter = require('./routes/countyProjections');
 app.use('/countyProjections', countyProjectionsRouter);
 
+const summarystatsRouter = require('./routes/summarystats');
+app.use('/summarystats', summarystatsRouter);
+
 
 
 /**
@@ -96,6 +99,7 @@ function refetchAll() {
   repopulateCountyCollection();
   repopulatePingryCollection();
   repopulateCountyProjectionsCollection();
+  repopulateSummarystats();
   return `REFETCHING COLLECTIONS... (${new Date()})`;
 }
 
@@ -369,7 +373,38 @@ async function repopulateCountyProjectionsCollection() {
 
     }
   });
-  
+}
+
+async function repopulateSummarystats() {
+  const County = mongoose.model("County");
+  const CountyProjection = mongoose.model("CountyProjection");
+  const PingryInternal = mongoose.model("PingryInternal");
+  const Summarystat = mongoose.model("Summarystat");
+  County.findById({_id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`)}, (err, resp) => {
+    const pingryCountiesCaseRate = resp.pingryCountiesCaseRate;
+    CountyProjection.findById({_id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`)}, (err, resp) => {
+      const pingryCountiesInfectionRate = resp.pingryCountiesInfectionRate;
+      PingryInternal.findById({_id: mongoose.Types.ObjectId(`5f4ec6920ece60f64d8cd6f6`)}, (err, resp) => {
+        const shortHills7DayIsolationQuarantine = resp.shortHills7DayIsolationQuarantine;
+        const baskingRidge7DayIsolationQuarantine = resp.baskingRidge7DayIsolationQuarantine;
+        const newData = {
+          pingryCountiesCaseRate: pingryCountiesCaseRate,
+          pingryCountiesInfectionRate: pingryCountiesInfectionRate,
+          shortHills7DayIsolationQuarantine: shortHills7DayIsolationQuarantine,
+          baskingRidge7DayIsolationQuarantine: baskingRidge7DayIsolationQuarantine
+        }
+        
+        Summarystat.replaceOne({_id: mongoose.Types.ObjectId(`5f51c1f3ac1e6fe85e27b3da`)}, newData, {upsert: true}, function (err) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("Finished repopulating summarystats collection.");
+          }
+        });
+
+      });
+    });
+  });
 }
 
 module.exports = {refetchAll};
