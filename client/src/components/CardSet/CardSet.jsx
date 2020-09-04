@@ -83,7 +83,7 @@ const CardSet = (function (props) {
                         </div>
                     </div>
                     <div>
-                        7 day average
+                        7 day average, based on Pingry's Internal Tracking Database
                     </div>
                 </Card.Body>
             </Card>
@@ -104,7 +104,7 @@ const CardSet = (function (props) {
                             </div>
                         </div>
                         <div>
-                            7 day average
+                            7 day average, based on Pingry's Internal Tracking Database
                         </div>
                     </Card.Body>
                 </Card>
