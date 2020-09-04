@@ -83,7 +83,7 @@ const CardSet = (function (props) {
                         </div>
                     </div>
                     <div>
-                        7 day average, weighted based on Pingry student distribution across NJ counties
+                        7 day average
                     </div>
                 </Card.Body>
             </Card>
@@ -104,7 +104,7 @@ const CardSet = (function (props) {
                             </div>
                         </div>
                         <div>
-                            7 day average, weighted based on Pingry student distribution across NJ counties
+                            7 day average
                         </div>
                     </Card.Body>
                 </Card>
