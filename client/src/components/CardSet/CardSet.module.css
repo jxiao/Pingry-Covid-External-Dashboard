@@ -1,6 +1,11 @@
 /* Center the "Overview" Text */
 .center {
   margin: auto;
+  text-align: center;
+}
+
+.smallerText {
+  font-size: 1rem;
 }
 
 /* Individual card icons */

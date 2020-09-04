@@ -94,12 +94,12 @@ const localCountiesIndices = [6, 13, 17, 19, 9, 11, 10, 8, 18, 20, 1, 3, 15];
 /**
  * Parent function to refetch the data at scheduled intervals
  */
-function refetchAll() {
-  repopulateStatewideCollection();
-  repopulateCountyCollection();
-  repopulatePingryCollection();
-  repopulateCountyProjectionsCollection();
-  repopulateSummarystats();
+async function refetchAll() {
+  await repopulateStatewideCollection();
+  await repopulateCountyCollection();
+  await repopulatePingryCollection();
+  await repopulateCountyProjectionsCollection();
+  await repopulateSummarystats();
   return `REFETCHING COLLECTIONS... (${new Date()})`;
 }
  
@@ -195,19 +195,12 @@ async function repopulateCountyCollection() {
       }
     });
 
-    var pingryCountiesCaseRate = 0;
-    County.findById({_id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`)}, (err, resp) => {
-      resp.averages.forEach((average) => {
-        pingryCountiesCaseRate += average.caseRate;
-      });
-      pingryCountiesCaseRate /= 7;
-      County.updateOne({_id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`)}, {$set: {'pingryCountiesCaseRate': pingryCountiesCaseRate}}, (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(`Updated 7 Day Pingry Counties Case Rate`);
-        }
-      });
+    County.updateOne({_id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`)}, {$set: {'pingryCountiesCaseRate': cumulativeRate}}, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`Updated 7 Day Pingry Counties Case Rate`);
+      }
     });
 
   });
@@ -269,22 +262,12 @@ async function repopulatePingryCollection() {
           }
         });
 
-        var averageSumSH = 0;
-        var averageSumBR = 0;
-        PingryInternal.findById({_id: mongoose.Types.ObjectId(`5f4ec6920ece60f64d8cd6f6`)}, (err, resp) => {
-          resp.averages.forEach((average) => {
-            averageSumSH += average.shortHillsIsolationQuarantine;
-            averageSumBR += average.baskingRidgeIsolationQuarantine;
-          });
-          averageSumSH /= 7;
-          averageSumBR /= 7;
-          PingryInternal.updateOne({_id: mongoose.Types.ObjectId(`5f4ec6920ece60f64d8cd6f6`)}, {$set: {'shortHills7DayIsolationQuarantine': averageSumSH, 'baskingRidge7DayIsolationQuarantine': averageSumBR}}, (err) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(`Updated 7 Day Isolation/Quarantine Percentage`);
-            }
-          });
+        PingryInternal.updateOne({_id: mongoose.Types.ObjectId(`5f4ec6920ece60f64d8cd6f6`)}, {$set: {'shortHills7DayIsolationQuarantine': weightedAveragePercentCampusSH, 'baskingRidge7DayIsolationQuarantine': weightedAveragePercentCampusBR}}, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(`Updated 7 Day Isolation/Quarantine Percentage`);
+          }
         });
         
       });
@@ -356,19 +339,12 @@ async function repopulateCountyProjectionsCollection() {
         }
       });
 
-      var pingryCountiesInfectionRate = 0;
-      CountyProjection.findById({_id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`)}, (err, resp) => {
-        resp.averages.forEach((average) => {
-          pingryCountiesInfectionRate += average.Rt;
-        });
-        pingryCountiesInfectionRate /= 14;
-        CountyProjection.updateOne({_id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`)}, {$set: {'pingryCountiesInfectionRate': pingryCountiesInfectionRate}}, (err) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log(`Updated 14 Day Pingry Counties Infection Rate`);
-          }
-        });
+      CountyProjection.updateOne({_id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`)}, {$set: {'pingryCountiesInfectionRate': cumulativeRate}}, (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(`Updated 14 Day Pingry Counties Infection Rate`);
+        }
       });
 
     }

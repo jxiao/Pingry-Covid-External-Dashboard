@@ -9,52 +9,29 @@ import cx from 'classnames';
 
 const CardSet = (function (props) {
 
-    var prev6IR = 0;
-    props.fetchedCountyProjections[0].averages.forEach((average) => {
-        prev6IR += average.Rt;
-    })
-    prev6IR = (prev6IR - props.fetchedCountyProjections[0].averages[0].Rt) / 13;
-
     const pingryInfectionRate = props.fetchedCountyProjections[0].pingryCountiesInfectionRate;
-    const pingryInfectionRateIcon = (prev6IR - pingryInfectionRate < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
-    (prev6IR - pingryInfectionRate > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5");
+    const pingryInfectionRateIcon = (props.fetchedCountyProjections[0].averages[1].Rt - pingryInfectionRate < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
+        (props.fetchedCountyProjections[0].averages[1].Rt - pingryInfectionRate > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5");
 
-    var prev6CR = 0;
-    props.fetchedCountyData.averages.forEach((average) => {
-        prev6CR += average.caseRate;
-    })
-    prev6CR = (prev6CR - props.fetchedCountyData.averages[0].caseRate) / 6;
-  
+
     const pingryCaseRate = props.fetchedCountyData.pingryCountiesCaseRate;
-    const pingryCaseRateIcon = (prev6CR - pingryCaseRate < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
-                    (prev6CR - pingryCaseRate > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
+    const pingryCaseRateIcon = (props.fetchedCountyData.averages[1].caseRate - pingryCaseRate < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
+        (props.fetchedCountyData.averages[1].caseRate - pingryCaseRate > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
+
 
     const shortHillsPercentage = props.internal.shortHills7DayIsolationQuarantine;
+    const shortHillsPercentageIcon = (props.internal.averages[1].shortHillsIsolationQuarantine - shortHillsPercentage < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
+    (props.internal.averages[1].shortHillsIsolationQuarantine - shortHillsPercentage > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
 
-    var prev6SH = 0;
-    props.internal.averages.forEach((average) => {
-        prev6SH += average.shortHillsIsolationQuarantine;
-    })
-    prev6SH = (prev6SH - props.internal.averages[0].shortHillsIsolationQuarantine) / 6;
-
-    const shortHillsPercentageIcon = (prev6SH - shortHillsPercentage < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
-    (prev6SH - shortHillsPercentage > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
-
-    var prev6BR = 0;
-    props.internal.averages.forEach((average) => {
-        prev6BR += average.baskingRidgeIsolationQuarantine;
-    })
-    prev6BR = (prev6BR - props.internal.averages[0].baskingRidgeIsolationQuarantine) / 6;
 
     const baskingRidgePercentage = props.internal.baskingRidge7DayIsolationQuarantine;
-    const baskingRidgePercentageIcon = (prev6BR - baskingRidgePercentage < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
-    (prev6BR - baskingRidgePercentage > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
+    const baskingRidgePercentageIcon = (props.internal.averages[1].baskingRidgeIsolationQuarantine - baskingRidgePercentage < 0) ? "feather icon-arrow-up text-c-red f-30 m-r-5" :
+    (props.internal.averages[1].baskingRidgeIsolationQuarantine - baskingRidgePercentage > 0 ? "feather icon-arrow-down text-c-green f-30 m-r-5" : "feather icon-activity text-c-blue f-30 m-r-5"); 
     
 
     return (
         <Aux>
-        <Col sm={12} className={styles.center}><h3>Overview</h3></Col>
-        
+        <Col sm={12} className={styles.center}><h3>COVID-19 Tracking Dashboard</h3><h6 className={styles.smallerText}>Data Sources: The New York Times, CovidActNow.org, Pingry's Internal Tracking Database</h6></Col>
         <Col md={6}>
             <Card>
                 <Card.Body>
@@ -68,7 +45,7 @@ const CardSet = (function (props) {
                         </div>
                     </div>
                     <div>
-                        14 day moving average
+                        14 day average, weighted based on Pingry student distribution across NJ counties
                     </div>
                 </Card.Body>
             </Card>
@@ -87,7 +64,7 @@ const CardSet = (function (props) {
                         </div>
                     </div>
                     <div>
-                        7 day moving average
+                        7 day average, weighted based on Pingry student distribution across NJ counties
                     </div>
                 </Card.Body>
             </Card>
@@ -106,7 +83,7 @@ const CardSet = (function (props) {
                         </div>
                     </div>
                     <div>
-                        7 day moving average
+                        7 day average, weighted based on Pingry student distribution across NJ counties
                     </div>
                 </Card.Body>
             </Card>
@@ -127,7 +104,7 @@ const CardSet = (function (props) {
                             </div>
                         </div>
                         <div>
-                            7 day moving average
+                            7 day average, weighted based on Pingry student distribution across NJ counties
                         </div>
                     </Card.Body>
                 </Card>
