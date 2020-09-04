@@ -102,7 +102,7 @@ function refetchAll() {
   repopulateSummarystats();
   return `REFETCHING COLLECTIONS... (${new Date()})`;
 }
-
+ 
 /**
  * Repopulates the NJ Statewide data ONLY
  * Deletes old data upon insertion of new data
