@@ -61,16 +61,9 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 3000;
 const host = '0.0.0.0';
-/**
- * Listener - main job is to refetch data according to the
- * following schedule (as long as server is running):
- * 
- * Schedule: currently set to daily at 12:30PM
- */
+
+
 app.listen(port, host, () => {
-  // Set Interval for when to refresh DB (using cron package)
-  // Refer to https://www.npmjs.com/package/node-cron for documentation on cron package
-  // var task = cron.schedule('*/30 * * * * *', refetchAll);    // FOR TESTING (runs every 30 seconds)
   console.log(`Server is running on port: ${port}`);
 });
 
@@ -277,7 +270,10 @@ async function repopulatePingryCollection() {
   console.log("Finished repopulating Pingry collection.");
 }
 
-
+/**
+ * Repopulates the infection rates
+ * Stores up to 14 day history
+ */
 async function repopulateCountyProjectionsCollection() {
   const CountyProjection = mongoose.model("CountyProjection");
   var fips = 34001;
@@ -351,6 +347,9 @@ async function repopulateCountyProjectionsCollection() {
   });
 }
 
+/**
+ * Repopulates the summary stats for Drew's internal dashboard/tracking system
+ */
 async function repopulateSummarystats() {
   const County = mongoose.model("County");
   const CountyProjection = mongoose.model("CountyProjection");

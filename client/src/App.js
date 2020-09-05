@@ -52,7 +52,6 @@ class App extends Component {
             <Aux>
                 {this.state.loading ? (<Col sm={12} style={{textAlign: "center", height: "100vh"}}><Spinner name="three-bounce" color="#054f8a" className={styles.spinner}/></Col>) : 
                     <FadeIn>
-                    
                     <div className="pcoded-content">
                         <div className={styles.center}>
                             <a href="http://pingryanywhere.org" target="_blank" rel="noopener noreferrer" className={styles.link}>

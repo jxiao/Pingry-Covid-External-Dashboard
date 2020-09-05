@@ -88,30 +88,26 @@ const CardSet = (function (props) {
                 </Card.Body>
             </Card>
         </Col>
-
-        
-            <Col md={6}>
-                <Card>
-                    <Card.Body>
-                        <h6 className='mb-4' style={{display: "inline-block"}}>% Campus in Isolation or Quarantine (Basking Ridge)</h6>
-                        <div className="row d-flex align-items-center">
-                            <div className="col-9">
-                                <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className={baskingRidgePercentageIcon}/> <CountUp decimals={2} start={0} end={baskingRidgePercentage} duration={2} separator=","/>%</h3>
-                            </div>
-
-                            <div className={cx("col-3", styles.icon)}>
-                                <Pingry />
-                            </div>
+        <Col md={6}>
+            <Card>
+                <Card.Body>
+                    <h6 className='mb-4' style={{display: "inline-block"}}>% Campus in Isolation or Quarantine (Basking Ridge)</h6>
+                    <div className="row d-flex align-items-center">
+                        <div className="col-9">
+                            <h3 className="f-w-300 d-flex align-items-center m-b-0"><i className={baskingRidgePercentageIcon}/> <CountUp decimals={2} start={0} end={baskingRidgePercentage} duration={2} separator=","/>%</h3>
                         </div>
-                        <div>
-                            7 day average, based on Pingry's Internal Tracking Database
+
+                        <div className={cx("col-3", styles.icon)}>
+                            <Pingry />
                         </div>
-                    </Card.Body>
-                </Card>
-            </Col>
-        
-        </Aux>
-        
+                    </div>
+                    <div>
+                        7 day average, based on Pingry's Internal Tracking Database
+                    </div>
+                </Card.Body>
+            </Card>
+        </Col>
+    </Aux>
     );
 });
 
