@@ -30,6 +30,7 @@ class App extends Component {
             countyProjections: [],
             loading: true
         }
+        initializeReactGA();
     }
 
     async componentDidMount() {
@@ -49,7 +50,6 @@ class App extends Component {
         ReactGA.initialize('UA-177348263-1');
         ReactGA.pageview('/');
     }
-
 
     render() {
         return (
