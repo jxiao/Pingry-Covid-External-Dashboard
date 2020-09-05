@@ -84,15 +84,14 @@ const population = [263670, 932202, 445349, 506471, 92039, 149527, 798975, 29163
 const localCountyPopulation = 6351603;
 const localCountiesIndices = [6, 13, 17, 19, 9, 11, 10, 8, 18, 20, 1, 3, 15];
 
+const refetchArray = [repopulateStatewideCollection, repopulateCountyCollection, repopulatePingryCollection, repopulateCountyProjectionsCollection, repopulateSummarystats];
 /**
  * Parent function to refetch the data at scheduled intervals
  */
 async function refetchAll() {
-  await repopulateStatewideCollection();
-  await repopulateCountyCollection();
-  await repopulatePingryCollection();
-  await repopulateCountyProjectionsCollection();
-  await repopulateSummarystats();
+  for (const fn of refetchArray) {
+    await fn();
+  }
   return `REFETCHING COLLECTIONS... (${new Date()})`;
 }
  
@@ -102,7 +101,7 @@ async function refetchAll() {
  */
 async function repopulateStatewideCollection() {
   const Statewide = mongoose.model("Statewide");
-  axios.get("https://localcoviddata.com/covid19/v1/cases/covidTracking?state=NJ&daysInPast=7")
+  await axios.get("https://localcoviddata.com/covid19/v1/cases/covidTracking?state=NJ&daysInPast=7")
     .then(response => {
       Statewide.replaceOne({"stateCode" : `NJ`}, response.data, {upsert: true}, function (err) {
         if (err) {
@@ -206,7 +205,7 @@ async function repopulateCountyCollection() {
  */
 async function repopulatePingryCollection() {
   const PingryInternal = mongoose.model("PingryInternal");
-  axios.get("https://tracking-db.pingryanywhere.org/api/v1/summarystats")
+  await axios.get("https://tracking-db.pingryanywhere.org/api/v1/summarystats")
     .then(response => {
 
       // Insert newest (daily) data into Pingry internal DB
@@ -267,7 +266,6 @@ async function repopulatePingryCollection() {
       
     })
     .catch(error => console.log("error"));
-  console.log("Finished repopulating Pingry collection.");
 }
 
 /**
