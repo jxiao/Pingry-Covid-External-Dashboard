@@ -2,7 +2,7 @@
 
 External, public-facing dashboard for the Pingry community regarding COVID-19 cases at state, county, and school levels.
 
-Statistics of cases at the state and county levels are provided by [The New York Times](https://github.com/nytimes/covid-19-data/blob/master/us-counties.csv), [The Covid Tracking Project](https://covidtracking.com/), and [CovidActNow.org](https://www.covidactnow.org/). Detailed statistics involving the Pingry community are monitored both internally and alongside local health departments.
+Statistics of cases at the state and county levels are provided by [The New York Times](https://github.com/nytimes/covid-19-data/blob/master/us-counties.csv), [The Covid Tracking Project](https://covidtracking.com/), and [CovidActNow.org](https://www.covidactnow.org/). Detailed statistics involving the Pingry community are monitored both internally and alongside local health departments.  Integrated with Google Analytics to track page views.
 
 Link to Pingry Anywhere Site: [Pingry COVID-19 Dashboard - Pingry Anywhere](http://dashboard.pingryanywhere.org/)
 
