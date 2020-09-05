@@ -16,6 +16,7 @@
     "react-dom": "^16.13.1",
     "react-fade-in": "^1.1.0",
     "react-fittext": "^1.0.0",
+    "react-ga": "^3.1.2",
     "react-scripts": "3.4.3",
     "react-spinkit": "^3.0.0",
     "react-tooltip": "^4.2.8"

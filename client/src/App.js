@@ -4,6 +4,7 @@ import Aux from "./hoc/_Aux";
 import "./assets/scss/style.scss";
 import styles from './App.module.css';
 import {Row, Col} from 'react-bootstrap';
+import ReactGA from 'react-ga';
 
 // Components
 import CardSet from './components/CardSet/CardSet';
@@ -42,6 +43,11 @@ class App extends Component {
         this.setState({date: date, statewideData: fetchedStatewideData, countyData: fetchedCountyData, 
             countyTotals: fetchedCountyTotals, internal: fetchedPingryData[0], fetchedCountyProjections: fetchedCountyProjections,
             countyProjections: fetchedCountyProjections[0].data, loading: false})
+    }
+
+    initializeReactGA() {
+        ReactGA.initialize('UA-177348263-1');
+        ReactGA.pageview('/');
     }
 
 
