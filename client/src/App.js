@@ -30,7 +30,8 @@ class App extends Component {
             countyProjections: [],
             loading: true
         }
-        initializeReactGA();
+        ReactGA.initialize('UA-177348263-1');
+        ReactGA.pageview('/');
     }
 
     async componentDidMount() {
@@ -44,11 +45,6 @@ class App extends Component {
         this.setState({date: date, statewideData: fetchedStatewideData, countyData: fetchedCountyData, 
             countyTotals: fetchedCountyTotals, internal: fetchedPingryData[0], fetchedCountyProjections: fetchedCountyProjections,
             countyProjections: fetchedCountyProjections[0].data, loading: false})
-    }
-
-    initializeReactGA() {
-        ReactGA.initialize('UA-177348263-1');
-        ReactGA.pageview('/');
     }
 
     render() {
