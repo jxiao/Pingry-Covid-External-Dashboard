@@ -444,7 +444,7 @@ async function repopulateCountyProjectionsCollection() {
             }
           }
         );
-        console.log(fips);
+
         fips += 2;
       })
       .catch((error) => console.log(error));
