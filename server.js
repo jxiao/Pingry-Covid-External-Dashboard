@@ -321,7 +321,6 @@ async function repopulatePingryCollection() {
           }
         }
       );
-
       // Delete oldest (daily) data from Pingry internal DB
       PingryInternal.updateOne(
         { _id: mongoose.Types.ObjectId(`5f4ec6920ece60f64d8cd6f6`) },
@@ -334,7 +333,6 @@ async function repopulatePingryCollection() {
           }
         }
       );
-
       var weightedAveragePercentCampusSH = 0;
       var weightedAveragePercentCampusBR = 0;
       PingryInternal.findById(
@@ -348,12 +346,10 @@ async function repopulatePingryCollection() {
           });
           weightedAveragePercentCampusSH /= 7;
           weightedAveragePercentCampusBR /= 7;
-
           const newDate = {
             shortHillsIsolationQuarantine: weightedAveragePercentCampusSH,
             baskingRidgeIsolationQuarantine: weightedAveragePercentCampusBR,
           };
-
           PingryInternal.updateOne(
             { _id: mongoose.Types.ObjectId(`5f4ec6920ece60f64d8cd6f6`) },
             { $push: { averages: { $each: [newDate], $position: 0 } } },
@@ -365,7 +361,6 @@ async function repopulatePingryCollection() {
               }
             }
           );
-
           PingryInternal.updateOne(
             { _id: mongoose.Types.ObjectId(`5f4ec6920ece60f64d8cd6f6`) },
             { $pop: { averages: 1 } },
@@ -377,7 +372,6 @@ async function repopulatePingryCollection() {
               }
             }
           );
-
           PingryInternal.updateOne(
             { _id: mongoose.Types.ObjectId(`5f4ec6920ece60f64d8cd6f6`) },
             {
@@ -450,7 +444,7 @@ async function repopulateCountyProjectionsCollection() {
             }
           }
         );
-
+        console.log(fips);
         fips += 2;
       })
       .catch((error) => console.log(error));
