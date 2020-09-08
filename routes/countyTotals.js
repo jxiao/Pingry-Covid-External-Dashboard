@@ -1,12 +1,12 @@
-const router = require('express').Router();
-let CountyTotal = require('../models/countyTotal.model');
+const router = require("express").Router();
+let CountyTotal = require("../models/countyTotal.model");
 
-router.route('/').get((req, res) => {
+router.route("/").get((req, res) => {
   CountyTotal.find()
-    .then(countyTotals => {
+    .then((countyTotals) => {
       res.json(countyTotals);
     })
-    .catch(err => res.status(400).json('Error: '+err));
+    .catch((err) => res.status(400).json("Error: " + err));
 });
 
 module.exports = router;

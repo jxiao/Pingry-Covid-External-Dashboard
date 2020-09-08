@@ -16,7 +16,8 @@
 }
 
 /* Text formatting */
-h2, h3 {
+h2,
+h3 {
   text-align: center;
   font-weight: 900;
 }
