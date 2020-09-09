@@ -40,6 +40,7 @@ class Charts extends Component {
     series.tooltipText = "{valueY.value}";
     IRchart.cursor = new am4charts.XYCursor();
     IRchart.cursor.lineY.disabled = true;
+    IRchart.cursor.behavior = "none";
 
     this.IRchart = IRchart;
 
@@ -78,6 +79,7 @@ class Charts extends Component {
     series.tooltipText = "{valueY.value}";
     CRchart.cursor = new am4charts.XYCursor();
     CRchart.cursor.lineY.disabled = true;
+    CRchart.cursor.behavior = "none";
 
     this.CRchart = CRchart;
   }
