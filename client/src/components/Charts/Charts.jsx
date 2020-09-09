@@ -103,7 +103,7 @@ class Charts extends Component {
               </h6>
               <div
                 id="infectionratediv"
-                style={{ width: "100%", height: "300px" }}
+                style={{ width: "100%", height: "250px" }}
                 className={styles.chart}
               ></div>
             </Card.Body>
@@ -118,7 +118,7 @@ class Charts extends Component {
               </h6>
               <div
                 id="caseratediv"
-                style={{ width: "100%", height: "300px" }}
+                style={{ width: "100%", height: "250px" }}
                 className={styles.chart}
               ></div>
             </Card.Body>
