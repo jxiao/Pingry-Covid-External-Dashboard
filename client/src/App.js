@@ -16,6 +16,7 @@ import ReactGA from "react-ga";
 import CardSet from "./components/CardSet/CardSet";
 import CountyTable from "./components/CountyTable/CountyTable";
 import CovidActNowCard from "./components/CovidActNowCard/CovidActNowCard";
+import Charts from "./components/Charts/Charts";
 
 // Images + accessories
 import PingryAnywhere from "./assets/images/PingryAnywhere";
@@ -88,6 +89,10 @@ class App extends Component {
                   internal={this.state.internal}
                   fetchedCountyData={this.state.countyData}
                   fetchedCountyProjections={this.state.fetchedCountyProjections}
+                />
+                <Charts
+                  IRAverages={this.state.fetchedCountyProjections[0].averages}
+                  CRAverages={this.state.countyData.averages}
                 />
                 <CovidActNowCard />
                 <CountyTable

@@ -27,7 +27,7 @@ const CardSet = function (props) {
   const pingryCaseRateIcon =
     changeCaseRate < 0
       ? "feather icon-arrow-up text-c-red  m-r-5"
-      : changeCaseRate
+      : changeCaseRate > 0
       ? "feather icon-arrow-down text-c-green  m-r-5"
       : "feather icon-activity text-c-blue  m-r-5";
 

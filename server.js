@@ -187,7 +187,7 @@ async function repopulateCountyCollection() {
 
         // Insert newest (daily) data into county DB
         County.updateOne(
-          { _id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`) },
+          { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
           {
             $push: {
               [`data.${index}.counties.0.historicData`]: {
@@ -207,7 +207,7 @@ async function repopulateCountyCollection() {
 
         // Delete oldest (daily) data from county DB
         County.updateOne(
-          { _id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`) },
+          { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
           { $pop: { [`data.${index}.counties.0.historicData`]: 1 } },
           (err) => {
             if (err) {
@@ -243,7 +243,7 @@ async function repopulateCountyCollection() {
   }
 
   await County.findById(
-    { _id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`) },
+    { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
     (err, resp) => {
       var cumulativeRate = 0;
       for (var i = 0; i < localCountiesIndices.length; i++) {
@@ -257,7 +257,7 @@ async function repopulateCountyCollection() {
       cumulativeRate = (cumulativeRate / localCountyPopulation) * 100000;
 
       County.updateOne(
-        { _id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`) },
+        { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
         {
           $push: {
             averages: { $each: [{ caseRate: cumulativeRate }], $position: 0 },
@@ -273,7 +273,7 @@ async function repopulateCountyCollection() {
       );
 
       County.updateOne(
-        { _id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`) },
+        { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
         { $pop: { averages: 1 } },
         (err) => {
           if (err) {
@@ -285,7 +285,7 @@ async function repopulateCountyCollection() {
       );
 
       County.updateOne(
-        { _id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`) },
+        { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
         { $set: { pingryCountiesCaseRate: cumulativeRate } },
         (err) => {
           if (err) {
