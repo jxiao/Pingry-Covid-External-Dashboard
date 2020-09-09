@@ -10,46 +10,49 @@ import cx from "classnames";
 const CardSet = function (props) {
   const pingryInfectionRate =
     props.fetchedCountyProjections[0].pingryCountiesInfectionRate;
+  const changeIR = (
+    props.fetchedCountyProjections[0].averages[1].Rt - pingryInfectionRate
+  ).toFixed(2);
   const pingryInfectionRateIcon =
-    props.fetchedCountyProjections[0].averages[1].Rt - pingryInfectionRate < 0
-      ? "feather icon-arrow-up text-c-red f-30 m-r-5"
-      : props.fetchedCountyProjections[0].averages[1].Rt - pingryInfectionRate >
-        0
-      ? "feather icon-arrow-down text-c-green f-30 m-r-5"
-      : "feather icon-activity text-c-blue f-30 m-r-5";
+    changeIR < 0
+      ? "feather icon-arrow-up text-c-red m-r-5"
+      : changeIR > 0
+      ? "feather icon-arrow-down text-c-green m-r-5"
+      : "feather icon-activity text-c-blue m-r-5";
 
   const pingryCaseRate = props.fetchedCountyData.pingryCountiesCaseRate;
+  const changeCaseRate = (
+    props.fetchedCountyData.averages[1].caseRate - pingryCaseRate
+  ).toFixed(2);
   const pingryCaseRateIcon =
-    props.fetchedCountyData.averages[1].caseRate - pingryCaseRate < 0
-      ? "feather icon-arrow-up text-c-red f-30 m-r-5"
-      : props.fetchedCountyData.averages[1].caseRate - pingryCaseRate > 0
-      ? "feather icon-arrow-down text-c-green f-30 m-r-5"
-      : "feather icon-activity text-c-blue f-30 m-r-5";
+    changeCaseRate < 0
+      ? "feather icon-arrow-up text-c-red  m-r-5"
+      : changeCaseRate
+      ? "feather icon-arrow-down text-c-green  m-r-5"
+      : "feather icon-activity text-c-blue  m-r-5";
 
   const shortHillsPercentage = props.internal.shortHills7DayIsolationQuarantine;
-  const shortHillsPercentageIcon =
+  const changeShortHills =
     props.internal.averages[1].shortHillsIsolationQuarantine -
-      shortHillsPercentage <
-    0
-      ? "feather icon-arrow-up text-c-red f-30 m-r-5"
-      : props.internal.averages[1].shortHillsIsolationQuarantine -
-          shortHillsPercentage >
-        0
-      ? "feather icon-arrow-down text-c-green f-30 m-r-5"
-      : "feather icon-activity text-c-blue f-30 m-r-5";
+    shortHillsPercentage;
+  const shortHillsPercentageIcon =
+    changeShortHills < 0
+      ? "feather icon-arrow-up text-c-red  m-r-5"
+      : changeShortHills > 0
+      ? "feather icon-arrow-down text-c-green  m-r-5"
+      : "feather icon-activity text-c-blue  m-r-5";
 
   const baskingRidgePercentage =
     props.internal.baskingRidge7DayIsolationQuarantine;
-  const baskingRidgePercentageIcon =
+  const changeBaskingRidge =
     props.internal.averages[1].baskingRidgeIsolationQuarantine -
-      baskingRidgePercentage <
-    0
-      ? "feather icon-arrow-up text-c-red f-30 m-r-5"
-      : props.internal.averages[1].baskingRidgeIsolationQuarantine -
-          baskingRidgePercentage >
-        0
-      ? "feather icon-arrow-down text-c-green f-30 m-r-5"
-      : "feather icon-activity text-c-blue f-30 m-r-5";
+    baskingRidgePercentage;
+  const baskingRidgePercentageIcon =
+    changeBaskingRidge < 0
+      ? "feather icon-arrow-up text-c-red  m-r-5"
+      : changeBaskingRidge > 0
+      ? "feather icon-arrow-down text-c-green  m-r-5"
+      : "feather icon-activity text-c-blue  m-r-5";
 
   return (
     <Aux>
@@ -67,7 +70,7 @@ const CardSet = function (props) {
             <div className="row d-flex align-items-center">
               <div className="col-9">
                 <h3 className="f-w-300 d-flex align-items-center m-b-0">
-                  <i className={pingryInfectionRateIcon} />{" "}
+                  &nbsp;
                   <CountUp
                     decimals={2}
                     start={0}
@@ -75,6 +78,12 @@ const CardSet = function (props) {
                     duration={2}
                     separator=","
                   />
+                  &nbsp; &nbsp;
+                  <div className={styles.change}>
+                    (
+                    <i className={pingryInfectionRateIcon} />
+                    {Math.abs(changeIR).toFixed(2)})
+                  </div>
                 </h3>
               </div>
               <div className={cx("col-3", styles.icon)}>
@@ -97,7 +106,7 @@ const CardSet = function (props) {
             <div className="row d-flex align-items-center">
               <div className="col-9">
                 <h3 className="f-w-300 d-flex align-items-center m-b-0">
-                  <i className={pingryCaseRateIcon} />{" "}
+                  &nbsp;
                   <CountUp
                     decimals={2}
                     start={0}
@@ -105,6 +114,12 @@ const CardSet = function (props) {
                     duration={2}
                     separator=","
                   />
+                  &nbsp; &nbsp;
+                  <div className={styles.change}>
+                    (
+                    <i className={pingryCaseRateIcon} />
+                    {Math.abs(changeCaseRate).toFixed(2)})
+                  </div>
                 </h3>
               </div>
 
@@ -128,7 +143,7 @@ const CardSet = function (props) {
             <div className="row d-flex align-items-center">
               <div className="col-9">
                 <h3 className="f-w-300 d-flex align-items-center m-b-0">
-                  <i className={shortHillsPercentageIcon} />{" "}
+                  &nbsp;
                   <CountUp
                     decimals={2}
                     start={0}
@@ -136,7 +151,12 @@ const CardSet = function (props) {
                     duration={2}
                     separator=","
                   />
-                  %
+                  % &nbsp; &nbsp;
+                  <div className={styles.change}>
+                    (
+                    <i className={shortHillsPercentageIcon} />
+                    {Math.abs(changeShortHills).toFixed(2)})
+                  </div>
                 </h3>
               </div>
 
@@ -159,7 +179,7 @@ const CardSet = function (props) {
             <div className="row d-flex align-items-center">
               <div className="col-9">
                 <h3 className="f-w-300 d-flex align-items-center m-b-0">
-                  <i className={baskingRidgePercentageIcon} />{" "}
+                  &nbsp;
                   <CountUp
                     decimals={2}
                     start={0}
@@ -167,7 +187,12 @@ const CardSet = function (props) {
                     duration={2}
                     separator=","
                   />
-                  %
+                  % &nbsp; &nbsp;
+                  <div className={styles.change}>
+                    (
+                    <i className={baskingRidgePercentageIcon} />
+                    {Math.abs(changeBaskingRidge).toFixed(2)})
+                  </div>
                 </h3>
               </div>
 
