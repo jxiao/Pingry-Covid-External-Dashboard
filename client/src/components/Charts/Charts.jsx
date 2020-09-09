@@ -101,13 +101,17 @@ class Charts extends Component {
           <Card>
             <Card.Body>
               <h6 className="mb-4" style={{ display: "inline-block" }}>
-                Average Infection Rate of Pingry Counties (14 day)
+                Average Infection Rate of Pingry Counties
               </h6>
               <div
                 id="infectionratediv"
                 style={{ width: "100%", height: "250px" }}
                 className={styles.chart}
               ></div>
+              <div>
+                14 day average, weighted based on Pingry student distribution
+                across NJ counties
+              </div>
             </Card.Body>
           </Card>
         </Col>
@@ -116,13 +120,17 @@ class Charts extends Component {
           <Card>
             <Card.Body>
               <h6 className="mb-4" style={{ display: "inline-block" }}>
-                Average Case Rate of Pingry Counties (14 day)
+                Average Case Rate of Pingry Counties
               </h6>
               <div
                 id="caseratediv"
                 style={{ width: "100%", height: "250px" }}
                 className={styles.chart}
               ></div>
+              <div>
+                7 day average, weighted based on Pingry student distribution
+                across NJ counties
+              </div>
             </Card.Body>
           </Card>
         </Col>

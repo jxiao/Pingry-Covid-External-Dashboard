@@ -66,6 +66,78 @@ const CardSet = function (props) {
       <Col md={6}>
         <Card>
           <Card.Body>
+            <h6 className="mb-4">
+              Isolation or Quarantine - Short Hills Campus
+            </h6>
+            <div className="row d-flex align-items-center">
+              <div className="col-9">
+                <h3 className="f-w-300 d-flex align-items-center m-b-0">
+                  &nbsp;
+                  <CountUp
+                    decimals={2}
+                    start={0}
+                    end={shortHillsPercentage}
+                    duration={2}
+                    separator=","
+                  />
+                  % &nbsp; &nbsp;
+                  <div className={styles.change}>
+                    (
+                    <i className={shortHillsPercentageIcon} />
+                    {Math.abs(changeShortHills).toFixed(2)})
+                  </div>
+                </h3>
+              </div>
+
+              <div className={cx("col-3", styles.icon)}>
+                <Pingry />
+              </div>
+            </div>
+            <div>
+              7 day average, based on Pingry's Internal Tracking Database
+            </div>
+          </Card.Body>
+        </Card>
+      </Col>
+      <Col md={6}>
+        <Card>
+          <Card.Body>
+            <h6 className="mb-4" style={{ display: "inline-block" }}>
+              Isolation or Quarantine - Basking Ridge Campus
+            </h6>
+            <div className="row d-flex align-items-center">
+              <div className="col-9">
+                <h3 className="f-w-300 d-flex align-items-center m-b-0">
+                  &nbsp;
+                  <CountUp
+                    decimals={2}
+                    start={0}
+                    end={baskingRidgePercentage}
+                    duration={2}
+                    separator=","
+                  />
+                  % &nbsp; &nbsp;
+                  <div className={styles.change}>
+                    (
+                    <i className={baskingRidgePercentageIcon} />
+                    {Math.abs(changeBaskingRidge).toFixed(2)})
+                  </div>
+                </h3>
+              </div>
+
+              <div className={cx("col-3", styles.icon)}>
+                <Pingry />
+              </div>
+            </div>
+            <div>
+              7 day average, based on Pingry's Internal Tracking Database
+            </div>
+          </Card.Body>
+        </Card>
+      </Col>
+      <Col md={6}>
+        <Card>
+          <Card.Body>
             <h6 className="mb-4">Pingry Counties - Infection Rate</h6>
             <div className="row d-flex align-items-center">
               <div className="col-9">
@@ -130,78 +202,6 @@ const CardSet = function (props) {
             <div>
               7 day average, weighted based on Pingry student distribution
               across NJ counties
-            </div>
-          </Card.Body>
-        </Card>
-      </Col>
-      <Col md={6}>
-        <Card>
-          <Card.Body>
-            <h6 className="mb-4">
-              % Campus in Isolation or Quarantine (Short Hills)
-            </h6>
-            <div className="row d-flex align-items-center">
-              <div className="col-9">
-                <h3 className="f-w-300 d-flex align-items-center m-b-0">
-                  &nbsp;
-                  <CountUp
-                    decimals={2}
-                    start={0}
-                    end={shortHillsPercentage}
-                    duration={2}
-                    separator=","
-                  />
-                  % &nbsp; &nbsp;
-                  <div className={styles.change}>
-                    (
-                    <i className={shortHillsPercentageIcon} />
-                    {Math.abs(changeShortHills).toFixed(2)})
-                  </div>
-                </h3>
-              </div>
-
-              <div className={cx("col-3", styles.icon)}>
-                <Pingry />
-              </div>
-            </div>
-            <div>
-              7 day average, based on Pingry's Internal Tracking Database
-            </div>
-          </Card.Body>
-        </Card>
-      </Col>
-      <Col md={6}>
-        <Card>
-          <Card.Body>
-            <h6 className="mb-4" style={{ display: "inline-block" }}>
-              % Campus in Isolation or Quarantine (Basking Ridge)
-            </h6>
-            <div className="row d-flex align-items-center">
-              <div className="col-9">
-                <h3 className="f-w-300 d-flex align-items-center m-b-0">
-                  &nbsp;
-                  <CountUp
-                    decimals={2}
-                    start={0}
-                    end={baskingRidgePercentage}
-                    duration={2}
-                    separator=","
-                  />
-                  % &nbsp; &nbsp;
-                  <div className={styles.change}>
-                    (
-                    <i className={baskingRidgePercentageIcon} />
-                    {Math.abs(changeBaskingRidge).toFixed(2)})
-                  </div>
-                </h3>
-              </div>
-
-              <div className={cx("col-3", styles.icon)}>
-                <Pingry />
-              </div>
-            </div>
-            <div>
-              7 day average, based on Pingry's Internal Tracking Database
             </div>
           </Card.Body>
         </Card>
