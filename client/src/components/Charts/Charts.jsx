@@ -99,7 +99,7 @@ class Charts extends Component {
           <Card>
             <Card.Body>
               <h6 className="mb-4" style={{ display: "inline-block" }}>
-                Infection Rate of Pingry Counties (14 day)
+                Average Infection Rate of Pingry Counties (14 day)
               </h6>
               <div
                 id="infectionratediv"
@@ -114,7 +114,7 @@ class Charts extends Component {
           <Card>
             <Card.Body>
               <h6 className="mb-4" style={{ display: "inline-block" }}>
-                Case Rate of Pingry Counties (14 day)
+                Average Case Rate of Pingry Counties (14 day)
               </h6>
               <div
                 id="caseratediv"
