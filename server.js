@@ -521,7 +521,7 @@ async function repopulateSummarystats() {
   const PingryInternal = mongoose.model("PingryInternal");
   const Summarystat = mongoose.model("Summarystat");
   County.findById(
-    { _id: mongoose.Types.ObjectId(`5f501e6613f52cbc43d72f85`) },
+    { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
     (err, resp) => {
       const pingryCountiesCaseRate = resp.pingryCountiesCaseRate;
       CountyProjection.findById(
