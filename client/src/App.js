@@ -85,6 +85,17 @@ class App extends Component {
                 </a>
               </div>
               <Row>
+                <Col sm={12} className={styles.center}>
+                  <h3>COVID-19 Tracking Dashboard</h3>
+
+                  <h6 className={styles.smallerText}>
+                    Data Sources: The New York Times, CovidActNow.org, Pingry's
+                    Internal Tracking Database
+                  </h6>
+                  <h6 className={styles.smallerText}>
+                    Updated daily at 8AM ET
+                  </h6>
+                </Col>
                 <CardSet
                   internal={this.state.internal}
                   fetchedCountyData={this.state.countyData}

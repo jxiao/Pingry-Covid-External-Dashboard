@@ -56,13 +56,6 @@ const CardSet = function (props) {
 
   return (
     <Aux>
-      <Col sm={12} className={styles.center}>
-        <h3>COVID-19 Tracking Dashboard</h3>
-        <h6 className={styles.smallerText}>
-          Data Sources: The New York Times, CovidActNow.org, Pingry's Internal
-          Tracking Database
-        </h6>
-      </Col>
       <Col md={6}>
         <Card>
           <Card.Body>

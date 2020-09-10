@@ -124,7 +124,7 @@ const population = [
   105267,
 ];
 const localCountyPopulation = 6351603;
-const localCountiesIndices = [6, 13, 17, 19, 9, 11, 10, 8, 18, 20, 1, 3, 15];
+const localCountiesIndices = [1, 10, 11, 13, 15, 17, 18, 19, 20, 3, 6, 8, 9];
 
 const refetchArray = [
   repopulateStatewideCollection,
