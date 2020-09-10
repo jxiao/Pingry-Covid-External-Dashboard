@@ -27,7 +27,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: "",
       statewideData: {},
       countyData: {},
       countyTotals: [],
@@ -46,10 +45,8 @@ class App extends Component {
     const fetchedCountyData = (await fetchCountyDataDB())[0];
     const fetchedPingryData = await fetchInternalPingryDB();
     const fetchedCountyProjections = await fetchCountyProjectionsDB();
-    const date = fetchedStatewideData[0].historicData[0].date;
 
     this.setState({
-      date: date,
       statewideData: fetchedStatewideData,
       countyData: fetchedCountyData,
       countyTotals: fetchedCountyTotals,
@@ -113,7 +110,6 @@ class App extends Component {
                 />
               </Row>
               <div className={styles.attributions}>
-                <div>Updated as of: {this.state.date}</div>
                 <div>
                   Sources:{" "}
                   <a
