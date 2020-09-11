@@ -112,7 +112,7 @@ class Charts extends Component {
                 style={{ display: "inline-block" }}
                 className={styles.title}
               >
-                Average Infection Rate of Pingry Counties (Historical)
+                Pingry Counties - Infection Rate (Historical)
               </h6>
               <div className={styles.description}>
                 14 day average of individuals infected by 1 case, weighted based
@@ -134,7 +134,7 @@ class Charts extends Component {
                 style={{ display: "inline-block" }}
                 className={styles.title}
               >
-                Average Case Rate of Pingry Counties (Historical)
+                Pingry Counties - Case Rate per 100,000 (Historical)
               </h6>
               <div className={styles.description}>
                 7 day average of new daily cases per 100,000, weighted based on
