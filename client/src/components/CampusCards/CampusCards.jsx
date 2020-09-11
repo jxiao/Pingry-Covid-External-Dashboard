@@ -2,51 +2,23 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import Aux from "../../hoc/_Aux";
 import CountUp from "react-countup";
-import Local from "../../assets/images/Local";
-import styles from "./CardSet.module.css";
+import Pingry from "../../assets/images/Pingry";
+import styles from "./CampusCards.module.css";
 import cx from "classnames";
 
-const CardSet = function (props) {
-  const pingryInfectionRate =
-    props.fetchedCountyProjections[0].pingryCountiesInfectionRate;
+const CampusCards = function (props) {
+  const shortHillsPercentage = props.internal.shortHills7DayIsolationQuarantine;
 
-  const pingryCaseRate = props.fetchedCountyData.pingryCountiesCaseRate;
+  const baskingRidgePercentage =
+    props.internal.baskingRidge7DayIsolationQuarantine;
 
   return (
     <Aux>
       <Col md={6}>
         <Card>
           <Card.Body>
-            <h6 className="mb-4">Pingry Counties - Infection Rate</h6>
-            <div className="row d-flex align-items-center">
-              <div className="col-9">
-                <h3 className="f-w-300 d-flex align-items-center m-b-0">
-                  &nbsp;
-                  <CountUp
-                    decimals={2}
-                    start={0}
-                    end={pingryInfectionRate}
-                    duration={2}
-                    separator=","
-                  />
-                </h3>
-              </div>
-              <div className={cx("col-3", styles.icon)}>
-                <Local />
-              </div>
-            </div>
-            <div>
-              14 day average of individuals infected by 1 case, weighted based
-              on Pingry distribution across NJ counties
-            </div>
-          </Card.Body>
-        </Card>
-      </Col>
-      <Col md={6}>
-        <Card>
-          <Card.Body>
-            <h6 className="mb-4" style={{ display: "inline-block" }}>
-              Pingry Counties - Case Rate per 100,000
+            <h6 className="mb-4">
+              Isolation or Quarantine - Short Hills Campus
             </h6>
             <div className="row d-flex align-items-center">
               <div className="col-9">
@@ -55,20 +27,53 @@ const CardSet = function (props) {
                   <CountUp
                     decimals={2}
                     start={0}
-                    end={pingryCaseRate}
+                    end={shortHillsPercentage}
                     duration={2}
                     separator=","
                   />
+                  %
                 </h3>
               </div>
 
               <div className={cx("col-3", styles.icon)}>
-                <Local />
+                <Pingry />
               </div>
             </div>
             <div>
-              7 day average of case rate per 100,000, weighted based on Pingry
-              distribution across NJ counties
+              7 day average of % Short Hills campus individuals in isolation or
+              quarantine
+            </div>
+          </Card.Body>
+        </Card>
+      </Col>
+      <Col md={6}>
+        <Card>
+          <Card.Body>
+            <h6 className="mb-4" style={{ display: "inline-block" }}>
+              Isolation or Quarantine - Basking Ridge Campus
+            </h6>
+            <div className="row d-flex align-items-center">
+              <div className="col-9">
+                <h3 className="f-w-300 d-flex align-items-center m-b-0">
+                  &nbsp;
+                  <CountUp
+                    decimals={2}
+                    start={0}
+                    end={baskingRidgePercentage}
+                    duration={2}
+                    separator=","
+                  />
+                  %
+                </h3>
+              </div>
+
+              <div className={cx("col-3", styles.icon)}>
+                <Pingry />
+              </div>
+            </div>
+            <div>
+              7 day average of % Basking Ridge campus individuals in isolation
+              or quarantine
             </div>
           </Card.Body>
         </Card>
@@ -77,4 +82,4 @@ const CardSet = function (props) {
   );
 };
 
-export default CardSet;
+export default CampusCards;

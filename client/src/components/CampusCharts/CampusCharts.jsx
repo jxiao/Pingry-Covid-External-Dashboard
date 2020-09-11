@@ -4,99 +4,103 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { Card, Col } from "react-bootstrap";
 import Aux from "../../hoc/_Aux";
-import styles from "./Charts.module.css";
+import styles from "./CampusCharts.module.css";
 
 am4core.useTheme(am4themes_animated);
-class Charts extends Component {
+class CampusCharts extends Component {
   async componentDidMount() {
-    let IRchart = am4core.create("infectionratediv", am4charts.XYChart);
+    /**
+     * SHORT HILLS CHART
+     */
+    let SHchart = am4core.create("shorthillsdiv", am4charts.XYChart);
 
-    IRchart.paddingRight = 20;
+    SHchart.paddingRight = 20;
 
     let data = [];
     let date = new Date();
-    for (let i = 0; i < this.props.IRAverages.length; i++) {
+    date.setDate(date.getDate() - 2);
+    for (let i = 0; i < this.props.internal.averages.length; i++) {
       data.push({
         date: new Date(date),
-        value: this.props.IRAverages[i].Rt,
+        value: this.props.internal.averages[i].shortHillsIsolationQuarantine,
       });
       date.setDate(date.getDate() - 1);
     }
 
-    IRchart.data = data;
+    SHchart.data = data;
 
-    let dateAxis = IRchart.xAxes.push(new am4charts.DateAxis());
+    let dateAxis = SHchart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.grid.template.location = 0;
 
-    let valueAxis = IRchart.yAxes.push(new am4charts.ValueAxis());
+    let valueAxis = SHchart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
-    valueAxis.min = 0.0;
-    valueAxis.max = 1.25;
+    valueAxis.min = 0;
+    valueAxis.max = 30;
     valueAxis.strictMinMax = true;
 
-    let series = IRchart.series.push(new am4charts.LineSeries());
+    let series = SHchart.series.push(new am4charts.LineSeries());
     series.dataFields.dateX = "date";
     series.dataFields.valueY = "value";
     series.strokeWidth = 3;
 
     series.tooltipText = "{valueY.value}";
-    IRchart.cursor = new am4charts.XYCursor();
-    IRchart.cursor.lineY.disabled = true;
-    IRchart.cursor.behavior = "none";
+    SHchart.cursor = new am4charts.XYCursor();
+    SHchart.cursor.lineY.disabled = true;
+    SHchart.cursor.behavior = "none";
 
-    this.IRchart = IRchart;
+    this.SHchart = SHchart;
 
     /**
-     * CASE RATE CHART
+     * BASKING RIDGE CHART
      */
-    let CRchart = am4core.create("caseratediv", am4charts.XYChart);
+    let BRChart = am4core.create("baskingridgediv", am4charts.XYChart);
 
-    CRchart.paddingRight = 20;
+    BRChart.paddingRight = 20;
 
     data = [];
     date = new Date();
     date.setDate(date.getDate() - 2);
-    for (let i = 0; i < this.props.CRAverages.length; i++) {
+    for (let i = 0; i < this.props.internal.averages.length; i++) {
       data.push({
         date: new Date(date),
-        value: this.props.CRAverages[i].caseRate,
+        value: this.props.internal.averages[i].baskingRidgeIsolationQuarantine,
       });
       date.setDate(date.getDate() - 1);
     }
 
-    CRchart.data = data;
+    BRChart.data = data;
 
-    dateAxis = CRchart.xAxes.push(new am4charts.DateAxis());
+    dateAxis = BRChart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.grid.template.location = 0;
 
-    valueAxis = CRchart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis = BRChart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0;
-    valueAxis.max = 15;
+    valueAxis.max = 30;
     valueAxis.strictMinMax = true;
 
-    series = CRchart.series.push(new am4charts.LineSeries());
+    series = BRChart.series.push(new am4charts.LineSeries());
     series.dataFields.dateX = "date";
     series.dataFields.valueY = "value";
     series.strokeWidth = 3;
 
     series.tooltipText = "{valueY.value}";
-    CRchart.cursor = new am4charts.XYCursor();
-    CRchart.cursor.lineY.disabled = true;
-    CRchart.cursor.behavior = "none";
+    BRChart.cursor = new am4charts.XYCursor();
+    BRChart.cursor.lineY.disabled = true;
+    BRChart.cursor.behavior = "none";
 
-    this.CRchart = CRchart;
+    this.BRChart = BRChart;
   }
 
   componentWillUnmount() {
-    if (this.IRchart) {
-      this.IRchart.dispose();
+    if (this.SHChart) {
+      this.SHChart.dispose();
     }
 
-    if (this.CRchart) {
-      this.CRchart.dispose();
+    if (this.BRChart) {
+      this.BRChart.dispose();
     }
   }
 
@@ -111,14 +115,14 @@ class Charts extends Component {
                 style={{ display: "inline-block" }}
                 className={styles.title}
               >
-                Average Infection Rate of Pingry Counties (Historical)
+                Isolation or Quarantine - Short Hills (Historical)
               </h6>
               <div className={styles.description}>
-                14 day average of individuals infected by 1 case, weighted based
-                on Pingry distribution across NJ counties
+                7 day average of % Short Hills campus individuals in isolation
+                or quarantine
               </div>
               <div
-                id="infectionratediv"
+                id="shorthillsdiv"
                 style={{ width: "100%", height: "250px" }}
               ></div>
             </Card.Body>
@@ -133,14 +137,14 @@ class Charts extends Component {
                 style={{ display: "inline-block" }}
                 className={styles.title}
               >
-                Average Case Rate of Pingry Counties (Historical)
+                Isolation or Quarantine - Basking Ridge (Historical)
               </h6>
               <div className={styles.description}>
-                7 day average of case rate per 100,000, weighted based on Pingry
-                distribution across NJ counties
+                7 day average of % Basking Ridge campus individuals in isolation
+                or quarantine
               </div>
               <div
-                id="caseratediv"
+                id="baskingridgediv"
                 style={{ width: "100%", height: "250px" }}
               ></div>
             </Card.Body>
@@ -151,4 +155,4 @@ class Charts extends Component {
   }
 }
 
-export default Charts;
+export default CampusCharts;

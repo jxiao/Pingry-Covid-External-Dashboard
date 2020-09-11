@@ -17,6 +17,9 @@ import CardSet from "./components/CardSet/CardSet";
 import CountyTable from "./components/CountyTable/CountyTable";
 import CovidActNowCard from "./components/CovidActNowCard/CovidActNowCard";
 import Charts from "./components/Charts/Charts";
+import CampusCharts from "./components/CampusCharts/CampusCharts";
+import Status from "./components/Status/Status";
+import CampusCards from "./components/CampusCards/CampusCards";
 
 // Images + accessories
 import PingryAnywhere from "./assets/images/PingryAnywhere";
@@ -24,6 +27,13 @@ import Spinner from "react-spinkit";
 import FadeIn from "react-fade-in";
 
 class App extends Component {
+  // LEVELS
+  // 1 --> open
+  // 2 --> reduced density
+  // 3 --> fully remote
+  static SHORT_HILLS_LEVEL = 1;
+  static BASKING_RIDGE_LEVEL = 1;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -81,20 +91,23 @@ class App extends Component {
                   <PingryAnywhere className={styles.pingryLogo} />
                 </a>
               </div>
-              <Row>
-                <Col sm={12} className={styles.center}>
-                  <h3>COVID-19 Tracking Dashboard</h3>
+              <Col sm={12} className={styles.center}>
+                <h3>COVID-19 Tracking Dashboard</h3>
 
-                  <h6 className={styles.smallerText}>
-                    Data Sources: The New York Times, CovidActNow.org, Pingry's
-                    Internal Tracking Database
-                  </h6>
-                  <h6 className={styles.smallerText}>
-                    Updated daily at 8AM ET
-                  </h6>
-                </Col>
+                <h6 className={styles.smallerText}>
+                  Data Sources: The New York Times, CovidActNow.org, Pingry's
+                  Internal Tracking Database
+                </h6>
+                <h6 className={styles.smallerText}>Updated daily at 8AM ET</h6>
+              </Col>
+              <Status
+                shortHills={App.SHORT_HILLS_LEVEL}
+                baskingRidge={App.BASKING_RIDGE_LEVEL}
+              />
+              <Row>
+                <CampusCards internal={this.state.internal} />
+                <CampusCharts internal={this.state.internal} />
                 <CardSet
-                  internal={this.state.internal}
                   fetchedCountyData={this.state.countyData}
                   fetchedCountyProjections={this.state.fetchedCountyProjections}
                 />
