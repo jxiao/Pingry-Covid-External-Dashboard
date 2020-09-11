@@ -32,8 +32,9 @@ class Charts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0.0;
-    valueAxis.max = 1.25;
+    valueAxis.max = 1.2;
     valueAxis.strictMinMax = true;
+    valueAxis.renderer.minGridDistance = 32;
 
     let series = IRchart.series.push(new am4charts.LineSeries());
     series.dataFields.dateX = "date";
@@ -136,8 +137,8 @@ class Charts extends Component {
                 Average Case Rate of Pingry Counties (Historical)
               </h6>
               <div className={styles.description}>
-                7 day average of case rate per 100,000, weighted based on Pingry
-                distribution across NJ counties
+                7 day average of new daily cases per 100,000, weighted based on
+                Pingry distribution across NJ counties
               </div>
               <div
                 id="caseratediv"
