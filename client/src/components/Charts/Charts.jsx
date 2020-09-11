@@ -31,10 +31,10 @@ class Charts extends Component {
     let valueAxis = IRchart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
-    valueAxis.min = 0.0;
+    valueAxis.min = 0.5;
     valueAxis.max = 1.2;
     valueAxis.strictMinMax = true;
-    valueAxis.renderer.minGridDistance = 32;
+    valueAxis.renderer.minGridDistance = 25;
 
     let series = IRchart.series.push(new am4charts.LineSeries());
     series.dataFields.dateX = "date";

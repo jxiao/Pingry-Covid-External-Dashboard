@@ -36,7 +36,7 @@ class CampusCharts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0;
-    valueAxis.max = 30;
+    valueAxis.max = 25;
     valueAxis.strictMinMax = true;
 
     let series = SHchart.series.push(new am4charts.LineSeries());
@@ -78,7 +78,7 @@ class CampusCharts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0;
-    valueAxis.max = 30;
+    valueAxis.max = 25;
     valueAxis.strictMinMax = true;
 
     series = BRChart.series.push(new am4charts.LineSeries());
