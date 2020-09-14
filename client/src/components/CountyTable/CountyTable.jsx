@@ -82,13 +82,9 @@ const CountyTable = function (props) {
                   props.countyData[i].counties[0].historicData[7].positiveCt -
                   props.countyData[i].counties[0].historicData[13].positiveCt;
 
-                var infectionRate14DayWeightedAverage = 0;
-                props.fetchedCountyProjections[0].data[
-                  i
-                ].infectionRates.forEach((rate) => {
-                  infectionRate14DayWeightedAverage += rate.Rt;
-                });
-                infectionRate14DayWeightedAverage /= 14;
+                var infectionRate14DayWeightedAverage =
+                  props.fetchedCountyProjections[0].data[i].infectionRates[0]
+                    .Rt;
 
                 return (
                   <tr
