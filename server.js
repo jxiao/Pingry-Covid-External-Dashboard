@@ -401,54 +401,54 @@ async function repopulatePingryCollection() {
 async function repopulateCountyProjectionsCollection() {
   const CountyProjection = mongoose.model("CountyProjection");
   var fips = 34001;
-  for (var i = 0; i < zipcodesNJ.length; i++) {
-    await axios
-      .get(
-        `https://data.covidactnow.org/latest/us/counties/${fips}.OBSERVED_INTERVENTION.json`
-      )
-      .then((response) => {
-        const index = i;
-        // Insert newest (daily) data into CountyProjection internal DB
-        CountyProjection.updateOne(
-          { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
-          {
-            $push: {
-              [`data.${index}.infectionRates`]: {
-                $each: [{ Rt: response.data.metrics.infectionRate }],
-                $position: 0,
-              },
-            },
-          },
-          (err) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(
-                `Added newest data for CountyProjection (Fips Code: ${fips})`
-              );
-            }
-          }
-        );
+  // for (var i = 0; i < zipcodesNJ.length; i++) {
+  //   await axios
+  //     .get(
+  //       `https://data.covidactnow.org/latest/us/counties/${fips}.OBSERVED_INTERVENTION.json`
+  //     )
+  //     .then((response) => {
+  //       const index = i;
+  //       // Insert newest (daily) data into CountyProjection internal DB
+  //       CountyProjection.updateOne(
+  //         { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
+  //         {
+  //           $push: {
+  //             [`data.${index}.infectionRates`]: {
+  //               $each: [{ Rt: response.data.metrics.infectionRate }],
+  //               $position: 0,
+  //             },
+  //           },
+  //         },
+  //         (err) => {
+  //           if (err) {
+  //             console.log(err);
+  //           } else {
+  //             console.log(
+  //               `Added newest data for CountyProjection (Fips Code: ${fips})`
+  //             );
+  //           }
+  //         }
+  //       );
 
-        // Delete oldest (daily) data from CountyProjection internal DB
-        CountyProjection.updateOne(
-          { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
-          { $pop: { [`data.${index}.infectionRates`]: 1 } },
-          (err) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(
-                `Deleted oldest data for CountyProjection (Fips Code: ${fips})`
-              );
-            }
-          }
-        );
+  //       // Delete oldest (daily) data from CountyProjection internal DB
+  //       CountyProjection.updateOne(
+  //         { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
+  //         { $pop: { [`data.${index}.infectionRates`]: 1 } },
+  //         (err) => {
+  //           if (err) {
+  //             console.log(err);
+  //           } else {
+  //             console.log(
+  //               `Deleted oldest data for CountyProjection (Fips Code: ${fips})`
+  //             );
+  //           }
+  //         }
+  //       );
 
-        fips += 2;
-      })
-      .catch((error) => console.log(error));
-  }
+  //       fips += 2;
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
 
   await CountyProjection.findById(
     { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
@@ -458,15 +458,11 @@ async function repopulateCountyProjectionsCollection() {
       } else {
         var cumulativeRate = 0;
         for (var i = 0; i < localCountiesIndices.length; i++) {
-          var individualRate = 0;
-          resp.data[i].infectionRates.forEach((rate) => {
-            individualRate += rate.Rt;
-          });
-          individualRate /= 14;
+          var individualRate = resp.data[i].infectionRates[0].Rt;
           individualRate *= population[i];
-          individualRate /= localCountyPopulation;
           cumulativeRate += individualRate;
         }
+        cumulativeRate /= localCountyPopulation;
 
         CountyProjection.updateOne(
           { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
