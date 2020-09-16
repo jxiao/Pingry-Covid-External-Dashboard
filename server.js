@@ -127,9 +127,9 @@ const localCountyPopulation = 6351603;
 const localCountiesIndices = [1, 10, 11, 13, 15, 17, 18, 19, 20, 3, 6, 8, 9];
 
 const refetchArray = [
-  // repopulateStatewideCollection,
-  // repopulateCountyCollection,
-  // repopulatePingryCollection,
+  repopulateStatewideCollection,
+  repopulateCountyCollection,
+  repopulatePingryCollection,
   repopulateCountyProjectionsCollection,
   repopulateSummarystats,
 ];
