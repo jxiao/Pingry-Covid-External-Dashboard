@@ -99,6 +99,14 @@ class App extends Component {
                   Internal Tracking Database
                 </h6>
                 <h6 className={styles.smallerText}>Updated daily at 8AM ET</h6>
+                <a
+                  href="https://resources.finalsite.net/images/v1600351342/pingry/pnc4qpbmjpqldbv1incz/PingryAnywhereCOVID-19TrackingDashboardGuide.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.smallerText}
+                >
+                  Learn More About Our Dashboard
+                </a>
               </Col>
               <Status
                 shortHills={App.SHORT_HILLS_LEVEL}
