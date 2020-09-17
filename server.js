@@ -256,11 +256,16 @@ async function repopulateCountyCollection() {
       // rate per 100,000
       cumulativeRate = (cumulativeRate / localCountyPopulation) * 100000;
 
+      var date = new Date();
+      date.setDate(date.getDate() - 2);
       County.updateOne(
         { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
         {
           $push: {
-            averages: { $each: [{ caseRate: cumulativeRate }], $position: 0 },
+            averages: {
+              $each: [{ date: date, caseRate: cumulativeRate }],
+              $position: 0,
+            },
           },
         },
         (err) => {
@@ -469,7 +474,10 @@ async function repopulateCountyProjectionsCollection() {
           { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
           {
             $push: {
-              averages: { $each: [{ Rt: cumulativeRate }], $position: 0 },
+              averages: {
+                $each: [{ date: new Date(), Rt: cumulativeRate }],
+                $position: 0,
+              },
             },
           },
           (err) => {

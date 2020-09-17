@@ -14,13 +14,11 @@ class Charts extends Component {
     IRchart.paddingRight = 20;
 
     let data = [];
-    let date = new Date();
     for (let i = 0; i < this.props.IRAverages.length; i++) {
       data.push({
-        date: new Date(date),
+        date: this.props.IRAverages[i].date,
         value: this.props.IRAverages[i].Rt,
       });
-      date.setDate(date.getDate() - 1);
     }
 
     IRchart.data = data;
@@ -56,14 +54,11 @@ class Charts extends Component {
     CRchart.paddingRight = 20;
 
     data = [];
-    date = new Date();
-    date.setDate(date.getDate() - 2);
     for (let i = 0; i < this.props.CRAverages.length; i++) {
       data.push({
-        date: new Date(date),
+        date: this.props.CRAverages[i].date,
         value: this.props.CRAverages[i].caseRate,
       });
-      date.setDate(date.getDate() - 1);
     }
 
     CRchart.data = data;
