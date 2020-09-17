@@ -18,7 +18,7 @@ class CampusCharts extends Component {
 
     let data = [];
     let date = new Date();
-    date.setDate(date.getDate() - 2);
+    date.setDate(date.getDate());
     for (let i = 0; i < this.props.internal.averages.length; i++) {
       data.push({
         date: new Date(date),
@@ -60,7 +60,7 @@ class CampusCharts extends Component {
 
     data = [];
     date = new Date();
-    date.setDate(date.getDate() - 2);
+    date.setDate(date.getDate());
     for (let i = 0; i < this.props.internal.averages.length; i++) {
       data.push({
         date: new Date(date),
