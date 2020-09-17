@@ -17,14 +17,12 @@ class CampusCharts extends Component {
     SHchart.paddingRight = 20;
 
     let data = [];
-    let date = new Date();
-    date.setDate(date.getDate());
     for (let i = 0; i < this.props.internal.averages.length; i++) {
       data.push({
-        date: new Date(date),
+        date: this.props.internal.averages[i].date,
+        // date: new Date(date),
         value: this.props.internal.averages[i].shortHillsIsolationQuarantine,
       });
-      date.setDate(date.getDate() - 1);
     }
 
     SHchart.data = data;
@@ -59,14 +57,11 @@ class CampusCharts extends Component {
     BRChart.paddingRight = 20;
 
     data = [];
-    date = new Date();
-    date.setDate(date.getDate());
     for (let i = 0; i < this.props.internal.averages.length; i++) {
       data.push({
-        date: new Date(date),
+        date: this.props.internal.averages[i].date,
         value: this.props.internal.averages[i].baskingRidgeIsolationQuarantine,
       });
-      date.setDate(date.getDate() - 1);
     }
 
     BRChart.data = data;

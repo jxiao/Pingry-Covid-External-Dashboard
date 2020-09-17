@@ -347,6 +347,7 @@ async function repopulatePingryCollection() {
           weightedAveragePercentCampusSH /= 7;
           weightedAveragePercentCampusBR /= 7;
           const newDate = {
+            date: new Date(),
             shortHillsIsolationQuarantine: weightedAveragePercentCampusSH,
             baskingRidgeIsolationQuarantine: weightedAveragePercentCampusBR,
           };
