@@ -67,7 +67,7 @@ const CardSet = function (props) {
               </div>
             </div>
             <div>
-              7 day average of new daily cases per 100,000, weighted based on
+              14 day average of new daily cases per 100,000, weighted based on
               Pingry distribution across NJ counties
             </div>
           </Card.Body>
