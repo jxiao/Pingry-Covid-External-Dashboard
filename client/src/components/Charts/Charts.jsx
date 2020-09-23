@@ -132,7 +132,7 @@ class Charts extends Component {
                 Pingry Counties - Case Rate per 100,000 (Historical)
               </h6>
               <div className={styles.description}>
-                7 day average of new daily cases per 100,000, weighted based on
+                14 day average of new daily cases per 100,000, weighted based on
                 Pingry distribution across NJ counties
               </div>
               <div
