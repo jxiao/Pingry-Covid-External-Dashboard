@@ -54,6 +54,12 @@ app.use("/summarystats", summarystatsRouter);
 const pingryInternalTestingsRouter = require("./routes/pingryInternalTestings");
 app.use("/pingryInternalTestings", pingryInternalTestingsRouter);
 
+const detailedstatsRouter = require("./routes/detailedstats");
+app.use("/detailedstats", detailedstatsRouter);
+
+const detailedstatsHistoryRouter = require("./routes/detailedstatsHistory");
+app.use("/detailedstatsHistory", detailedstatsHistoryRouter);
+
 /**
  * Production mode ONLY
  */
@@ -713,10 +719,102 @@ async function updatePingryInternalAveragesTesting() {
   );
 }
 
+async function repopulateDetailedstats() {
+  const Detailedstat = mongoose.model("Detailedstat");
+  await axios
+    .get("https://tracking-db.pingryanywhere.org/api/v1/detailedstats")
+    .then((response) => {
+      Detailedstat.updateOne(
+        {
+          _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
+        },
+        {
+          $set: {
+            shortHillsPercentage14Days:
+              response.data.shortHillsPercentage14Days,
+            baskingRidgePercentage14Days:
+              response.data.baskingRidgePercentage14Days,
+          },
+        },
+        { upsert: true },
+        (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(`Updated 14 day Detailed Stats`);
+          }
+        }
+      );
+    })
+    .catch((error) => console.log(error));
+
+  await axios
+    .get("https://tracking-db.pingryanywhere.org/api/v1/detailedstats")
+    .then((response) => {
+      var sumSH = 0;
+      var sumBR = 0;
+      const averages = [];
+      for (var i = 0; i < 14; i++) {
+        sumSH += response.data.shortHillsPercentage14Days[i];
+        sumBR += response.data.baskingRidgePercentage14Days[i];
+        if (i >= 7) {
+          sumSH -= response.data.shortHillsPercentage14Days[i - 7];
+          sumBR -= response.data.baskingRidgePercentage14Days[i - 7];
+        }
+        if (i >= 6) {
+          averages.push({
+            date: new Date(),
+            shortHills: sumSH / 7,
+            baskingRidge: sumBR / 7,
+          });
+        }
+      }
+
+      Detailedstat.updateOne(
+        {
+          _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
+        },
+        {
+          averages: averages,
+        },
+        { upsert: true },
+        (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(`Updated 7 day averages for detailed stats`);
+          }
+        }
+      );
+
+      Detailedstat.updateOne(
+        { _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`) },
+        {
+          $set: {
+            shortHills7DayIsolationQuarantine:
+              averages[averages.length - 1].shortHills,
+            baskingRidge7DayIsolationQuarantine:
+              averages[averages.length - 1].baskingRidge,
+          },
+        },
+        (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(
+              `Updated Short Hills and Basking Ridge point detailed stats`
+            );
+          }
+        }
+      );
+    })
+    .catch((error) => console.log(error));
+}
+
 module.exports = {
   refetchAll,
   repopulateTestingCollection,
-  repopulateCountyCollection,
+  repopulateDetailedstats,
 };
 
 require("make-runnable");
