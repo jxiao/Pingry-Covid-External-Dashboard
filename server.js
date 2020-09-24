@@ -361,12 +361,6 @@ async function updatePingryInternalAverages() {
           date.percentShortHillsActiveIsolationOrQuarantine;
         weightedAveragePercentCampusBR +=
           date.percentBaskingRidgeActiveIsolationOrQuarantine;
-        console.log(
-          `data[${i}]: SH=${date.percentShortHillsActiveIsolationOrQuarantine} BR=${date.percentBaskingRidgeActiveIsolationOrQuarantine}`
-        );
-        console.log(
-          `data[${i}]: weightedAveragePercentCampusSH=${weightedAveragePercentCampusSH} weightedAveragePercentCampusBR=${weightedAveragePercentCampusBR}`
-        );
       });
       weightedAveragePercentCampusSH /= count;
       weightedAveragePercentCampusBR /= count;
@@ -719,6 +713,10 @@ async function updatePingryInternalAveragesTesting() {
   );
 }
 
-module.exports = { refetchAll, repopulateTestingCollection };
+module.exports = {
+  refetchAll,
+  repopulateTestingCollection,
+  repopulateCountyCollection,
+};
 
 require("make-runnable");
