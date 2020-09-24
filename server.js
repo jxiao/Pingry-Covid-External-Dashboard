@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cron = require("node-cron");
 const axios = require("axios");
 const path = require("path");
+var async = require("async");
 
 require("dotenv").config();
 
@@ -141,7 +142,9 @@ const refetchArray = [
   repopulatePingryCollection,
   repopulateCountyProjectionsCollection,
   repopulateSummarystats,
+  repopulateDetailedstats,
   repopulateTestingCollection,
+  repopulateDetailedstatsHistory,
 ];
 /**
  * Parent function to refetch the data at scheduled intervals
@@ -754,6 +757,8 @@ async function repopulateDetailedstats() {
       var sumSH = 0;
       var sumBR = 0;
       const averages = [];
+      var date = new Date();
+      date.setDate(date.getDate() - 7);
       for (var i = 0; i < 14; i++) {
         sumSH += response.data.shortHillsPercentage14Days[i];
         sumBR += response.data.baskingRidgePercentage14Days[i];
@@ -763,10 +768,11 @@ async function repopulateDetailedstats() {
         }
         if (i >= 6) {
           averages.push({
-            date: new Date(),
+            date: new Date(date),
             shortHills: sumSH / 7,
             baskingRidge: sumBR / 7,
           });
+          date.setDate(date.getDate() + 1);
         }
       }
 
@@ -811,10 +817,195 @@ async function repopulateDetailedstats() {
     .catch((error) => console.log(error));
 }
 
+async function repopulateDetailedstatsHistory() {
+  const Detailedstat = mongoose.model("Detailedstat");
+  const DetailedstatsHistory = mongoose.model("DetailedstatsHistory");
+
+  // /**
+  //  * INITIAL POPULATION
+  //  */
+  // var date = new Date();
+  // date.setDate(date.getDate() - 13);
+  // for (var a = 0; a < 14; a++) {
+  //   await Detailedstat.findById(
+  //     {
+  //       _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
+  //     },
+  //     (err, resp) => {
+  //       DetailedstatsHistory.updateOne(
+  //         { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
+  //         {
+  //           $push: {
+  //             data: {
+  //               $each: [
+  //                 {
+  //                   date: date,
+  //                   percentageSH: resp.shortHillsPercentage14Days[a],
+  //                   percentageBR: resp.baskingRidgePercentage14Days[a],
+  //                 },
+  //               ],
+  //             },
+  //           },
+  //         },
+  //         (err) => {
+  //           console.log(
+  //             err ? err : "update newest data for detailed stats history"
+  //           );
+  //         }
+  //       );
+  //       date.setDate(date.getDate() + 1);
+  //     }
+  //   );
+  // }
+
+  // for (var a = 0; a < 8; a++) {
+  //   const index = a;
+  //   await Detailedstat.findById(
+  //     {
+  //       _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
+  //     },
+  //     (err, resp) => {
+  //       DetailedstatsHistory.updateOne(
+  //         { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
+  //         {
+  //           $push: {
+  //             averages: {
+  //               $each: [resp.averages[index]],
+  //             },
+  //           },
+  //         },
+  //         (err) => {
+  //           console.log(
+  //             err ? err : "update newest data for detailed stats averages"
+  //           );
+  //         }
+  //       );
+  //     }
+  //   );
+  // }
+
+  /**
+   * DAILY UPDATING
+   */
+  let resp;
+
+  await Detailedstat.findById(
+    {
+      _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
+    },
+    (err, res) => {
+      resp = res;
+    }
+  );
+
+  DetailedstatsHistory.updateOne(
+    { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
+    {
+      $push: {
+        data: {
+          $each: [
+            {
+              date: new Date(),
+              percentageSH: resp.shortHillsPercentage14Days[13],
+              percentageBR: resp.baskingRidgePercentage14Days[13],
+            },
+          ],
+        },
+      },
+    },
+    (err) => {
+      console.log(err ? err : "update newest data for detailed stats history");
+    }
+  );
+
+  DetailedstatsHistory.updateOne(
+    { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
+    {
+      $push: {
+        averages: {
+          $each: [resp.averages[7]],
+        },
+      },
+    },
+    (err) => {
+      console.log(
+        err ? err : "update newest average for detailed stats history"
+      );
+    }
+  );
+
+  DetailedstatsHistory.findOne(
+    {
+      _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
+    },
+    (err, response) => {
+      const averagesArrayLength = response.averages.length;
+      const dataArrayLength = response.data.length;
+      console.log(averagesArrayLength + "   " + dataArrayLength);
+      for (var i = 0; i < 13; i++) {
+        const temp = i;
+        const index = dataArrayLength - 14 + temp;
+        console.log(`updating historical data[${index}] with ${temp}`);
+        DetailedstatsHistory.updateOne(
+          {
+            _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
+          },
+          {
+            $set: {
+              [`data.${index}.percentageSH`]: resp.shortHillsPercentage14Days[
+                temp
+              ],
+              [`data.${index}.percentageBR`]: resp.baskingRidgePercentage14Days[
+                temp
+              ],
+            },
+          },
+          { upsert: true },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(
+                `Updated 14 day current data for detailed stats history`
+              );
+            }
+          }
+        );
+      }
+
+      // averages
+      for (var i = 0; i < 7; i++) {
+        const temp = i;
+        const index = averagesArrayLength - 8 + temp;
+        console.log(`updating averages[${index}] with ${temp}`);
+        DetailedstatsHistory.updateOne(
+          {
+            _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
+          },
+          {
+            $set: {
+              [`averages.${index}`]: resp.averages[temp],
+            },
+          },
+          { upsert: true },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(`Updated 7 day averages for detailed stats history`);
+            }
+          }
+        );
+      }
+    }
+  );
+}
+
 module.exports = {
   refetchAll,
   repopulateTestingCollection,
   repopulateDetailedstats,
+  repopulateDetailedstatsHistory,
 };
 
 require("make-runnable");

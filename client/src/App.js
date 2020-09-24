@@ -9,8 +9,9 @@ import {
 import Aux from "./hoc/_Aux";
 import "./assets/scss/style.scss";
 import styles from "./App.module.css";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Card } from "react-bootstrap";
 import ReactGA from "react-ga";
+import CountUp from "react-countup";
 
 // Components
 import CardSet from "./components/CardSet/CardSet";
@@ -112,7 +113,54 @@ class App extends Component {
                 shortHills={App.SHORT_HILLS_LEVEL}
                 baskingRidge={App.BASKING_RIDGE_LEVEL}
               />
+
               <Row>
+                {/* <Col md={6}>
+                  <Card>
+                    <Card.Body>
+                      <h6 className="mb-4">Total Number of Tests Administered</h6>
+                      <div className="row d-flex align-items-center">
+                        <div className="col-9">
+                          <h3 className="f-w-300 d-flex align-items-center m-b-0">
+                            &nbsp;
+                            <CountUp
+                              decimals={2}
+                              start={0}
+                              end={10}
+                              duration={2}
+                              separator=","
+                            />
+                          </h3>
+                        </div>
+                      </div>
+                      <div>Note - These numbers are based on detected pairs and people tested on --/--/-- (the day of the test)</div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col md={6}>
+                  <Card>
+                    <Card.Body>
+                      <h6 className="mb-4">
+                        Number of Potentially Positive Pairs
+                      </h6>
+                      <div className="row d-flex align-items-center">
+                        <div className="col-9">
+                          <h3 className="f-w-300 d-flex align-items-center m-b-0">
+                            &nbsp;
+                            <CountUp
+                              decimals={2}
+                              start={0}
+                              end={10}
+                              duration={2}
+                              separator=","
+                            />
+                          </h3>
+                        </div>
+                      </div>
+                      <div>Note - These numbers are based on detected pairs and people tested on --/--/-- (the day of the test)</div>
+                    </Card.Body>
+                  </Card>
+                </Col> */}
                 <CampusCards internal={this.state.internal} />
                 <CampusCharts internal={this.state.internal} />
                 <CardSet

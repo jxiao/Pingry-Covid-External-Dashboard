@@ -11,8 +11,7 @@ const detailedstatsHistorySchema = new mongoose.Schema(
         baskingRidge: Number,
       },
     ],
-    shortHillsPercentage14Days: [],
-    baskingRidgePercentage14Days: [],
+    data: [],
   },
   { timestamps: true }
 );
