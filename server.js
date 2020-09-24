@@ -602,7 +602,18 @@ async function repopulateTestingCollection() {
         {
           $push: {
             data: {
-              $each: [response.data],
+              $each: [
+                {
+                  date: new Date(),
+                  percentShortHillsActiveIsolationOrQuarantine:
+                    response.data.percentShortHillsActiveIsolationOrQuarantine,
+                  percentBaskingRidgeActiveIsolationOrQuarantine:
+                    response.data
+                      .percentBaskingRidgeActiveIsolationOrQuarantine,
+                  percentPingryActiveIsolationOrQuarantine:
+                    response.data.percentPingryActiveIsolationOrQuarantine,
+                },
+              ],
               $position: 0,
             },
           },
@@ -622,85 +633,90 @@ async function repopulateTestingCollection() {
       //   percentPingryActiveIsolationOrQuarantine: 0,
       // },
 
-      // // Delete oldest (daily) data from Pingry internal DB
+      //   PingryInternalTesting.updateOne(
+      //     { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
+      //     { $pop: { data: -1 } },
+      //     (err) => {
+      //       if (err) {
+      //         console.log(err);
+      //       } else {
+      //         console.log(`Deleted oldest data for PingryInternalTesting`);
+      //       }
+      //     }
+      //   );
+      //   console.log("end of testing in main");
+    })
+    .catch((error) => console.log("error"));
+
+  await updatePingryInternalAveragesTesting();
+}
+
+async function updatePingryInternalAveragesTesting() {
+  const PingryInternalTesting = mongoose.model("PingryInternalTesting");
+  console.log("start of testing in update");
+  var weightedAveragePercentCampusSH = 0;
+  var weightedAveragePercentCampusBR = 0;
+  PingryInternalTesting.findById(
+    { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
+    (err, resp) => {
+      for (var i = 0; i < 7; i++) {
+        // console.log(resp.data[i]);
+        weightedAveragePercentCampusSH +=
+          resp.data[i].percentShortHillsActiveIsolationOrQuarantine;
+        weightedAveragePercentCampusBR +=
+          resp.data[i].percentBaskingRidgeActiveIsolationOrQuarantine;
+      }
+      weightedAveragePercentCampusSH /= 7;
+      weightedAveragePercentCampusBR /= 7;
+      const newDate = {
+        date: new Date(),
+        shortHillsIsolationQuarantine: weightedAveragePercentCampusSH,
+        baskingRidgeIsolationQuarantine: weightedAveragePercentCampusBR,
+      };
+
+      PingryInternalTesting.updateOne(
+        { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
+        { $push: { averages: { $each: [newDate], $position: 0 } } },
+        (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(`Added newest data for PingryInternalTesting Averages`);
+          }
+        }
+      );
+
       // PingryInternalTesting.updateOne(
       //   { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
-      //   { $pop: { data: 1 } },
+      //   { $pop: { averages: -1 } },
       //   (err) => {
       //     if (err) {
       //       console.log(err);
       //     } else {
-      //       console.log(`Deleted oldest data for PingryInternalTesting`);
+      //       console.log(
+      //         `Deleted oldest data for PingryInternalTesting Averages`
+      //       );
       //     }
       //   }
       // );
-
-      var weightedAveragePercentCampusSH = 0;
-      var weightedAveragePercentCampusBR = 0;
-      PingryInternalTesting.findById(
+      PingryInternalTesting.updateOne(
         { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
-        (err, resp) => {
-          for (var i = 0; i < 7; i++) {
-            // console.log(resp.data[i]);
-            weightedAveragePercentCampusSH +=
-              resp.data[i].percentShortHillsActiveIsolationOrQuarantine;
-            weightedAveragePercentCampusBR +=
-              resp.data[i].percentBaskingRidgeActiveIsolationOrQuarantine;
+        {
+          $set: {
+            shortHills7DayIsolationQuarantine: weightedAveragePercentCampusSH,
+            baskingRidge7DayIsolationQuarantine: weightedAveragePercentCampusBR,
+          },
+        },
+        (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(`Updated 7 Day Isolation/Quarantine Percentage`);
           }
-          weightedAveragePercentCampusSH /= 7;
-          weightedAveragePercentCampusBR /= 7;
-          const newDate = {
-            date: new Date(),
-            shortHillsIsolationQuarantine: weightedAveragePercentCampusSH,
-            baskingRidgeIsolationQuarantine: weightedAveragePercentCampusBR,
-          };
-
-          PingryInternalTesting.updateOne(
-            { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
-            { $push: { averages: { $each: [newDate], $position: 0 } } },
-            (err) => {
-              if (err) {
-                console.log(err);
-              } else {
-                console.log(
-                  `Added newest data for PingryInternalTesting Averages`
-                );
-              }
-            }
-          );
-          // PingryInternalTesting.updateOne(
-          //   { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
-          //   { $pop: { averages: 1 } },
-          //   (err) => {
-          //     if (err) {
-          //       console.log(err);
-          //     } else {
-          //       console.log(
-          //         `Deleted oldest data for PingryInternalTesting Averages`
-          //       );
-          //     }
-          //   }
-          // );
-          PingryInternalTesting.updateOne(
-            { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
-            {
-              $set: {
-                shortHills7DayIsolationQuarantine: weightedAveragePercentCampusSH,
-                baskingRidge7DayIsolationQuarantine: weightedAveragePercentCampusBR,
-              },
-            },
-            (err) => {
-              if (err) {
-                console.log(err);
-              } else {
-                console.log(`Updated 7 Day Isolation/Quarantine Percentage`);
-              }
-            }
-          );
         }
       );
-    })
-    .catch((error) => console.log("error"));
+    }
+  );
 }
 
 module.exports = { refetchAll, repopulateTestingCollection };
