@@ -5,6 +5,7 @@ import {
   fetchCountyTotalsDB,
   fetchInternalPingryDB,
   fetchCountyProjectionsDB,
+  fetchDetailedStats,
 } from "./api";
 import Aux from "./hoc/_Aux";
 import "./assets/scss/style.scss";
@@ -45,6 +46,7 @@ class App extends Component {
       fetchedCountyProjections: [],
       countyProjections: [],
       loading: true,
+      detailedStats: [],
     };
     ReactGA.initialize("UA-177348263-1");
     ReactGA.pageview("/");
@@ -56,7 +58,8 @@ class App extends Component {
     const fetchedCountyData = (await fetchCountyDataDB())[0];
     const fetchedPingryData = await fetchInternalPingryDB();
     const fetchedCountyProjections = await fetchCountyProjectionsDB();
-
+    const fetchedDetailedStats = (await fetchDetailedStats())[0];
+    console.log(fetchedDetailedStats);
     this.setState({
       statewideData: fetchedStatewideData,
       countyData: fetchedCountyData,
@@ -65,6 +68,7 @@ class App extends Component {
       fetchedCountyProjections: fetchedCountyProjections,
       countyProjections: fetchedCountyProjections[0].data,
       loading: false,
+      detailedStats: fetchedDetailedStats,
     });
   }
 
@@ -161,8 +165,14 @@ class App extends Component {
                     </Card.Body>
                   </Card>
                 </Col> */}
-                <CampusCards internal={this.state.internal} />
-                <CampusCharts internal={this.state.internal} />
+                <CampusCards
+                  internal={this.state.internal}
+                  detailedStats={this.state.detailedStats}
+                />
+                <CampusCharts
+                  internal={this.state.internal}
+                  detailedStats={this.state.detailedStats}
+                />
                 <CardSet
                   fetchedCountyData={this.state.countyData}
                   fetchedCountyProjections={this.state.fetchedCountyProjections}

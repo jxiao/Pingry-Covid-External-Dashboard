@@ -12,6 +12,12 @@ const CampusCards = function (props) {
   const baskingRidgePercentage =
     props.internal.baskingRidge7DayIsolationQuarantine;
 
+  // const shortHillsPercentage =
+  //   props.detailedStats.shortHills7DayIsolationQuarantine;
+
+  // const baskingRidgePercentage =
+  //   props.detailedStats.baskingRidge7DayIsolationQuarantine;
+
   return (
     <Aux>
       <Col md={6}>

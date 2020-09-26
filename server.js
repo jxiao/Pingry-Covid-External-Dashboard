@@ -141,10 +141,10 @@ const refetchArray = [
   repopulateCountyCollection,
   repopulatePingryCollection,
   repopulateCountyProjectionsCollection,
-  repopulateSummarystats,
   repopulateDetailedstats,
   repopulateTestingCollection,
   repopulateDetailedstatsHistory,
+  repopulateSummarystats,
 ];
 /**
  * Parent function to refetch the data at scheduled intervals
@@ -152,6 +152,7 @@ const refetchArray = [
 async function refetchAll() {
   for (const fn of refetchArray) {
     await fn();
+    setTimeout(() => {}, 2000);
   }
   return `REFETCHING COLLECTIONS... (${new Date()})`;
 }
@@ -353,6 +354,7 @@ async function repopulatePingryCollection() {
     })
     .catch((error) => console.log("error"));
 
+  setTimeout(() => {}, 3000);
   await updatePingryInternalAverages();
 }
 
@@ -944,7 +946,7 @@ async function repopulateDetailedstatsHistory() {
       console.log(averagesArrayLength + "   " + dataArrayLength);
       for (var i = 0; i < 13; i++) {
         const temp = i;
-        const index = dataArrayLength - 14 + temp;
+        const index = dataArrayLength - 13 + temp;
         console.log(`updating historical data[${index}] with ${temp}`);
         DetailedstatsHistory.updateOne(
           {
@@ -976,7 +978,7 @@ async function repopulateDetailedstatsHistory() {
       // averages
       for (var i = 0; i < 7; i++) {
         const temp = i;
-        const index = averagesArrayLength - 8 + temp;
+        const index = averagesArrayLength - 7 + temp;
         console.log(`updating averages[${index}] with ${temp}`);
         DetailedstatsHistory.updateOne(
           {
