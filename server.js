@@ -135,6 +135,7 @@ const population = [
 ];
 const localCountyPopulation = 6351603;
 const localCountiesIndices = [1, 10, 11, 13, 15, 17, 18, 19, 20, 3, 6, 8, 9];
+const apiKey = process.env.COVID_ACT_NOW_API_KEY;
 
 const refetchArray = [
   repopulateStatewideCollection,
@@ -189,23 +190,31 @@ async function repopulateStatewideCollection() {
  */
 async function repopulateCountyCollection() {
   const County = mongoose.model("County");
-  const CountyTotal = mongoose.model("CountyTotal");
-  var fips = 1;
+  // const CountyTotal = mongoose.model("CountyTotal");
+  var fips = 34001;
   for (var i = 0; i < zipcodesNJ.length; i++) {
     await axios
       .get(
-        `https://localcoviddata.com/covid19/v1/cases/newYorkTimes?zipCode=${zipcodesNJ[i]}&daysInPast=7`
+        `https://api.covidactnow.org/v2/county/${fips}.json?apiKey=${apiKey}`
       )
       .then((response) => {
         const index = i;
 
+        var date = new Date();
+        data.setDate(date.getDate() - 2);
         // Insert newest (daily) data into county DB
         County.updateOne(
           { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
           {
             $push: {
               [`data.${index}.counties.0.historicData`]: {
-                $each: [response.data.counties[0].historicData[0]],
+                $each: [
+                  {
+                    date: date,
+                    deathCt: response.data.actuals.deaths,
+                    positiveCt: response.data.actuals.cases,
+                  },
+                ],
                 $position: 0,
               },
             },
@@ -228,25 +237,6 @@ async function repopulateCountyCollection() {
               console.log(err);
             } else {
               console.log(`Deleted oldest data for ${zipcodesNJ[i]}`);
-            }
-          }
-        );
-
-        const name = response.data.counties[0].countyName;
-        CountyTotal.updateOne(
-          { id: 34000 + fips },
-          {
-            totalCases: response.data.counties[0].historicData[0].positiveCt,
-            newCases:
-              response.data.counties[0].historicData[0].positiveCt -
-              response.data.counties[0].historicData[5].positiveCt,
-          },
-          { upsert: true },
-          function (err) {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(`Finished updating county total for ${name}`);
             }
           }
         );
@@ -316,6 +306,135 @@ async function repopulateCountyCollection() {
     }
   );
   console.log("Finished repopulating county collections.");
+
+  // const County = mongoose.model("County");
+  // const CountyTotal = mongoose.model("CountyTotal");
+  // var fips = 1;
+  // for (var i = 0; i < zipcodesNJ.length; i++) {
+  //   await axios
+  //     .get(
+  //       `https://localcoviddata.com/covid19/v1/cases/newYorkTimes?zipCode=${zipcodesNJ[i]}&daysInPast=7`
+  //     )
+  //     .then((response) => {
+  //       const index = i;
+
+  //       // Insert newest (daily) data into county DB
+  //       County.updateOne(
+  //         { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+  //         {
+  //           $push: {
+  //             [`data.${index}.counties.0.historicData`]: {
+  //               $each: [response.data.counties[0].historicData[0]],
+  //               $position: 0,
+  //             },
+  //           },
+  //         },
+  //         (err) => {
+  //           if (err) {
+  //             console.log(err);
+  //           } else {
+  //             console.log(`Added newest data for ${zipcodesNJ[i]}`);
+  //           }
+  //         }
+  //       );
+
+  //       // Delete oldest (daily) data from county DB
+  //       County.updateOne(
+  //         { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+  //         { $pop: { [`data.${index}.counties.0.historicData`]: 1 } },
+  //         (err) => {
+  //           if (err) {
+  //             console.log(err);
+  //           } else {
+  //             console.log(`Deleted oldest data for ${zipcodesNJ[i]}`);
+  //           }
+  //         }
+  //       );
+
+  //       // const name = response.data.counties[0].countyName;
+  //       // CountyTotal.updateOne(
+  //       //   { id: 34000 + fips },
+  //       //   {
+  //       //     totalCases: response.data.counties[0].historicData[0].positiveCt,
+  //       //     newCases:
+  //       //       response.data.counties[0].historicData[0].positiveCt -
+  //       //       response.data.counties[0].historicData[5].positiveCt,
+  //       //   },
+  //       //   { upsert: true },
+  //       //   function (err) {
+  //       //     if (err) {
+  //       //       console.log(err);
+  //       //     } else {
+  //       //       console.log(`Finished updating county total for ${name}`);
+  //       //     }
+  //       //   }
+  //       // );
+  //       fips += 2;
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
+
+  // await County.findById(
+  //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+  //   (err, resp) => {
+  //     var cumulativeRate = 0;
+  //     for (var i = 0; i < localCountiesIndices.length; i++) {
+  //       // daily increase
+  //       var individualRate =
+  //         resp.data[i].counties[0].historicData[0].positiveCt -
+  //         resp.data[i].counties[0].historicData[1].positiveCt;
+  //       cumulativeRate += individualRate;
+  //     }
+  //     // rate per 100,000
+  //     cumulativeRate = (cumulativeRate / localCountyPopulation) * 100000;
+
+  //     var date = new Date();
+  //     date.setDate(date.getDate() - 2);
+  //     County.updateOne(
+  //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+  //       {
+  //         $push: {
+  //           averages: {
+  //             $each: [{ date: date, caseRate: cumulativeRate }],
+  //             $position: 0,
+  //           },
+  //         },
+  //       },
+  //       (err) => {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           console.log(`Added newest data for County Averages`);
+  //         }
+  //       }
+  //     );
+
+  //     County.updateOne(
+  //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+  //       { $pop: { averages: 1 } },
+  //       (err) => {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           console.log(`Deleted oldest data for County Averages`);
+  //         }
+  //       }
+  //     );
+
+  //     County.updateOne(
+  //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+  //       { $set: { pingryCountiesCaseRate: cumulativeRate } },
+  //       (err) => {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           console.log(`Updated 7 Day Pingry Counties Case Rate`);
+  //         }
+  //       }
+  //     );
+  //   }
+  // );
+  // console.log("Finished repopulating county collections.");
 }
 
 /**
@@ -433,7 +552,7 @@ async function repopulateCountyProjectionsCollection() {
   for (var i = 0; i < zipcodesNJ.length; i++) {
     await axios
       .get(
-        `https://data.covidactnow.org/latest/us/counties/${fips}.OBSERVED_INTERVENTION.json`
+        `https://api.covidactnow.org/v2/county/${fips}.json?apiKey=${apiKey}`
       )
       .then((response) => {
         const index = i;
@@ -1003,11 +1122,180 @@ async function repopulateDetailedstatsHistory() {
   );
 }
 
+// async function testing() {
+//   const County = mongoose.model("County");
+//   await County.findById(
+//     { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+//     (err, resp) => {
+//       var cumulativeRate = 0;
+//       for (var i = 0; i < localCountiesIndices.length; i++) {
+//         // daily increase
+//         var individualRate =
+//           resp.data[i].counties[0].historicData[0].positiveCt -
+//           resp.data[i].counties[0].historicData[1].positiveCt;
+//         cumulativeRate += individualRate;
+//       }
+//       // rate per 100,000
+//       cumulativeRate = (cumulativeRate / localCountyPopulation) * 100000;
+//       console.log(cumulativeRate);
+
+//       // var date = new Date();
+//       // date.setDate(date.getDate() - 2);
+//       // County.updateOne(
+//       //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+//       //   {
+//       //     $push: {
+//       //       averages: {
+//       //         $each: [{ date: date, caseRate: cumulativeRate }],
+//       //         $position: 0,
+//       //       },
+//       //     },
+//       //   },
+//       //   (err) => {
+//       //     if (err) {
+//       //       console.log(err);
+//       //     } else {
+//       //       console.log(`Added newest data for County Averages`);
+//       //     }
+//       //   }
+//       // );
+
+//       //     County.updateOne(
+//       //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+//       //       { $set: { pingryCountiesCaseRate: cumulativeRate } },
+//       //       (err) => {
+//       //         if (err) {
+//       //           console.log(err);
+//       //         } else {
+//       //           console.log(`Updated 7 Day Pingry Counties Case Rate`);
+//       //         }
+//       //       }
+//       //     );
+//     }
+//   );
+// }
+
+async function testing() {
+  const County = mongoose.model("County");
+  // const CountyTotal = mongoose.model("CountyTotal");
+  var fips = 34001;
+  for (var i = 0; i < zipcodesNJ.length; i++) {
+    await axios
+      .get(
+        `https://api.covidactnow.org/v2/county/${fips}.json?apiKey=${apiKey}`
+      )
+      .then((response) => {
+        const index = i;
+        console.log(response.data);
+        // var date = new Date();
+        // data.setDate(date.getDate() - 2);
+        // // Insert newest (daily) data into county DB
+        // County.updateOne(
+        //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+        //   {
+        //     $push: {
+        //       [`data.${index}.counties.0.historicData`]: {
+        //         $each: [
+        //           {
+        //             date: date,
+        //             deathCt: response.data.actuals.deaths,
+        //             positiveCt: response.data.actuals.cases
+        //           },
+        //         ],
+        //         $position: 0,
+        //       },
+        //     },
+        //   },
+        //   (err) => {
+        //     if (err) {
+        //       console.log(err);
+        //     } else {
+        //       console.log(`Added newest data for ${zipcodesNJ[i]}`);
+        //     }
+        //   }
+        // );
+        // // Delete oldest (daily) data from county DB
+        // County.updateOne(
+        //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+        //   { $pop: { [`data.${index}.counties.0.historicData`]: 1 } },
+        //   (err) => {
+        //     if (err) {
+        //       console.log(err);
+        //     } else {
+        //       console.log(`Deleted oldest data for ${zipcodesNJ[i]}`);
+        //     }
+        //   }
+        // );
+        fips += 2;
+      })
+      .catch((error) => console.log(error));
+  }
+  // await County.findById(
+  //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+  //   (err, resp) => {
+  //     var cumulativeRate = 0;
+  //     for (var i = 0; i < localCountiesIndices.length; i++) {
+  //       // daily increase
+  //       var individualRate =
+  //         resp.data[i].counties[0].historicData[0].positiveCt -
+  //         resp.data[i].counties[0].historicData[1].positiveCt;
+  //       cumulativeRate += individualRate;
+  //     }
+  //     // rate per 100,000
+  //     cumulativeRate = (cumulativeRate / localCountyPopulation) * 100000;
+  //     var date = new Date();
+  //     date.setDate(date.getDate() - 2);
+  //     County.updateOne(
+  //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+  //       {
+  //         $push: {
+  //           averages: {
+  //             $each: [{ date: date, caseRate: cumulativeRate }],
+  //             $position: 0,
+  //           },
+  //         },
+  //       },
+  //       (err) => {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           console.log(`Added newest data for County Averages`);
+  //         }
+  //       }
+  //     );
+  //     County.updateOne(
+  //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+  //       { $pop: { averages: 1 } },
+  //       (err) => {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           console.log(`Deleted oldest data for County Averages`);
+  //         }
+  //       }
+  //     );
+  //     County.updateOne(
+  //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+  //       { $set: { pingryCountiesCaseRate: cumulativeRate } },
+  //       (err) => {
+  //         if (err) {
+  //           console.log(err);
+  //         } else {
+  //           console.log(`Updated 7 Day Pingry Counties Case Rate`);
+  //         }
+  //       }
+  //     );
+  //   }
+  // );
+  console.log("Finished repopulating county collections.");
+}
+
 module.exports = {
   refetchAll,
   repopulateTestingCollection,
   repopulateDetailedstats,
   repopulateDetailedstatsHistory,
+  testing,
 };
 
 require("make-runnable");
