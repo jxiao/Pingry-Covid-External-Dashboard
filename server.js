@@ -201,7 +201,7 @@ async function repopulateCountyCollection() {
         const index = i;
 
         var date = new Date();
-        data.setDate(date.getDate() - 2);
+        date.setDate(date.getDate() - 2);
         // Insert newest (daily) data into county DB
         County.updateOne(
           { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
@@ -1188,7 +1188,7 @@ async function testing() {
         const index = i;
         console.log(response.data);
         // var date = new Date();
-        // data.setDate(date.getDate() - 2);
+        // date.setDate(date.getDate() - 2);
         // // Insert newest (daily) data into county DB
         // County.updateOne(
         //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
