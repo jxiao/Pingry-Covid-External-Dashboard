@@ -59,7 +59,6 @@ const detailedstatsRouter = require("./routes/detailedstats");
 app.use("/detailedstats", detailedstatsRouter);
 
 const detailedstatsHistoryRouter = require("./routes/detailedstatsHistory");
-const { RSA_PKCS1_OAEP_PADDING } = require("constants");
 app.use("/detailedstatsHistory", detailedstatsHistoryRouter);
 
 /**
@@ -611,7 +610,8 @@ async function repopulateCountyProjectionsCollection() {
         for (var i = 0; i < localCountiesIndices.length; i++) {
           var individualRate = 0;
           for (var j = 0; j < 14; j++) {
-            sum += resp.data[localCountiesIndices[i]].infectionRates[j].Rt;
+            individualRate +=
+              resp.data[localCountiesIndices[i]].infectionRates[j].Rt;
           }
           individualRate /= 14;
           // var individualRate =
@@ -1187,105 +1187,39 @@ async function repopulateDetailedstatsHistory() {
 async function testing() {
   const County = mongoose.model("County");
   const CountyTotal = mongoose.model("CountyTotal");
+  const CountyProjection = mongoose.model("CountyProjection");
   // await County.findById(
   //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
   //   (err, resp) => {
   //     var cumulativeRate = 0;
+  //     var cumulative = 0;
+
   //     for (var i = 0; i < localCountiesIndices.length; i++) {
-  //       console.log(
-  //         resp.data[localCountiesIndices[i]].counties[0].countyName +
-  //           "   " +
-  //           resp.data[i].counties[0].countyName
-  //       );
   //       // daily increase
   //       var individualRate =
   //         resp.data[localCountiesIndices[i]].counties[0].historicData[0]
   //           .positiveCt -
   //         resp.data[localCountiesIndices[i]].counties[0].historicData[13]
   //           .positiveCt;
-  //       // var sample =
-  //       //   resp.data[i].counties[0].historicData[0].positiveCt -
-  //       //   resp.data[i].counties[0].historicData[13].positiveCt;
+  //       var individual = 0;
+  //       for (var j = 0; j < 13; j++) {
+  //         individual +=
+  //           resp.data[localCountiesIndices[i]].counties[0].historicData[j]
+  //             .positiveCt -
+  //           resp.data[localCountiesIndices[i]].counties[0].historicData[j + 1]
+  //             .positiveCt;
+  //       }
+  //       cumulative += individual / 14;
+
   //       cumulativeRate += individualRate / 14;
-  //       // cumulativeSample += sample / 14;
-  //       console.log(individualRate / 14 + "    " + cumulativeRate);
+  //       console.log(individual + " --- " + individualRate);
   //     }
   //     // rate per 100,000
   //     cumulativeRate = (cumulativeRate / localCountyPopulation) * 100000;
+  //     cumulative = (cumulative / localCountyPopulation) * 100000;
   //     console.log(cumulativeRate);
-  //   }
-  // );
-  // const CountyProjection = mongoose.model("CountyProjection");
-  // await CountyProjection.findById(
-  //   { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
-  //   (err, resp) => {
-  //     if (err) {
-  //       console.log("Error.");
-  //     } else {
-  //       var cumulativeRate = 0;
-  //       var sampleRate = 0;
-  //       for (var i = 0; i < localCountiesIndices.length; i++) {
-  //         var sum = 0;
-  //         for (var j = 0; j < 14; j++) {
-  //           sum += resp.data[localCountiesIndices[i]].infectionRates[j].Rt;
-  //         }
-  //         sum /= 14;
-  //         var individualRate =
-  //           resp.data[localCountiesIndices[i]].infectionRates[0].Rt;
-  //         individualRate *= population[localCountiesIndices[i]];
-  //         cumulativeRate += individualRate;
-  //         sampleRate += sum * population[localCountiesIndices[i]];
-  //         // console.log(sampleRate);
-  //       }
-  //       cumulativeRate /= localCountyPopulation;
-  //       console.log(cumulativeRate);
-  //       console.log(sampleRate / localCountyPopulation);
+  //     console.log(cumulative);
 
-  // CountyProjection.updateOne(
-  //   { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
-  //   {
-  //     $push: {
-  //       averages: {
-  //         $each: [{ date: new Date(), Rt: cumulativeRate }],
-  //         $position: 0,
-  //       },
-  //     },
-  //   },
-  //   (err) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log(`Added newest data for CountyProjection Averages`);
-  //     }
-  //   }
-  // );
-
-  // CountyProjection.updateOne(
-  //   { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
-  //   { $pop: { averages: 1 } },
-  //   (err) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log(`Deleted oldest data for CountyProjection Averages`);
-  //     }
-  //   }
-  // );
-
-  // CountyProjection.updateOne(
-  //   { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
-  //   { $set: { pingryCountiesInfectionRate: cumulativeRate } },
-  //   (err) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log(`Updated 14 Day Pingry Counties Infection Rate`);
-  //     }
-  //   }
-  // );
-  //     }
-  //   }
-  // );
   // var date = new Date();
   // date.setDate(date.getDate() - 2);
   // County.updateOne(
@@ -1330,7 +1264,7 @@ async function testing() {
   //     }
   //   }
   // );
-  // }
+  //   }
   // );
   // console.log("Finished repopulating county collections.");
 }
