@@ -144,7 +144,7 @@ const refetchArray = [
   repopulateCountyProjectionsCollection,
   repopulateDetailedstats,
   repopulateTestingCollection,
-  repopulateDetailedstatsHistory,
+  // repopulateDetailedstatsHistory,
   repopulateSummarystats,
 ];
 /**
