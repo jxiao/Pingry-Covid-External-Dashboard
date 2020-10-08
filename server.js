@@ -1273,7 +1273,7 @@ module.exports = {
   refetchAll,
   repopulateTestingCollection,
   repopulateDetailedstats,
-  repopulateDetailedstatsHistory,
+  // repopulateDetailedstatsHistory,
   testing,
 };
 
