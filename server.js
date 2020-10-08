@@ -144,7 +144,7 @@ const refetchArray = [
   repopulateCountyProjectionsCollection,
   repopulateDetailedstats,
   repopulateTestingCollection,
-  // repopulateDetailedstatsHistory,
+  repopulateDetailedstatsHistory,
   repopulateSummarystats,
 ];
 /**
@@ -947,186 +947,239 @@ async function repopulateDetailedstats() {
     .catch((error) => console.log(error));
 }
 
-// async function repopulateDetailedstatsHistory() {
-//   const Detailedstat = mongoose.model("Detailedstat");
-//   const DetailedstatsHistory = mongoose.model("DetailedstatsHistory");
+async function repopulateDetailedstatsHistory() {
+  const Detailedstat = mongoose.model("Detailedstat");
+  const DetailedstatsHistory = mongoose.model("DetailedstatsHistory");
 
-//   // /**
-//   //  * INITIAL POPULATION
-//   //  */
-//   // var date = new Date();
-//   // date.setDate(date.getDate() - 13);
-//   // for (var a = 0; a < 14; a++) {
-//   //   await Detailedstat.findById(
-//   //     {
-//   //       _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
-//   //     },
-//   //     (err, resp) => {
-//   //       DetailedstatsHistory.updateOne(
-//   //         { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
-//   //         {
-//   //           $push: {
-//   //             data: {
-//   //               $each: [
-//   //                 {
-//   //                   date: date,
-//   //                   percentageSH: resp.shortHillsPercentage14Days[a],
-//   //                   percentageBR: resp.baskingRidgePercentage14Days[a],
-//   //                 },
-//   //               ],
-//   //             },
-//   //           },
-//   //         },
-//   //         (err) => {
-//   //           console.log(
-//   //             err ? err : "update newest data for detailed stats history"
-//   //           );
-//   //         }
-//   //       );
-//   //       date.setDate(date.getDate() + 1);
-//   //     }
-//   //   );
-//   // }
+  // /**
+  //  * INITIAL POPULATION
+  //  */
+  // var date = new Date();
+  // date.setDate(date.getDate() - 13);
+  // for (var a = 0; a < 14; a++) {
+  //   await Detailedstat.findById(
+  //     {
+  //       _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
+  //     },
+  //     (err, resp) => {
+  //       DetailedstatsHistory.updateOne(
+  //         { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
+  //         {
+  //           $push: {
+  //             data: {
+  //               $each: [
+  //                 {
+  //                   date: date,
+  //                   percentageSH: resp.shortHillsPercentage14Days[a],
+  //                   percentageBR: resp.baskingRidgePercentage14Days[a],
+  //                 },
+  //               ],
+  //             },
+  //           },
+  //         },
+  //         (err) => {
+  //           console.log(
+  //             err ? err : "update newest data for detailed stats history"
+  //           );
+  //         }
+  //       );
+  //       date.setDate(date.getDate() + 1);
+  //     }
+  //   );
+  // }
 
-//   // for (var a = 0; a < 8; a++) {
-//   //   const index = a;
-//   //   await Detailedstat.findById(
-//   //     {
-//   //       _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
-//   //     },
-//   //     (err, resp) => {
-//   //       DetailedstatsHistory.updateOne(
-//   //         { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
-//   //         {
-//   //           $push: {
-//   //             averages: {
-//   //               $each: [resp.averages[index]],
-//   //             },
-//   //           },
-//   //         },
-//   //         (err) => {
-//   //           console.log(
-//   //             err ? err : "update newest data for detailed stats averages"
-//   //           );
-//   //         }
-//   //       );
-//   //     }
-//   //   );
-//   // }
+  // for (var a = 0; a < 8; a++) {
+  //   const index = a;
+  //   await Detailedstat.findById(
+  //     {
+  //       _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
+  //     },
+  //     (err, resp) => {
+  //       DetailedstatsHistory.updateOne(
+  //         { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
+  //         {
+  //           $push: {
+  //             averages: {
+  //               $each: [resp.averages[index]],
+  //             },
+  //           },
+  //         },
+  //         (err) => {
+  //           console.log(
+  //             err ? err : "update newest data for detailed stats averages"
+  //           );
+  //         }
+  //       );
+  //     }
+  //   );
+  // }
 
-//   /**
-//    * DAILY UPDATING
-//    */
-//   let resp;
+  /**
+   * DAILY UPDATING
+   */
+  let resp;
 
-//   await Detailedstat.findById(
-//     {
-//       _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
-//     },
-//     (err, res) => {
-//       resp = res;
-//     }
-//   );
+  await Detailedstat.findById(
+    {
+      _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
+    },
+    (err, res) => {
+      resp = res;
+    }
+  );
 
-//   DetailedstatsHistory.updateOne(
-//     { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
-//     {
-//       $push: {
-//         data: {
-//           $each: [
-//             {
-//               date: new Date(),
-//               percentageSH: resp.shortHillsPercentage14Days[13],
-//               percentageBR: resp.baskingRidgePercentage14Days[13],
-//             },
-//           ],
-//         },
-//       },
-//     },
-//     (err) => {
-//       console.log(err ? err : "update newest data for detailed stats history");
-//     }
-//   );
+  DetailedstatsHistory.updateOne(
+    { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
+    {
+      $push: {
+        data: {
+          $each: [
+            {
+              date: new Date(),
+              percentageSH: resp.shortHillsPercentage14Days[13],
+              percentageBR: resp.baskingRidgePercentage14Days[13],
+            },
+          ],
+        },
+      },
+    },
+    (err) => {
+      console.log(err ? err : "update newest data for detailed stats history");
+    }
+  );
 
-//   DetailedstatsHistory.updateOne(
-//     { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
-//     {
-//       $push: {
-//         averages: {
-//           $each: [resp.averages[7]],
-//         },
-//       },
-//     },
-//     (err) => {
-//       console.log(
-//         err ? err : "update newest average for detailed stats history"
-//       );
-//     }
-//   );
+  DetailedstatsHistory.updateOne(
+    { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
+    {
+      $push: {
+        averages: {
+          $each: [resp.averages[7]],
+        },
+      },
+    },
+    (err) => {
+      console.log(
+        err ? err : "update newest average for detailed stats history"
+      );
+    }
+  );
 
-//   DetailedstatsHistory.findOne(
-//     {
-//       _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
-//     },
-//     (err, response) => {
-//       const averagesArrayLength = response.averages.length;
-//       const dataArrayLength = response.data.length;
-//       console.log(averagesArrayLength + "   " + dataArrayLength);
-//       for (var i = 0; i < 13; i++) {
-//         const temp = i;
-//         const index = dataArrayLength - 13 + temp;
-//         console.log(`updating historical data[${index}] with ${temp}`);
-//         DetailedstatsHistory.updateOne(
-//           {
-//             _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
-//           },
-//           {
-//             $set: {
-//               [`data.${index}.percentageSH`]: resp.shortHillsPercentage14Days[
-//                 temp
-//               ],
-//               [`data.${index}.percentageBR`]: resp.baskingRidgePercentage14Days[
-//                 temp
-//               ],
-//             },
-//           },
-//           { upsert: true },
-//           (err) => {
-//             if (err) {
-//               console.log(err);
-//             } else {
-//               console.log(
-//                 `Updated 14 day current data for detailed stats history`
-//               );
-//             }
-//           }
-//         );
+  DetailedstatsHistory.findOne(
+    {
+      _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
+    },
+    (err, response) => {
+      const averagesArrayLength = response.averages.length;
+      const dataArrayLength = response.data.length;
+      console.log(averagesArrayLength + "   " + dataArrayLength);
+      for (var i = 0; i < 13; i++) {
+        const temp = i;
+        const index = dataArrayLength - 13 + temp;
+        console.log(`updating historical data[${index}] with ${temp}`);
+        DetailedstatsHistory.updateOne(
+          {
+            _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
+          },
+          {
+            $set: {
+              [`data.${index}.percentageSH`]: resp.shortHillsPercentage14Days[
+                temp
+              ],
+              [`data.${index}.percentageBR`]: resp.baskingRidgePercentage14Days[
+                temp
+              ],
+            },
+          },
+          { upsert: true },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(
+                `Updated 14 day current data for detailed stats history`
+              );
+            }
+          }
+        );
+      }
+
+      // averages
+      for (var i = 0; i < 7; i++) {
+        const temp = i;
+        const index = averagesArrayLength - 7 + temp;
+        console.log(`updating averages[${index}] with ${temp}`);
+        DetailedstatsHistory.updateOne(
+          {
+            _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
+          },
+          {
+            $set: {
+              [`averages.${index}`]: resp.averages[temp],
+            },
+          },
+          { upsert: true },
+          (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(`Updated 7 day averages for detailed stats history`);
+            }
+          }
+        );
+      }
+    }
+  );
+}
+
+// async function testing() {
+//   const County = mongoose.model("County");
+//   await County.findById(
+//     { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+//     (err, resp) => {
+//       var cumulativeRate = 0;
+//       for (var i = 0; i < localCountiesIndices.length; i++) {
+//         // daily increase
+//         var individualRate =
+//           resp.data[i].counties[0].historicData[0].positiveCt -
+//           resp.data[i].counties[0].historicData[1].positiveCt;
+//         cumulativeRate += individualRate;
 //       }
+//       // rate per 100,000
+//       cumulativeRate = (cumulativeRate / localCountyPopulation) * 100000;
+//       console.log(cumulativeRate);
 
-//       // averages
-//       for (var i = 0; i < 7; i++) {
-//         const temp = i;
-//         const index = averagesArrayLength - 7 + temp;
-//         console.log(`updating averages[${index}] with ${temp}`);
-//         DetailedstatsHistory.updateOne(
-//           {
-//             _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
-//           },
-//           {
-//             $set: {
-//               [`averages.${index}`]: resp.averages[temp],
-//             },
-//           },
-//           { upsert: true },
-//           (err) => {
-//             if (err) {
-//               console.log(err);
-//             } else {
-//               console.log(`Updated 7 day averages for detailed stats history`);
-//             }
-//           }
-//         );
-//       }
+//       // var date = new Date();
+//       // date.setDate(date.getDate() - 2);
+//       // County.updateOne(
+//       //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+//       //   {
+//       //     $push: {
+//       //       averages: {
+//       //         $each: [{ date: date, caseRate: cumulativeRate }],
+//       //         $position: 0,
+//       //       },
+//       //     },
+//       //   },
+//       //   (err) => {
+//       //     if (err) {
+//       //       console.log(err);
+//       //     } else {
+//       //       console.log(`Added newest data for County Averages`);
+//       //     }
+//       //   }
+//       // );
+
+//       //     County.updateOne(
+//       //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
+//       //       { $set: { pingryCountiesCaseRate: cumulativeRate } },
+//       //       (err) => {
+//       //         if (err) {
+//       //           console.log(err);
+//       //         } else {
+//       //           console.log(`Updated 7 Day Pingry Counties Case Rate`);
+//       //         }
+//       //       }
+//       //     );
 //     }
 //   );
 // }
