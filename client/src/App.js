@@ -27,6 +27,7 @@ import CampusCards from "./components/CampusCards/CampusCards";
 import PingryAnywhere from "./assets/images/PingryAnywhere";
 import Spinner from "react-spinkit";
 import FadeIn from "react-fade-in";
+import cx from "classnames";
 
 class App extends Component {
   // LEVELS
@@ -35,6 +36,13 @@ class App extends Component {
   // 3 --> fully remote
   static SHORT_HILLS_LEVEL = 1;
   static BASKING_RIDGE_LEVEL = 1;
+
+  // TESTING RESULTS
+  static POTENTIALLY_POSITIVE_PAIRS = 0;
+  static TOTAL_NUM_TESTS = 1416;
+  static SAMPLE_COLLECTION_DATE = new Date(2020, 10, 9);
+
+  static MONTHS = ["N/A", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
   constructor(props) {
     super(props);
@@ -59,7 +67,6 @@ class App extends Component {
     const fetchedPingryData = await fetchInternalPingryDB();
     const fetchedCountyProjections = await fetchCountyProjectionsDB();
     const fetchedDetailedStats = (await fetchDetailedStats())[0];
-    console.log(fetchedDetailedStats);
     this.setState({
       statewideData: fetchedStatewideData,
       countyData: fetchedCountyData,
@@ -103,11 +110,11 @@ class App extends Component {
                   Data Sources: The New York Times, CovidActNow.org, Pingry's
                   Internal Tracking Database
                 </h6>
-                {/* <h6 className={styles.smallerText}>
+                <h6 className={styles.smallerText}>
                   All values (including historical data) are updated daily at
-                  8AM to reflect current database information
-                </h6> */}
-                <h6 className={styles.smallerText}>Updated daily at 8AM</h6>
+                  8AM
+                </h6>
+                {/* <h6 className={styles.smallerText}>Updated daily at 8AM</h6> */}
                 <a
                   href="https://resources.finalsite.net/images/v1600351342/pingry/pnc4qpbmjpqldbv1incz/PingryAnywhereCOVID-19TrackingDashboardGuide.pdf"
                   target="_blank"
@@ -123,52 +130,46 @@ class App extends Component {
               />
 
               <Row>
-                {/* <Col md={6}>
+              <Col md={7} className={styles.center}>
                   <Card>
                     <Card.Body>
-                      <h6 className="mb-4">Total Number of Tests Administered</h6>
+                      <h6 className={cx("mb-4", styles.smallmargin)}>Pingry's Return-to-School COVID-19 Testing</h6>
                       <div className="row d-flex align-items-center">
-                        <div className="col-9">
+                        <div className="col-12">
                           <h3 className="f-w-300 d-flex align-items-center m-b-0">
-                            &nbsp;
-                            <CountUp
-                              decimals={2}
+                            
+                            <div className={cx(styles.center, styles.testing)}>
+                            Total Number of Tests Administered:&nbsp;<CountUp
                               start={0}
-                              end={10}
+                              end={App.TOTAL_NUM_TESTS}
                               duration={2}
                               separator=","
+                              className={styles.right}
                             />
+                            <br/>
+                            Number of Potentially Positive Pairs:&nbsp;<CountUp
+                              start={0}
+                              end={App.POTENTIALLY_POSITIVE_PAIRS}
+                              duration={2}
+                              separator=","
+                              className={styles.right}
+                            />
+                            </div>
                           </h3>
                         </div>
+                        <br /><br /><br />
                       </div>
-                      <div>Note - These numbers are based on detected pairs and people tested on --/--/-- (the day of the test)</div>
+                      <div>Date of sample collection: {App.MONTHS[App.SAMPLE_COLLECTION_DATE.getMonth()]} {App.SAMPLE_COLLECTION_DATE.getDate()}, {App.SAMPLE_COLLECTION_DATE.getFullYear()}</div>
+                      <div><a
+                    href="https://pingryanywhere.org/health-safety/covid-19-testing/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Detailed information regarding Pingry's COVID-19 Testing
+                  </a></div>
                     </Card.Body>
                   </Card>
                 </Col>
-                <Col md={6}>
-                  <Card>
-                    <Card.Body>
-                      <h6 className="mb-4">
-                        Number of Potentially Positive Pairs
-                      </h6>
-                      <div className="row d-flex align-items-center">
-                        <div className="col-9">
-                          <h3 className="f-w-300 d-flex align-items-center m-b-0">
-                            &nbsp;
-                            <CountUp
-                              decimals={2}
-                              start={0}
-                              end={10}
-                              duration={2}
-                              separator=","
-                            />
-                          </h3>
-                        </div>
-                      </div>
-                      <div>Note - These numbers are based on detected pairs and people tested on --/--/-- (the day of the test)</div>
-                    </Card.Body>
-                  </Card>
-                </Col> */}
                 <CampusCards
                   internal={this.state.internal}
                   detailedStats={this.state.detailedStats}

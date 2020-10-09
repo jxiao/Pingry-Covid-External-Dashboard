@@ -40,3 +40,44 @@ h6 {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
+.icon {
+  float: right;
+  height: 100px;
+  width: 100px;
+}
+
+.smallerText {
+  font-size: 1rem;
+}
+
+/* Individual card icons */
+.icon {
+  float: right;
+  height: 100px;
+  width: 100px;
+}
+
+/* Text formatting */
+h2,
+h3 {
+  text-align: center;
+  font-weight: 900;
+}
+
+.change {
+  font-size: 18px !important;
+}
+
+.smallmargin {
+  margin-bottom: 0 !important;
+}
+
+.testing {
+  font-size: 1.2rem !important;
+  text-align: left;
+}
+
+.right {
+  float: right;
+}
