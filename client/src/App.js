@@ -38,7 +38,7 @@ class App extends Component {
   static BASKING_RIDGE_LEVEL = 1;
 
   // TESTING RESULTS
-  static POTENTIALLY_POSITIVE_PAIRS = 0;
+  static POTENTIALLY_POSITIVE_PAIRS = 1;
   static TOTAL_NUM_TESTS = 1416;
   static SAMPLE_COLLECTION_DATE = new Date(2020, 10, 9);
 
