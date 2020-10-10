@@ -40,7 +40,7 @@ class App extends Component {
   // TESTING RESULTS
   static POTENTIALLY_POSITIVE_PAIRS = 1;
   static TOTAL_NUM_TESTS = 1416;
-  static SAMPLE_COLLECTION_DATE = new Date(2020, 10, 9);
+  static SAMPLE_COLLECTION_DATE = new Date(2020, 10, 8);
 
   static MONTHS = ["N/A", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
@@ -116,7 +116,7 @@ class App extends Component {
                 </h6>
                 {/* <h6 className={styles.smallerText}>Updated daily at 8AM</h6> */}
                 <a
-                  href="https://resources.finalsite.net/images/v1600351342/pingry/pnc4qpbmjpqldbv1incz/PingryAnywhereCOVID-19TrackingDashboardGuide.pdf"
+                  href="https://pingryanywhere.org/cms/resources/media/2020/10/Pingry-Anywhere-COVID-19-Tracking-Dashboard-Guide.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.smallerText}
