@@ -39,8 +39,8 @@ class App extends Component {
 
   // TESTING RESULTS
   static POTENTIALLY_POSITIVE_PAIRS = 1;
-  static TOTAL_NUM_TESTS = 1416;
-  static SAMPLE_COLLECTION_DATE = new Date(2020, 10, 8);
+  static TOTAL_NUM_TESTS = 1433;
+  static SAMPLE_COLLECTION_DATE = new Date(2020, 10, 16);
 
   static MONTHS = ["N/A", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
