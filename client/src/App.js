@@ -110,11 +110,11 @@ class App extends Component {
                   Data Sources: The New York Times, CovidActNow.org, Pingry's
                   Internal Tracking Database
                 </h6>
-                <h6 className={styles.smallerText}>
+                {/* <h6 className={styles.smallerText}>
                   All values (including historical data) are updated daily at
                   8AM
-                </h6>
-                {/* <h6 className={styles.smallerText}>Updated daily at 8AM</h6> */}
+                </h6> */}
+                <h6 className={styles.smallerText}>Updated daily at 8AM</h6>
                 <a
                   href="https://pingryanywhere.org/cms/resources/media/2020/10/Pingry-Anywhere-COVID-19-Tracking-Dashboard-Guide.pdf"
                   target="_blank"

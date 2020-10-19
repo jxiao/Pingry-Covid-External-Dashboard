@@ -5,6 +5,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { Card, Col } from "react-bootstrap";
 import Aux from "../../hoc/_Aux";
 import styles from "./Charts.module.css";
+import cx from "classnames"
 
 am4core.useTheme(am4themes_animated);
 class Charts extends Component {
@@ -103,9 +104,8 @@ class Charts extends Component {
           <Card>
             <Card.Body>
               <h6
-                className="mb-4"
+                className={cx("mb-4", styles.title)}
                 style={{ display: "inline-block" }}
-                className={styles.title}
               >
                 Pingry Counties - Infection Rate (Historical)
               </h6>
@@ -125,9 +125,8 @@ class Charts extends Component {
           <Card>
             <Card.Body>
               <h6
-                className="mb-4"
+                className={cx("mb-4", styles.title)}
                 style={{ display: "inline-block" }}
-                className={styles.title}
               >
                 Pingry Counties - Case Rate per 100,000 (Historical)
               </h6>

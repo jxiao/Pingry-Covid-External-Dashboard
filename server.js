@@ -144,7 +144,6 @@ const refetchArray = [
   repopulateCountyProjectionsCollection,
   repopulateDetailedstats,
   repopulateTestingCollection,
-  // repopulateDetailedstatsHistory,
   repopulateSummarystats,
 ];
 /**
@@ -308,135 +307,6 @@ async function repopulateCountyCollection() {
     }
   );
   console.log("Finished repopulating county collections.");
-
-  // const County = mongoose.model("County");
-  // const CountyTotal = mongoose.model("CountyTotal");
-  // var fips = 1;
-  // for (var i = 0; i < zipcodesNJ.length; i++) {
-  //   await axios
-  //     .get(
-  //       `https://localcoviddata.com/covid19/v1/cases/newYorkTimes?zipCode=${zipcodesNJ[i]}&daysInPast=7`
-  //     )
-  //     .then((response) => {
-  //       const index = i;
-
-  //       // Insert newest (daily) data into county DB
-  //       County.updateOne(
-  //         { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-  //         {
-  //           $push: {
-  //             [`data.${index}.counties.0.historicData`]: {
-  //               $each: [response.data.counties[0].historicData[0]],
-  //               $position: 0,
-  //             },
-  //           },
-  //         },
-  //         (err) => {
-  //           if (err) {
-  //             console.log(err);
-  //           } else {
-  //             console.log(`Added newest data for ${zipcodesNJ[i]}`);
-  //           }
-  //         }
-  //       );
-
-  //       // Delete oldest (daily) data from county DB
-  //       County.updateOne(
-  //         { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-  //         { $pop: { [`data.${index}.counties.0.historicData`]: 1 } },
-  //         (err) => {
-  //           if (err) {
-  //             console.log(err);
-  //           } else {
-  //             console.log(`Deleted oldest data for ${zipcodesNJ[i]}`);
-  //           }
-  //         }
-  //       );
-
-  //       // const name = response.data.counties[0].countyName;
-  //       // CountyTotal.updateOne(
-  //       //   { id: 34000 + fips },
-  //       //   {
-  //       //     totalCases: response.data.counties[0].historicData[0].positiveCt,
-  //       //     newCases:
-  //       //       response.data.counties[0].historicData[0].positiveCt -
-  //       //       response.data.counties[0].historicData[5].positiveCt,
-  //       //   },
-  //       //   { upsert: true },
-  //       //   function (err) {
-  //       //     if (err) {
-  //       //       console.log(err);
-  //       //     } else {
-  //       //       console.log(`Finished updating county total for ${name}`);
-  //       //     }
-  //       //   }
-  //       // );
-  //       fips += 2;
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
-
-  // await County.findById(
-  //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-  //   (err, resp) => {
-  //     var cumulativeRate = 0;
-  //     for (var i = 0; i < localCountiesIndices.length; i++) {
-  //       // daily increase
-  //       var individualRate =
-  //         resp.data[i].counties[0].historicData[0].positiveCt -
-  //         resp.data[i].counties[0].historicData[1].positiveCt;
-  //       cumulativeRate += individualRate;
-  //     }
-  //     // rate per 100,000
-  //     cumulativeRate = (cumulativeRate / localCountyPopulation) * 100000;
-
-  //     var date = new Date();
-  //     date.setDate(date.getDate() - 2);
-  //     County.updateOne(
-  //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-  //       {
-  //         $push: {
-  //           averages: {
-  //             $each: [{ date: date, caseRate: cumulativeRate }],
-  //             $position: 0,
-  //           },
-  //         },
-  //       },
-  //       (err) => {
-  //         if (err) {
-  //           console.log(err);
-  //         } else {
-  //           console.log(`Added newest data for County Averages`);
-  //         }
-  //       }
-  //     );
-
-  //     County.updateOne(
-  //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-  //       { $pop: { averages: 1 } },
-  //       (err) => {
-  //         if (err) {
-  //           console.log(err);
-  //         } else {
-  //           console.log(`Deleted oldest data for County Averages`);
-  //         }
-  //       }
-  //     );
-
-  //     County.updateOne(
-  //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-  //       { $set: { pingryCountiesCaseRate: cumulativeRate } },
-  //       (err) => {
-  //         if (err) {
-  //           console.log(err);
-  //         } else {
-  //           console.log(`Updated 7 Day Pingry Counties Case Rate`);
-  //         }
-  //       }
-  //     );
-  //   }
-  // );
-  // console.log("Finished repopulating county collections.");
 }
 
 /**
@@ -674,8 +544,9 @@ async function repopulateCountyProjectionsCollection() {
 async function repopulateSummarystats() {
   const County = mongoose.model("County");
   const CountyProjection = mongoose.model("CountyProjection");
-  const PingryInternal = mongoose.model("PingryInternal");
+  // const PingryInternal = mongoose.model("PingryInternal");
   const Summarystat = mongoose.model("Summarystat");
+  const Detailedstat = mongoose.model("Detailedstat");
   County.findById(
     { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
     (err, resp) => {
@@ -684,9 +555,8 @@ async function repopulateSummarystats() {
         { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
         (err, resp) => {
           const pingryCountiesInfectionRate = resp.pingryCountiesInfectionRate;
-          PingryInternal.findById(
-            { _id: mongoose.Types.ObjectId(`5f4ec6920ece60f64d8cd6f6`) },
-            (err, resp) => {
+          Detailedstat.findById({ _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`) },
+          (err, resp) => {
               const shortHills7DayIsolationQuarantine =
                 resp.shortHills7DayIsolationQuarantine;
               const baskingRidge7DayIsolationQuarantine =
@@ -947,333 +817,17 @@ async function repopulateDetailedstats() {
     .catch((error) => console.log(error));
 }
 
-async function repopulateDetailedstatsHistory() {
-  const Detailedstat = mongoose.model("Detailedstat");
-  const DetailedstatsHistory = mongoose.model("DetailedstatsHistory");
-
-  // /**
-  //  * INITIAL POPULATION
-  //  */
-  // var date = new Date();
-  // date.setDate(date.getDate() - 13);
-  // for (var a = 0; a < 14; a++) {
-  //   await Detailedstat.findById(
-  //     {
-  //       _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
-  //     },
-  //     (err, resp) => {
-  //       DetailedstatsHistory.updateOne(
-  //         { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
-  //         {
-  //           $push: {
-  //             data: {
-  //               $each: [
-  //                 {
-  //                   date: date,
-  //                   percentageSH: resp.shortHillsPercentage14Days[a],
-  //                   percentageBR: resp.baskingRidgePercentage14Days[a],
-  //                 },
-  //               ],
-  //             },
-  //           },
-  //         },
-  //         (err) => {
-  //           console.log(
-  //             err ? err : "update newest data for detailed stats history"
-  //           );
-  //         }
-  //       );
-  //       date.setDate(date.getDate() + 1);
-  //     }
-  //   );
-  // }
-
-  // for (var a = 0; a < 8; a++) {
-  //   const index = a;
-  //   await Detailedstat.findById(
-  //     {
-  //       _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
-  //     },
-  //     (err, resp) => {
-  //       DetailedstatsHistory.updateOne(
-  //         { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
-  //         {
-  //           $push: {
-  //             averages: {
-  //               $each: [resp.averages[index]],
-  //             },
-  //           },
-  //         },
-  //         (err) => {
-  //           console.log(
-  //             err ? err : "update newest data for detailed stats averages"
-  //           );
-  //         }
-  //       );
-  //     }
-  //   );
-  // }
-
-  /**
-   * DAILY UPDATING
-   */
-  let resp;
-
-  await Detailedstat.findById(
-    {
-      _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`),
-    },
-    (err, res) => {
-      resp = res;
-    }
-  );
-
-  DetailedstatsHistory.updateOne(
-    { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
-    {
-      $push: {
-        data: {
-          $each: [
-            {
-              date: new Date(),
-              percentageSH: resp.shortHillsPercentage14Days[13],
-              percentageBR: resp.baskingRidgePercentage14Days[13],
-            },
-          ],
-        },
-      },
-    },
-    (err) => {
-      console.log(err ? err : "update newest data for detailed stats history");
-    }
-  );
-
-  DetailedstatsHistory.updateOne(
-    { _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`) },
-    {
-      $push: {
-        averages: {
-          $each: [resp.averages[7]],
-        },
-      },
-    },
-    (err) => {
-      console.log(
-        err ? err : "update newest average for detailed stats history"
-      );
-    }
-  );
-
-  DetailedstatsHistory.findOne(
-    {
-      _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
-    },
-    (err, response) => {
-      const averagesArrayLength = response.averages.length;
-      const dataArrayLength = response.data.length;
-      console.log(averagesArrayLength + "   " + dataArrayLength);
-      for (var i = 0; i < 13; i++) {
-        const temp = i;
-        const index = dataArrayLength - 13 + temp;
-        console.log(`updating historical data[${index}] with ${temp}`);
-        DetailedstatsHistory.updateOne(
-          {
-            _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
-          },
-          {
-            $set: {
-              [`data.${index}.percentageSH`]: resp.shortHillsPercentage14Days[
-                temp
-              ],
-              [`data.${index}.percentageBR`]: resp.baskingRidgePercentage14Days[
-                temp
-              ],
-            },
-          },
-          { upsert: true },
-          (err) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(
-                `Updated 14 day current data for detailed stats history`
-              );
-            }
-          }
-        );
-      }
-
-      // averages
-      for (var i = 0; i < 7; i++) {
-        const temp = i;
-        const index = averagesArrayLength - 7 + temp;
-        console.log(`updating averages[${index}] with ${temp}`);
-        DetailedstatsHistory.updateOne(
-          {
-            _id: mongoose.Types.ObjectId(`5f6cbc20ceea832499d6c787`),
-          },
-          {
-            $set: {
-              [`averages.${index}`]: resp.averages[temp],
-            },
-          },
-          { upsert: true },
-          (err) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(`Updated 7 day averages for detailed stats history`);
-            }
-          }
-        );
-      }
-    }
-  );
-}
-
-// async function testing() {
-//   const County = mongoose.model("County");
-//   await County.findById(
-//     { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-//     (err, resp) => {
-//       var cumulativeRate = 0;
-//       for (var i = 0; i < localCountiesIndices.length; i++) {
-//         // daily increase
-//         var individualRate =
-//           resp.data[i].counties[0].historicData[0].positiveCt -
-//           resp.data[i].counties[0].historicData[1].positiveCt;
-//         cumulativeRate += individualRate;
-//       }
-//       // rate per 100,000
-//       cumulativeRate = (cumulativeRate / localCountyPopulation) * 100000;
-//       console.log(cumulativeRate);
-
-//       // var date = new Date();
-//       // date.setDate(date.getDate() - 2);
-//       // County.updateOne(
-//       //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-//       //   {
-//       //     $push: {
-//       //       averages: {
-//       //         $each: [{ date: date, caseRate: cumulativeRate }],
-//       //         $position: 0,
-//       //       },
-//       //     },
-//       //   },
-//       //   (err) => {
-//       //     if (err) {
-//       //       console.log(err);
-//       //     } else {
-//       //       console.log(`Added newest data for County Averages`);
-//       //     }
-//       //   }
-//       // );
-
-//       //     County.updateOne(
-//       //       { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-//       //       { $set: { pingryCountiesCaseRate: cumulativeRate } },
-//       //       (err) => {
-//       //         if (err) {
-//       //           console.log(err);
-//       //         } else {
-//       //           console.log(`Updated 7 Day Pingry Counties Case Rate`);
-//       //         }
-//       //       }
-//       //     );
-//     }
-//   );
-// }
-
 async function testing() {
   const County = mongoose.model("County");
   const CountyTotal = mongoose.model("CountyTotal");
   const CountyProjection = mongoose.model("CountyProjection");
-  // await County.findById(
-  //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-  //   (err, resp) => {
-  //     var cumulativeRate = 0;
-  //     var cumulative = 0;
-
-  //     for (var i = 0; i < localCountiesIndices.length; i++) {
-  //       // daily increase
-  //       var individualRate =
-  //         resp.data[localCountiesIndices[i]].counties[0].historicData[0]
-  //           .positiveCt -
-  //         resp.data[localCountiesIndices[i]].counties[0].historicData[13]
-  //           .positiveCt;
-  //       var individual = 0;
-  //       for (var j = 0; j < 13; j++) {
-  //         individual +=
-  //           resp.data[localCountiesIndices[i]].counties[0].historicData[j]
-  //             .positiveCt -
-  //           resp.data[localCountiesIndices[i]].counties[0].historicData[j + 1]
-  //             .positiveCt;
-  //       }
-  //       cumulative += individual / 14;
-
-  //       cumulativeRate += individualRate / 14;
-  //       console.log(individual + " --- " + individualRate);
-  //     }
-  //     // rate per 100,000
-  //     cumulativeRate = (cumulativeRate / localCountyPopulation) * 100000;
-  //     cumulative = (cumulative / localCountyPopulation) * 100000;
-  //     console.log(cumulativeRate);
-  //     console.log(cumulative);
-
-  // var date = new Date();
-  // date.setDate(date.getDate() - 2);
-  // County.updateOne(
-  //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-  //   {
-  //     $push: {
-  //       averages: {
-  //         $each: [{ date: date, caseRate: cumulativeRate }],
-  //         $position: 0,
-  //       },
-  //     },
-  //   },
-  //   (err) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log(`Added newest data for County Averages`);
-  //     }
-  //   }
-  // );
-
-  // County.updateOne(
-  //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-  //   { $pop: { averages: 1 } },
-  //   (err) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log(`Deleted oldest data for County Averages`);
-  //     }
-  //   }
-  // );
-
-  // County.updateOne(
-  //   { _id: mongoose.Types.ObjectId(`5f591319ac41821082382d4b`) },
-  //   { $set: { pingryCountiesCaseRate: cumulativeRate } },
-  //   (err) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log(`Updated 7 Day Pingry Counties Case Rate`);
-  //     }
-  //   }
-  // );
-  //   }
-  // );
-  // console.log("Finished repopulating county collections.");
+  
 }
 
 module.exports = {
   refetchAll,
   repopulateTestingCollection,
   repopulateDetailedstats,
-  // repopulateDetailedstatsHistory,
   testing,
 };
 

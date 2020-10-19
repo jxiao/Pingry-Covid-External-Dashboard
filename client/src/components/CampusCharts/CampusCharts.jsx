@@ -5,6 +5,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { Card, Col } from "react-bootstrap";
 import Aux from "../../hoc/_Aux";
 import styles from "./CampusCharts.module.css";
+import cx from "classnames"
 
 am4core.useTheme(am4themes_animated);
 class CampusCharts extends Component {
@@ -20,7 +21,7 @@ class CampusCharts extends Component {
     for (let i = 0; i < this.props.internal.averages.length; i++) {
       data.push({
         date: this.props.internal.averages[i].date,
-        value: this.props.internal.averages[i].shortHillsIsolationQuarantine,
+        value: this.props.internal.averages[i].shortHills,
       });
     }
 
@@ -67,7 +68,7 @@ class CampusCharts extends Component {
     for (let i = 0; i < this.props.internal.averages.length; i++) {
       data.push({
         date: this.props.internal.averages[i].date,
-        value: this.props.internal.averages[i].baskingRidgeIsolationQuarantine,
+        value: this.props.internal.averages[i].baskingRidge,
       });
     }
 
@@ -121,9 +122,8 @@ class CampusCharts extends Component {
           <Card>
             <Card.Body>
               <h6
-                className="mb-4"
+                className={cx("mb-4", styles.title)}
                 style={{ display: "inline-block" }}
-                className={styles.title}
               >
                 Isolation or Quarantine - Short Hills (Historical)
               </h6>
@@ -143,9 +143,8 @@ class CampusCharts extends Component {
           <Card>
             <Card.Body>
               <h6
-                className="mb-4"
+                className={cx("mb-4", styles.title)}
                 style={{ display: "inline-block" }}
-                className={styles.title}
               >
                 Isolation or Quarantine - Basking Ridge (Historical)
               </h6>
