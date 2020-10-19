@@ -81,7 +81,7 @@ export const fetchCountyTotalsDB = async function () {
  */
 export const fetchInternalPingryDB = async function () {
   try {
-    const res = await axios.get(`/detailedstats`);
+    const res = await axios.get(`/pingryInternals`);
     return res.data;
   } catch (error) {
     console.log(error);
