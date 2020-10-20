@@ -6,6 +6,7 @@ import {
   fetchCountyProjectionsDB,
   fetchDetailedStats,
   fetchTestings,
+  fetchCountyTotalsDB,
 } from "./api";
 import Aux from "./hoc/_Aux";
 import "./assets/scss/style.scss";
@@ -68,9 +69,11 @@ class App extends Component {
     const fetchedCountyProjections = await fetchCountyProjectionsDB();
     const fetchedDetailedStats = (await fetchDetailedStats())[0];
     const fetchedTestingData = (await fetchTestings())[0].data;
+    const fetchedCountyTotals = await fetchCountyTotalsDB();
     this.setState({
       statewideData: fetchedStatewideData,
       countyData: fetchedCountyData,
+      countyTotals: fetchedCountyTotals,
       internal: fetchedPingryData[0],
       fetchedCountyProjections: fetchedCountyProjections,
       countyProjections: fetchedCountyProjections[0].data,

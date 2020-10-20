@@ -40,8 +40,8 @@ app.use("/statewides", statewidesRouter);
 const countiesRouter = require("./routes/counties");
 app.use("/counties", countiesRouter);
 
-// const countyTotalsRouter = require("./routes/countyTotals");
-// app.use("/countyTotals", countyTotalsRouter);
+const countyTotalsRouter = require("./routes/countyTotals");
+app.use("/countyTotals", countyTotalsRouter);
 
 const pingryInternalsRouter = require("./routes/pingryInternals");
 app.use("/pingryInternals", pingryInternalsRouter);
@@ -192,7 +192,7 @@ async function repopulateStatewideCollection() {
  */
 async function repopulateCountyCollection() {
   const County = mongoose.model("County");
-  // const CountyTotal = mongoose.model("CountyTotal");
+  const CountyTotal = mongoose.model("CountyTotal");
   var fips = 34001;
   for (var i = 0; i < zipcodesNJ.length; i++) {
     await axios
@@ -239,6 +239,21 @@ async function repopulateCountyCollection() {
               console.log(err);
             } else {
               console.log(`Deleted oldest data for ${zipcodesNJ[i]}`);
+            }
+          }
+        );
+
+        CountyTotal.updateOne(
+          { id: fips },
+          {
+            totalCases: response.data.actuals.cases,
+          },
+          { upsert: true },
+          function (err) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(`Finished updating county total for FIPS: ${fips}`);
             }
           }
         );
@@ -835,11 +850,42 @@ async function populatePingryTesting() {
   );
 }
 
+async function temporary() {
+  // const CountyTotal = mongoose.model("CountyTotal");
+  // var fips = 34001;
+  // for (var i = 0; i < zipcodesNJ.length; i++) {
+  //   await axios
+  //     .get(
+  //       `https://api.covidactnow.org/v2/county/${fips}.json?apiKey=${apiKey}`
+  //     )
+  //     .then((response) => {
+
+  //       CountyTotal.updateOne(
+  //         { id: fips },
+  //         {
+  //           totalCases: response.data.actuals.cases,
+  //         },
+  //         { upsert: true },
+  //         function (err) {
+  //           if (err) {
+  //             console.log(err);
+  //           } else {
+  //             console.log(`Finished updating county total for FIPS: ${fips}`);
+  //           }
+  //         }
+  //       );
+  //       fips += 2;
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
+}
+
 module.exports = {
   refetchAll,
   repopulateTestingCollection,
   repopulateDetailedstats,
   populatePingryTesting,
+  temporary
 };
 
 require("make-runnable");

@@ -4,7 +4,6 @@ const countyTotalSchema = new mongoose.Schema(
   {
     name: String,
     totalCases: Number,
-    newCases: Number,
     id: Number,
   },
   { timestamps: true }

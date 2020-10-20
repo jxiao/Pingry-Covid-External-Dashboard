@@ -18,6 +18,7 @@ const CountyTable = function (props) {
   ) {
     return null;
   }
+  console.log(props.countyData);
 
   const d1 = props.countyData[0].counties[0].historicData[0];
   const d7 = props.countyData[0].counties[0].historicData[6];
