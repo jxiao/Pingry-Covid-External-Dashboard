@@ -2,17 +2,17 @@ import React, { Component } from "react";
 import {
   fetchNJStatewideDataDB,
   fetchCountyDataDB,
-  fetchCountyTotalsDB,
   fetchInternalPingryDB,
   fetchCountyProjectionsDB,
   fetchDetailedStats,
+  fetchTestings,
 } from "./api";
 import Aux from "./hoc/_Aux";
 import "./assets/scss/style.scss";
 import styles from "./App.module.css";
 import { Row, Col, Card } from "react-bootstrap";
 import ReactGA from "react-ga";
-import CountUp from "react-countup";
+
 
 // Components
 import CardSet from "./components/CardSet/CardSet";
@@ -42,7 +42,7 @@ class App extends Component {
   static TOTAL_NUM_TESTS = 1433;
   static SAMPLE_COLLECTION_DATE = new Date(2020, 10, 16);
 
-  static MONTHS = ["N/A", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  static MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
   constructor(props) {
     super(props);
@@ -55,6 +55,7 @@ class App extends Component {
       countyProjections: [],
       loading: true,
       detailedStats: [],
+      fetchedTestingData: []
     };
     ReactGA.initialize("UA-177348263-1");
     ReactGA.pageview("/");
@@ -62,21 +63,26 @@ class App extends Component {
 
   async componentDidMount() {
     const fetchedStatewideData = await fetchNJStatewideDataDB();
-    const fetchedCountyTotals = await fetchCountyTotalsDB();
     const fetchedCountyData = (await fetchCountyDataDB())[0];
     const fetchedPingryData = await fetchInternalPingryDB();
     const fetchedCountyProjections = await fetchCountyProjectionsDB();
     const fetchedDetailedStats = (await fetchDetailedStats())[0];
+    const fetchedTestingData = (await fetchTestings())[0].data;
     this.setState({
       statewideData: fetchedStatewideData,
       countyData: fetchedCountyData,
-      countyTotals: fetchedCountyTotals,
       internal: fetchedPingryData[0],
       fetchedCountyProjections: fetchedCountyProjections,
       countyProjections: fetchedCountyProjections[0].data,
       loading: false,
       detailedStats: fetchedDetailedStats,
+      fetchedTestingData: fetchedTestingData
     });
+  }
+
+  formatNum(num) {
+    const formatter = new Intl.NumberFormat('en-US');
+    return formatter.format(num);
   }
 
   render() {
@@ -130,7 +136,7 @@ class App extends Component {
               />
 
               <Row>
-              <Col md={7} className={styles.center}>
+              <Col md={9} lg={7} className={styles.center}>
                   <Card>
                     <Card.Body>
                       <h6 className={cx("mb-4", styles.smallmargin)}>Pingry's Return-to-School COVID-19 Testing</h6>
@@ -139,27 +145,44 @@ class App extends Component {
                           <h3 className="f-w-300 d-flex align-items-center m-b-0">
                             
                             <div className={cx(styles.center, styles.testing)}>
-                            Total Number of Tests Administered:&nbsp;<CountUp
-                              start={0}
-                              end={App.TOTAL_NUM_TESTS}
-                              duration={2}
-                              separator=","
-                              className={styles.right}
-                            />
-                            <br/>
-                            Number of Potentially Positive Pairs:&nbsp;<CountUp
-                              start={0}
-                              end={App.POTENTIALLY_POSITIVE_PAIRS}
-                              duration={2}
-                              separator=","
-                              className={styles.right}
-                            />
+                            <br />
+                            <table className={cx("table", styles.table)}>
+                              <thead>
+                                <tr>
+                                  <th className={styles.tableHeader}>
+                                      <p>Date of Sample Collection</p>
+                                  </th>
+                                  <th className={styles.tableHeader}>
+                                      <p>Total Number of Tests Administered</p>
+                                  </th>
+                                  <th className={styles.tableHeader}>
+                                      <p>
+                                        Number of Potentially Positive Pairs
+                                      </p>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody className={styles.smallerText}>
+                                {this.state.fetchedTestingData.map((entry, i) => {
+                                  return (<tr key={i}>
+                                  <td className={styles.smallPadding}>
+                                  {App.MONTHS[(new Date(entry.date)).getMonth()]} {(new Date(entry.date)).getDate()}, {(new Date(entry.date)).getFullYear()}
+                                  </td>
+                                  <td className={styles.smallPadding}>
+                                  {this.formatNum(entry.numTests)}
+                                  </td>
+                                  <td className={styles.smallPadding}>
+                                  {this.formatNum(entry.potentiallyPositivePairs)}
+                                  </td>
+                                </tr>)
+                                })}
+                              </tbody>
+                            </table>
                             </div>
                           </h3>
                         </div>
                         <br /><br /><br />
                       </div>
-                      <div>Date of sample collection: {App.MONTHS[App.SAMPLE_COLLECTION_DATE.getMonth()]} {App.SAMPLE_COLLECTION_DATE.getDate()}, {App.SAMPLE_COLLECTION_DATE.getFullYear()}</div>
                       <div><a
                     href="https://pingryanywhere.org/health-safety/covid-19-testing/"
                     target="_blank"

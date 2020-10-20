@@ -23,8 +23,10 @@
   background-color: #f4fbfe;
 }
 
-
-.theadTable, .tbodyTable, .trTable, .tdTable {
+.theadTable,
+.tbodyTable,
+.trTable,
+.tdTable {
   display: block !important;
 }
 .thTable {
@@ -41,7 +43,7 @@
 }
 
 .trTable:after {
-  content: '';
+  content: "";
   display: block;
   visibility: hidden;
   clear: both;
@@ -53,7 +55,8 @@
   text-align: center;
 }
 
-.tbodyTable .tdTable, .theadTable .thTable {
+.tbodyTable .tdTable,
+.theadTable .thTable {
   width: 20%;
   float: left;
 }
@@ -61,7 +64,6 @@
 p {
   margin: 0px;
 }
-
 
 .trTable .thTable {
   background-color: #dbecf0 !important;

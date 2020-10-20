@@ -16,7 +16,6 @@ class CampusCharts extends Component {
     let SHchart = am4core.create("shorthillsdiv", am4charts.XYChart);
 
     SHchart.paddingRight = 20;
-console.log(this.props.internal.averages)
     let data = [];
     for (let i = 0; i < this.props.internal.averages.length; i++) {
       data.push({

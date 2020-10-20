@@ -111,3 +111,15 @@ export const fetchDetailedStats = async function () {
     console.log(error);
   }
 };
+
+/**
+ * Fetches Pingry's Testing Data
+ */
+export const fetchTestings = async function () {
+  try {
+    const res = await axios.get(`/testing`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -81,3 +81,27 @@ h3 {
 .right {
   float: right;
 }
+
+.table {
+  text-align: center;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.smallPadding {
+  /* padding: 5px auto !important; */
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.tableHeader,
+.smallPadding {
+  vertical-align: middle !important;
+  white-space: normal !important;
+  word-break: normal !important;
+}
+
+.tableHeader {
+  color: rgb(0, 0, 0);
+  background-color: #f4f7fa;
+}
