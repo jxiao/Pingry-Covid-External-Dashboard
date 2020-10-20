@@ -40,8 +40,8 @@ app.use("/statewides", statewidesRouter);
 const countiesRouter = require("./routes/counties");
 app.use("/counties", countiesRouter);
 
-const countyTotalsRouter = require("./routes/countyTotals");
-app.use("/countyTotals", countyTotalsRouter);
+// const countyTotalsRouter = require("./routes/countyTotals");
+// app.use("/countyTotals", countyTotalsRouter);
 
 const pingryInternalsRouter = require("./routes/pingryInternals");
 app.use("/pingryInternals", pingryInternalsRouter);
@@ -60,6 +60,9 @@ app.use("/detailedstats", detailedstatsRouter);
 
 const detailedstatsHistoryRouter = require("./routes/detailedstatsHistory");
 app.use("/detailedstatsHistory", detailedstatsHistoryRouter);
+
+const testingsRouter = require("./routes/testings");
+app.use("/testing", testingsRouter);
 
 /**
  * Production mode ONLY
@@ -817,18 +820,26 @@ async function repopulateDetailedstats() {
     .catch((error) => console.log(error));
 }
 
-async function testing() {
-  const County = mongoose.model("County");
-  const CountyTotal = mongoose.model("CountyTotal");
-  const CountyProjection = mongoose.model("CountyProjection");
-  
+async function populatePingryTesting() {
+  const Testing = mongoose.model("Testing");
+  Testing.updateOne(
+    { _id: mongoose.Types.ObjectId(`5f8e07746e2b37b1565b239f`) },
+    { $push: { "data": { $each: [ { date: new Date(2020, 9, 16), numTests: 1433, potentiallyPositivePairs: 1 } ], $position: 0 } } },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`Added newest data for populatePingryTesting`);
+      }
+    }
+  );
 }
 
 module.exports = {
   refetchAll,
   repopulateTestingCollection,
   repopulateDetailedstats,
-  testing,
+  populatePingryTesting,
 };
 
 require("make-runnable");

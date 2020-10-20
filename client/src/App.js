@@ -86,6 +86,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.fetchedTestingData);
     return (
       <Aux>
         {this.state.loading ? (
