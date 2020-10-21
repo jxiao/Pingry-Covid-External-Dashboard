@@ -16,21 +16,22 @@ class CampusCharts extends Component {
     let SHchart = am4core.create("shorthillsdiv", am4charts.XYChart);
 
     SHchart.paddingRight = 20;
-    let data = [];
-    for (let i = 0; i < this.props.internal.averages.length; i++) {
-      data.push({
-        date: this.props.internal.averages[i].date,
-        value: this.props.internal.averages[i].shortHillsIsolationQuarantine,
-      });
-    }
-
+    
     // let data = [];
-    // for (let i = 1; i < this.props.detailedStats.averages.length; i++) {
+    // for (let i = 0; i < this.props.internal.averages.length; i++) {
     //   data.push({
-    //     date: this.props.detailedStats.averages[i].date,
-    //     value: this.props.detailedStats.averages[i].shortHills,
+    //     date: this.props.internal.averages[i].date,
+    //     value: this.props.internal.averages[i].shortHillsIsolationQuarantine,
     //   });
     // }
+
+    let data = [];
+    for (let i = 1; i < this.props.detailedStats.averages.length; i++) {
+      data.push({
+        date: this.props.detailedStats.averages[i].date,
+        value: this.props.detailedStats.averages[i].shortHills,
+      });
+    }
 
     SHchart.data = data;
 
@@ -63,21 +64,21 @@ class CampusCharts extends Component {
 
     BRChart.paddingRight = 20;
 
-    data = [];
-    for (let i = 0; i < this.props.internal.averages.length; i++) {
-      data.push({
-        date: this.props.internal.averages[i].date,
-        value: this.props.internal.averages[i].baskingRidgeIsolationQuarantine,
-      });
-    }
-
     // data = [];
-    // for (let i = 1; i < this.props.detailedStats.averages.length; i++) {
+    // for (let i = 0; i < this.props.internal.averages.length; i++) {
     //   data.push({
-    //     date: this.props.detailedStats.averages[i].date,
-    //     value: this.props.detailedStats.averages[i].baskingRidge,
+    //     date: this.props.internal.averages[i].date,
+    //     value: this.props.internal.averages[i].baskingRidgeIsolationQuarantine,
     //   });
     // }
+
+    data = [];
+    for (let i = 1; i < this.props.detailedStats.averages.length; i++) {
+      data.push({
+        date: this.props.detailedStats.averages[i].date,
+        value: this.props.detailedStats.averages[i].baskingRidge,
+      });
+    }
 
     BRChart.data = data;
 

@@ -7,16 +7,16 @@ import styles from "./CampusCards.module.css";
 import cx from "classnames";
 
 const CampusCards = function (props) {
-  const shortHillsPercentage = props.internal.shortHills7DayIsolationQuarantine;
-
-  const baskingRidgePercentage =
-    props.internal.baskingRidge7DayIsolationQuarantine;
-
-  // const shortHillsPercentage =
-  //   props.detailedStats.shortHills7DayIsolationQuarantine;
+  // const shortHillsPercentage = props.internal.shortHills7DayIsolationQuarantine;
 
   // const baskingRidgePercentage =
-  //   props.detailedStats.baskingRidge7DayIsolationQuarantine;
+  //   props.internal.baskingRidge7DayIsolationQuarantine;
+
+  const shortHillsPercentage =
+    props.detailedStats.shortHills7DayIsolationQuarantine;
+
+  const baskingRidgePercentage =
+    props.detailedStats.baskingRidge7DayIsolationQuarantine;
 
   return (
     <Aux>

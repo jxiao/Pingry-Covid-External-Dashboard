@@ -143,9 +143,9 @@ const apiKey = process.env.COVID_ACT_NOW_API_KEY;
 const refetchArray = [
   repopulateStatewideCollection,
   repopulateCountyCollection,
+  repopulateDetailedstats,
   repopulatePingryCollection,
   repopulateCountyProjectionsCollection,
-  repopulateDetailedstats,
   repopulateTestingCollection,
   repopulateSummarystats,
 ];
@@ -647,25 +647,6 @@ async function repopulateTestingCollection() {
           }
         }
       );
-
-      // {
-      //   percentShortHillsActiveIsolationOrQuarantine: 0,
-      //   percentBaskingRidgeActiveIsolationOrQuarantine: 0,
-      //   percentPingryActiveIsolationOrQuarantine: 0,
-      // },
-
-      //   PingryInternalTesting.updateOne(
-      //     { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
-      //     { $pop: { data: -1 } },
-      //     (err) => {
-      //       if (err) {
-      //         console.log(err);
-      //       } else {
-      //         console.log(`Deleted oldest data for PingryInternalTesting`);
-      //       }
-      //     }
-      //   );
-      //   console.log("end of testing in main");
     })
     .catch((error) => console.log("error"));
 
@@ -707,19 +688,6 @@ async function updatePingryInternalAveragesTesting() {
         }
       );
 
-      // PingryInternalTesting.updateOne(
-      //   { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
-      //   { $pop: { averages: -1 } },
-      //   (err) => {
-      //     if (err) {
-      //       console.log(err);
-      //     } else {
-      //       console.log(
-      //         `Deleted oldest data for PingryInternalTesting Averages`
-      //       );
-      //     }
-      //   }
-      // );
       PingryInternalTesting.updateOne(
         { _id: mongoose.Types.ObjectId(`5f6a32105b6ad5e143d078e5`) },
         {
@@ -851,33 +819,20 @@ async function populatePingryTesting() {
 }
 
 async function temporary() {
-  // const CountyTotal = mongoose.model("CountyTotal");
-  // var fips = 34001;
-  // for (var i = 0; i < zipcodesNJ.length; i++) {
-  //   await axios
-  //     .get(
-  //       `https://api.covidactnow.org/v2/county/${fips}.json?apiKey=${apiKey}`
-  //     )
-  //     .then((response) => {
-
-  //       CountyTotal.updateOne(
-  //         { id: fips },
-  //         {
-  //           totalCases: response.data.actuals.cases,
-  //         },
-  //         { upsert: true },
-  //         function (err) {
-  //           if (err) {
-  //             console.log(err);
-  //           } else {
-  //             console.log(`Finished updating county total for FIPS: ${fips}`);
-  //           }
-  //         }
-  //       );
-  //       fips += 2;
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
+  const Detailedstat = mongoose.model("Detailedstat");
+  Detailedstat.findById({ _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`) },
+          (err, resp) => {
+              const shortHills7DayIsolationQuarantine =
+                resp.shortHills7DayIsolationQuarantine;
+              const baskingRidge7DayIsolationQuarantine =
+                resp.baskingRidge7DayIsolationQuarantine;
+              const newData = {
+                shortHills7DayIsolationQuarantine: shortHills7DayIsolationQuarantine,
+                baskingRidge7DayIsolationQuarantine: baskingRidge7DayIsolationQuarantine,
+              };
+              console.log(newData);
+            }
+          );
 }
 
 module.exports = {
