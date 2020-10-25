@@ -5,7 +5,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { Card, Col } from "react-bootstrap";
 import Aux from "../../hoc/_Aux";
 import styles from "./Charts.module.css";
-import cx from "classnames"
+import cx from "classnames";
 
 am4core.useTheme(am4themes_animated);
 class Charts extends Component {
@@ -31,7 +31,7 @@ class Charts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0.5;
-    valueAxis.max = 1.2;
+    valueAxis.max = 1.4;
     valueAxis.strictMinMax = true;
     valueAxis.renderer.minGridDistance = 25;
 
