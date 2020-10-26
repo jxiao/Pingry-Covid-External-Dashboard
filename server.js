@@ -58,9 +58,6 @@ app.use("/pingryInternalTestings", pingryInternalTestingsRouter);
 const detailedstatsRouter = require("./routes/detailedstats");
 app.use("/detailedstats", detailedstatsRouter);
 
-const detailedstatsHistoryRouter = require("./routes/detailedstatsHistory");
-app.use("/detailedstatsHistory", detailedstatsHistoryRouter);
-
 const testingsRouter = require("./routes/testings");
 app.use("/testing", testingsRouter);
 
@@ -573,8 +570,9 @@ async function repopulateSummarystats() {
         { _id: mongoose.Types.ObjectId(`5f5022c41cf2675eca9c42d4`) },
         (err, resp) => {
           const pingryCountiesInfectionRate = resp.pingryCountiesInfectionRate;
-          Detailedstat.findById({ _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`) },
-          (err, resp) => {
+          Detailedstat.findById(
+            { _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`) },
+            (err, resp) => {
               const shortHills7DayIsolationQuarantine =
                 resp.shortHills7DayIsolationQuarantine;
               const baskingRidge7DayIsolationQuarantine =
@@ -807,7 +805,22 @@ async function populatePingryTesting() {
   const Testing = mongoose.model("Testing");
   Testing.updateOne(
     { _id: mongoose.Types.ObjectId(`5f8e07746e2b37b1565b239f`) },
-    { $push: { "data": { $each: [ { date: new Date(2020, 9, 16), numTests: 1433, potentiallyPositivePairs: 1 } ], $position: 0 } } },
+    {
+      $push: {
+        data: {
+          $each: [
+            {
+              // Month is 0 indexed
+              // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
+              date: new Date(2020, 9, 23),
+              numTests: 1426,
+              potentiallyPositivePairs: 2,
+            },
+          ],
+          $position: 0,
+        },
+      },
+    },
     (err) => {
       if (err) {
         console.log(err);
@@ -820,19 +833,20 @@ async function populatePingryTesting() {
 
 async function temporary() {
   const Detailedstat = mongoose.model("Detailedstat");
-  Detailedstat.findById({ _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`) },
-          (err, resp) => {
-              const shortHills7DayIsolationQuarantine =
-                resp.shortHills7DayIsolationQuarantine;
-              const baskingRidge7DayIsolationQuarantine =
-                resp.baskingRidge7DayIsolationQuarantine;
-              const newData = {
-                shortHills7DayIsolationQuarantine: shortHills7DayIsolationQuarantine,
-                baskingRidge7DayIsolationQuarantine: baskingRidge7DayIsolationQuarantine,
-              };
-              console.log(newData);
-            }
-          );
+  Detailedstat.findById(
+    { _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`) },
+    (err, resp) => {
+      const shortHills7DayIsolationQuarantine =
+        resp.shortHills7DayIsolationQuarantine;
+      const baskingRidge7DayIsolationQuarantine =
+        resp.baskingRidge7DayIsolationQuarantine;
+      const newData = {
+        shortHills7DayIsolationQuarantine: shortHills7DayIsolationQuarantine,
+        baskingRidge7DayIsolationQuarantine: baskingRidge7DayIsolationQuarantine,
+      };
+      console.log(newData);
+    }
+  );
 }
 
 module.exports = {
@@ -840,7 +854,7 @@ module.exports = {
   repopulateTestingCollection,
   repopulateDetailedstats,
   populatePingryTesting,
-  temporary
+  temporary,
 };
 
 require("make-runnable");

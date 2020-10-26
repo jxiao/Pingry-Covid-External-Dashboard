@@ -14,7 +14,6 @@ import styles from "./App.module.css";
 import { Row, Col, Card } from "react-bootstrap";
 import ReactGA from "react-ga";
 
-
 // Components
 import CardSet from "./components/CardSet/CardSet";
 import CountyTable from "./components/CountyTable/CountyTable";
@@ -43,7 +42,20 @@ class App extends Component {
   static TOTAL_NUM_TESTS = 1433;
   static SAMPLE_COLLECTION_DATE = new Date(2020, 10, 16);
 
-  static MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  static MONTHS = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   constructor(props) {
     super(props);
@@ -56,7 +68,7 @@ class App extends Component {
       countyProjections: [],
       loading: true,
       detailedStats: [],
-      fetchedTestingData: []
+      fetchedTestingData: [],
     };
     ReactGA.initialize("UA-177348263-1");
     ReactGA.pageview("/");
@@ -79,12 +91,12 @@ class App extends Component {
       countyProjections: fetchedCountyProjections[0].data,
       loading: false,
       detailedStats: fetchedDetailedStats,
-      fetchedTestingData: fetchedTestingData
+      fetchedTestingData: fetchedTestingData,
     });
   }
 
   formatNum(num) {
-    const formatter = new Intl.NumberFormat('en-US');
+    const formatter = new Intl.NumberFormat("en-US");
     return formatter.format(num);
   }
 
@@ -115,16 +127,18 @@ class App extends Component {
               </div>
               <Col sm={12} className={styles.center}>
                 <h3>COVID-19 Tracking Dashboard</h3>
-
                 <h6 className={styles.smallerText}>
                   Data Sources: The New York Times, CovidActNow.org, Pingry's
                   Internal Tracking Database
                 </h6>
                 <h6 className={styles.smallerText}>
-                  All values (including historical data) are updated daily at
-                  8AM
+                  Data regarding Pingry's Return-to-School COVID-19 Testing is
+                  updated upon receipt of lab results
                 </h6>
-                {/* <h6 className={styles.smallerText}>Updated daily at 8AM</h6> */}
+                <h6 className={styles.smallerText}>
+                  All other values (including historical data) are updated daily
+                  at 8AM
+                </h6>
                 <a
                   href="https://pingryanywhere.org/cms/resources/media/2020/10/Pingry-Anywhere-COVID-19-Tracking-Dashboard-Guide.pdf"
                   target="_blank"
@@ -140,60 +154,81 @@ class App extends Component {
               />
 
               <Row>
-              <Col md={9} lg={7} className={styles.center}>
+                <Col md={9} lg={7} className={styles.center}>
                   <Card>
                     <Card.Body>
-                      <h6 className={cx("mb-4", styles.smallmargin)}>Pingry's Return-to-School COVID-19 Testing</h6>
+                      <h6 className={cx("mb-4", styles.smallmargin)}>
+                        Pingry's Return-to-School COVID-19 Testing
+                      </h6>
                       <div className="row d-flex align-items-center">
                         <div className="col-12">
                           <h3 className="f-w-300 d-flex align-items-center m-b-0">
-                            
                             <div className={cx(styles.center, styles.testing)}>
-                            <br />
-                            <table className={cx("table", styles.table)}>
-                              <thead>
-                                <tr>
-                                  <th className={styles.tableHeader}>
+                              <br />
+                              <table className={cx("table", styles.table)}>
+                                <thead>
+                                  <tr>
+                                    <th className={styles.tableHeader}>
                                       <p>Date of Sample Collection</p>
-                                  </th>
-                                  <th className={styles.tableHeader}>
+                                    </th>
+                                    <th className={styles.tableHeader}>
                                       <p>Total Number of Tests Administered</p>
-                                  </th>
-                                  <th className={styles.tableHeader}>
+                                    </th>
+                                    <th className={styles.tableHeader}>
                                       <p>
                                         Number of Potentially Positive Pairs
                                       </p>
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody className={styles.smallerText}>
-                                {this.state.fetchedTestingData.map((entry, i) => {
-                                  return (<tr key={i}>
-                                  <td className={styles.smallPadding}>
-                                  {App.MONTHS[(new Date(entry.date)).getMonth()]} {(new Date(entry.date)).getDate()}, {(new Date(entry.date)).getFullYear()}
-                                  </td>
-                                  <td className={styles.smallPadding}>
-                                  {this.formatNum(entry.numTests)}
-                                  </td>
-                                  <td className={styles.smallPadding}>
-                                  {this.formatNum(entry.potentiallyPositivePairs)}
-                                  </td>
-                                </tr>)
-                                })}
-                              </tbody>
-                            </table>
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody className={styles.smallerText}>
+                                  {this.state.fetchedTestingData.map(
+                                    (entry, i) => {
+                                      return (
+                                        <tr key={i}>
+                                          <td className={styles.smallPadding}>
+                                            {
+                                              App.MONTHS[
+                                                new Date(entry.date).getMonth()
+                                              ]
+                                            }{" "}
+                                            {new Date(entry.date).getDate()},{" "}
+                                            {new Date(entry.date).getFullYear()}
+                                          </td>
+                                          <td className={styles.smallPadding}>
+                                            {this.formatNum(entry.numTests)}
+                                          </td>
+                                          <td className={styles.smallPadding}>
+                                            {this.formatNum(
+                                              entry.potentiallyPositivePairs
+                                            )}
+                                          </td>
+                                        </tr>
+                                      );
+                                    }
+                                  )}
+                                </tbody>
+                              </table>
                             </div>
                           </h3>
                         </div>
-                        <br /><br /><br />
+                        <br />
+                        <br />
+                        <br />
                       </div>
-                      <div><a
-                    href="https://pingryanywhere.org/health-safety/covid-19-testing/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Detailed information regarding Pingry's COVID-19 Testing
-                  </a></div>
+                      <div>
+                        Updated upon receipt of results from Mirimus Labs
+                      </div>
+                      <div>
+                        <a
+                          href="https://pingryanywhere.org/health-safety/covid-19-testing/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Detailed information regarding Pingry's COVID-19
+                          Testing
+                        </a>
+                      </div>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -229,14 +264,6 @@ class App extends Component {
                     rel="noopener noreferrer"
                   >
                     The New York Times
-                  </a>
-                  ,{" "}
-                  <a
-                    href="https://covidtracking.com/api/v1/states/current.json"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    The COVID Tracking Project
                   </a>
                   ,{" "}
                   <a

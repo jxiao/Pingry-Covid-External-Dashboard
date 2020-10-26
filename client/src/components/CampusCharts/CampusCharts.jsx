@@ -5,7 +5,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { Card, Col } from "react-bootstrap";
 import Aux from "../../hoc/_Aux";
 import styles from "./CampusCharts.module.css";
-import cx from "classnames"
+import cx from "classnames";
 
 am4core.useTheme(am4themes_animated);
 class CampusCharts extends Component {
@@ -16,7 +16,7 @@ class CampusCharts extends Component {
     let SHchart = am4core.create("shorthillsdiv", am4charts.XYChart);
 
     SHchart.paddingRight = 20;
-    
+
     // let data = [];
     // for (let i = 0; i < this.props.internal.averages.length; i++) {
     //   data.push({
@@ -129,7 +129,7 @@ class CampusCharts extends Component {
               </h6>
               <div className={styles.description}>
                 7 day average of % Short Hills campus individuals in isolation
-                or quarantine
+                or quarantine, subject to change based on backdated entries
               </div>
               <div
                 id="shorthillsdiv"
@@ -150,7 +150,7 @@ class CampusCharts extends Component {
               </h6>
               <div className={styles.description}>
                 7 day average of % Basking Ridge campus individuals in isolation
-                or quarantine
+                or quarantine, subject to change based on backdated entries
               </div>
               <div
                 id="baskingridgediv"
