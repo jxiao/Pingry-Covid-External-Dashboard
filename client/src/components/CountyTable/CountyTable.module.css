@@ -3,7 +3,6 @@
   overflow-y: hidden;
   height: 500px;
   margin-bottom: 30px;
-  /* width: 100%; */
 }
 
 /* Formatting text of table entries and aesthetics of last rows */
@@ -39,7 +38,6 @@
   vertical-align: middle !important;
   white-space: normal !important;
   word-break: normal !important;
-  /* position: absolute; */
 }
 
 .trTable:after {

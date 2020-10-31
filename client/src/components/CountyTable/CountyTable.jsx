@@ -3,7 +3,6 @@ import { Col, Card } from "react-bootstrap";
 
 import styles from "./CountyTable.module.css";
 import cx from "classnames";
-var ReactFitText = require("react-fittext");
 
 // Morris, Essex, Hudson, Hunterdon, Somerset and Union
 const indicesOfHighlightedCounties = [6, 8, 9, 13, 17, 19];
@@ -18,7 +17,6 @@ const CountyTable = function (props) {
   ) {
     return null;
   }
-  console.log(props.countyData);
 
   const d1 = props.countyData[0].counties[0].historicData[0];
   const d7 = props.countyData[0].counties[0].historicData[6];
@@ -41,35 +39,25 @@ const CountyTable = function (props) {
             <thead className={styles.theadTable}>
               <tr className={styles.trTable}>
                 <th className={cx(styles.thTable, styles.one)}>
-                  <ReactFitText compressor={0}>
-                    <p>County</p>
-                  </ReactFitText>
+                  <p>County</p>
                 </th>
                 <th className={cx(styles.thTable, styles.two)}>
-                  <ReactFitText compressor={0}>
-                    <p>Total Cases</p>
-                  </ReactFitText>
+                  <p>Total Cases</p>
                 </th>
                 <th className={cx(styles.thTable, styles.three)}>
-                  <ReactFitText compressor={0}>
-                    <p>
-                      New Cases ({removeYear(d1.date)} - {removeYear(d7.date)})
-                    </p>
-                  </ReactFitText>
+                  <p>
+                    New Cases ({removeYear(d1.date)} - {removeYear(d7.date)})
+                  </p>
                 </th>
                 <th className={cx(styles.thTable, styles.four)}>
-                  <ReactFitText compressor={0}>
-                    <p>
-                      New Cases ({removeYear(d8.date)} - {removeYear(d14.date)})
-                    </p>
-                  </ReactFitText>
+                  <p>
+                    New Cases ({removeYear(d8.date)} - {removeYear(d14.date)})
+                  </p>
                 </th>
                 <th className={cx(styles.thTable, styles.five)}>
-                  <ReactFitText compressor={0}>
-                    <p data-tip={"Average # of new infections per infected"}>
-                      14-day Average Infection Rate
-                    </p>
-                  </ReactFitText>
+                  <p data-tip={"Average # of new infections per infected"}>
+                    14-day Average Infection Rate
+                  </p>
                 </th>
               </tr>
             </thead>

@@ -69,6 +69,7 @@ class App extends Component {
       loading: true,
       detailedStats: [],
       fetchedTestingData: [],
+      showMore: false,
     };
     ReactGA.initialize("UA-177348263-1");
     ReactGA.pageview("/");
@@ -92,6 +93,7 @@ class App extends Component {
       loading: false,
       detailedStats: fetchedDetailedStats,
       fetchedTestingData: fetchedTestingData,
+      showMore: false,
     });
   }
 
@@ -101,7 +103,14 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.fetchedTestingData);
+    let icon = (
+      <button
+        className={styles.testingButton}
+        onClick={() => this.setState({ showMore: !this.state.showMore })}
+      >
+        {this.state.showMore ? "Show Less" : "Show More"}
+      </button>
+    );
     return (
       <Aux>
         {this.state.loading ? (
@@ -185,7 +194,15 @@ class App extends Component {
                                   {this.state.fetchedTestingData.map(
                                     (entry, i) => {
                                       return (
-                                        <tr key={i}>
+                                        <tr
+                                          style={{
+                                            display:
+                                              i < 3 || this.state.showMore
+                                                ? "table-row"
+                                                : "none",
+                                          }}
+                                          key={i}
+                                        >
                                           <td className={styles.smallPadding}>
                                             {
                                               App.MONTHS[
@@ -216,6 +233,7 @@ class App extends Component {
                         <br />
                         <br />
                       </div>
+                      {icon}
                       <div>
                         Updated upon receipt of results from Mirimus Labs
                       </div>
