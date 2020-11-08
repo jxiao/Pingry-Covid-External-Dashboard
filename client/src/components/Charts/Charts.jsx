@@ -71,7 +71,7 @@ class Charts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0;
-    valueAxis.max = 20;
+    valueAxis.max = 25;
     valueAxis.strictMinMax = true;
 
     series = CRchart.series.push(new am4charts.LineSeries());
