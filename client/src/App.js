@@ -34,8 +34,9 @@ class App extends Component {
   // 1 --> open
   // 2 --> reduced density
   // 3 --> fully remote
-  static SHORT_HILLS_LEVEL = 1;
-  static BASKING_RIDGE_LEVEL = 3;
+  // 0 --> special (atm: Fully Remote for Re-Entry)
+  static SHORT_HILLS_LEVEL = 0;
+  static BASKING_RIDGE_LEVEL = 0;
 
   // TESTING RESULTS
   static POTENTIALLY_POSITIVE_PAIRS = 1;

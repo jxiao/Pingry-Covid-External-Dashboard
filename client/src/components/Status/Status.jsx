@@ -22,6 +22,10 @@ const Status = function (props) {
       shortHillsText = "Level 3: Fully Remote";
       shortHillsBg = styles.veryHigh;
       break;
+    case 0:
+      shortHillsText = "Fully Remote for Re-Entry";
+      shortHillsBg = styles.moderate;
+      break;
     default:
       console.log("Unaccount status found.");
   }
@@ -43,6 +47,10 @@ const Status = function (props) {
     case 3:
       baskingRidgeText = "Level 3: Fully Remote";
       baskingRidgeBg = styles.veryHigh;
+      break;
+    case 0:
+      baskingRidgeText = "Fully Remote for Re-Entry";
+      baskingRidgeBg = styles.moderate;
       break;
     default:
       console.log("Unaccount status found.");
