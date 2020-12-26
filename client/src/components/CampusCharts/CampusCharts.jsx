@@ -9,33 +9,58 @@ import cx from "classnames";
 
 am4core.useTheme(am4themes_animated);
 class CampusCharts extends Component {
-  static AXIS_MAX = 30;
-
   async componentDidMount() {
+    // Default max axis
+    let axis_max = 25;
+
     /**
-     * SHORT HILLS CHART
+     * SHORT HILLS DATA FETCHING
      */
     let SHchart = am4core.create("shorthillsdiv", am4charts.XYChart);
 
     SHchart.paddingRight = 20;
 
-    // let data = [];
-    // for (let i = 0; i < this.props.internal.averages.length; i++) {
-    //   data.push({
-    //     date: this.props.internal.averages[i].date,
-    //     value: this.props.internal.averages[i].shortHillsIsolationQuarantine,
-    //   });
-    // }
-
-    let data = [];
+    let sh_data = [];
     for (let i = 1; i < this.props.detailedStats.averages.length; i++) {
-      data.push({
+      axis_max =
+        Math.ceil(
+          Math.max(
+            axis_max,
+            1.05 * this.props.detailedStats.averages[i].shortHills
+          ) / 5
+        ) * 5;
+      sh_data.push({
         date: this.props.detailedStats.averages[i].date,
         value: this.props.detailedStats.averages[i].shortHills,
       });
     }
 
-    SHchart.data = data;
+    /**
+     * BASKING RIDGE DATA FETCHING
+     */
+    let BRChart = am4core.create("baskingridgediv", am4charts.XYChart);
+
+    BRChart.paddingRight = 20;
+
+    let br_data = [];
+    for (let i = 1; i < this.props.detailedStats.averages.length; i++) {
+      axis_max =
+        Math.ceil(
+          Math.max(
+            axis_max,
+            1.05 * this.props.detailedStats.averages[i].baskingRidge
+          ) / 5
+        ) * 5;
+      br_data.push({
+        date: this.props.detailedStats.averages[i].date,
+        value: this.props.detailedStats.averages[i].baskingRidge,
+      });
+    }
+
+    /**
+     * SHORT HILLS CHART MOUNTING
+     */
+    SHchart.data = sh_data;
 
     let dateAxis = SHchart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.grid.template.location = 0;
@@ -44,7 +69,7 @@ class CampusCharts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0;
-    valueAxis.max = CampusCharts.AXIS_MAX;
+    valueAxis.max = axis_max;
     valueAxis.strictMinMax = true;
 
     let series = SHchart.series.push(new am4charts.LineSeries());
@@ -60,29 +85,9 @@ class CampusCharts extends Component {
     this.SHchart = SHchart;
 
     /**
-     * BASKING RIDGE CHART
+     * BASKING RIDGE CHART MOUNTING
      */
-    let BRChart = am4core.create("baskingridgediv", am4charts.XYChart);
-
-    BRChart.paddingRight = 20;
-
-    // data = [];
-    // for (let i = 0; i < this.props.internal.averages.length; i++) {
-    //   data.push({
-    //     date: this.props.internal.averages[i].date,
-    //     value: this.props.internal.averages[i].baskingRidgeIsolationQuarantine,
-    //   });
-    // }
-
-    data = [];
-    for (let i = 1; i < this.props.detailedStats.averages.length; i++) {
-      data.push({
-        date: this.props.detailedStats.averages[i].date,
-        value: this.props.detailedStats.averages[i].baskingRidge,
-      });
-    }
-
-    BRChart.data = data;
+    BRChart.data = br_data;
 
     dateAxis = BRChart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.grid.template.location = 0;
@@ -91,7 +96,7 @@ class CampusCharts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0;
-    valueAxis.max = CampusCharts.AXIS_MAX;
+    valueAxis.max = axis_max;
     valueAxis.strictMinMax = true;
 
     series = BRChart.series.push(new am4charts.LineSeries());
