@@ -9,6 +9,8 @@ import cx from "classnames";
 
 am4core.useTheme(am4themes_animated);
 class CampusCharts extends Component {
+  static AXIS_MAX = 30;
+
   async componentDidMount() {
     /**
      * SHORT HILLS CHART
@@ -42,7 +44,7 @@ class CampusCharts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0;
-    valueAxis.max = 25;
+    valueAxis.max = CampusCharts.AXIS_MAX;
     valueAxis.strictMinMax = true;
 
     let series = SHchart.series.push(new am4charts.LineSeries());
@@ -89,7 +91,7 @@ class CampusCharts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0;
-    valueAxis.max = 25;
+    valueAxis.max = CampusCharts.AXIS_MAX;
     valueAxis.strictMinMax = true;
 
     series = BRChart.series.push(new am4charts.LineSeries());
