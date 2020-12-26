@@ -10,12 +10,24 @@ import cx from "classnames";
 am4core.useTheme(am4themes_animated);
 class Charts extends Component {
   async componentDidMount() {
+    /**
+     * CASE RATE CHART
+     */
     let IRchart = am4core.create("infectionratediv", am4charts.XYChart);
+    let ir_baseline = 1.2;
 
     IRchart.paddingRight = 20;
 
     let data = [];
     for (let i = 0; i < this.props.IRAverages.length; i++) {
+      ir_baseline = Math.max(
+        ir_baseline,
+        parseFloat(
+          (Math.ceil((1.05 * this.props.IRAverages[i].Rt) / 0.1) * 0.1).toFixed(
+            1
+          )
+        )
+      );
       data.push({
         date: this.props.IRAverages[i].date,
         value: this.props.IRAverages[i].Rt,
@@ -31,7 +43,7 @@ class Charts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0.5;
-    valueAxis.max = 1.4;
+    valueAxis.max = ir_baseline;
     valueAxis.strictMinMax = true;
     valueAxis.renderer.minGridDistance = 25;
 
@@ -51,11 +63,15 @@ class Charts extends Component {
      * CASE RATE CHART
      */
     let CRchart = am4core.create("caseratediv", am4charts.XYChart);
-
+    let cr_baseline = 40;
     CRchart.paddingRight = 20;
 
     data = [];
     for (let i = 0; i < this.props.CRAverages.length; i++) {
+      cr_baseline =
+        Math.ceil(
+          Math.max(cr_baseline, 1.05 * this.props.CRAverages[i].caseRate) / 10
+        ) * 10;
       data.push({
         date: this.props.CRAverages[i].date,
         value: this.props.CRAverages[i].caseRate,
@@ -71,7 +87,7 @@ class Charts extends Component {
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
     valueAxis.min = 0;
-    valueAxis.max = 60;
+    valueAxis.max = cr_baseline;
     valueAxis.strictMinMax = true;
 
     series = CRchart.series.push(new am4charts.LineSeries());
