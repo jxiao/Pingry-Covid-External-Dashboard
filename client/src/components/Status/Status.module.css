@@ -12,7 +12,7 @@
 .roundRectangle {
   display: table;
   height: 80px;
-  /* min-width: 300px; */
+  min-width: 300px;
   border-radius: 50px;
   -webkit-box-shadow: 3px 4px 18px 3px #878787;
   box-shadow: 3px 4px 18px 3px #878787;

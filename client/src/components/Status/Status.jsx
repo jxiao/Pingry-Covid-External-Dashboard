@@ -23,7 +23,7 @@ const Status = function (props) {
       shortHillsBg = styles.veryHigh;
       break;
     case 0:
-      shortHillsText = "Fully Remote for Re-Entry";
+      shortHillsText = "Fully Remote";
       shortHillsBg = styles.moderate;
       break;
     default:
@@ -49,7 +49,7 @@ const Status = function (props) {
       baskingRidgeBg = styles.veryHigh;
       break;
     case 0:
-      baskingRidgeText = "Fully Remote for Re-Entry";
+      baskingRidgeText = "Fully Remote";
       baskingRidgeBg = styles.moderate;
       break;
     default:
