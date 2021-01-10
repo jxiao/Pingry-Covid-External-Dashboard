@@ -24,7 +24,7 @@ const Status = function (props) {
       break;
     case 0:
       shortHillsText = "Fully Remote";
-      shortHillsBg = styles.moderate;
+      shortHillsBg = styles.special;
       break;
     default:
       console.log("Unaccount status found.");
@@ -50,7 +50,7 @@ const Status = function (props) {
       break;
     case 0:
       baskingRidgeText = "Fully Remote";
-      baskingRidgeBg = styles.moderate;
+      baskingRidgeBg = styles.special;
       break;
     default:
       console.log("Unaccount status found.");

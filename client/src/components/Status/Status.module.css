@@ -38,6 +38,12 @@
   color: white;
 }
 
+.special {
+  /* background-color: #ff0b00; */
+  background-color: #d8253d;
+  color: white;
+}
+
 .default {
   background-color: #61dafb;
 }
