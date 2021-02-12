@@ -167,6 +167,17 @@ const TestingChart = function (props) {
               </h3>
             </div>
           </div>
+          <br />
+          <div>Updated upon receipt of results from Mirimus Labs</div>
+          <div>
+            <a
+              href="https://pingryanywhere.org/health-safety/covid-19-testing/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Detailed information regarding Pingry's COVID-19 Testing
+            </a>
+          </div>
         </Card.Body>
       </Card>
     </Col>
