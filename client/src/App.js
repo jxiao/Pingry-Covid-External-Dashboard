@@ -181,25 +181,60 @@ class App extends Component {
                               <table className={cx("table", styles.table)}>
                                 <thead>
                                   <tr>
-                                    <th className={styles.tableHeader}>
+                                    <th
+                                      className={cx(
+                                        styles.tableHeader,
+                                        styles.hoverable
+                                      )}
+                                    >
                                       <p>Date of Sample Collection</p>
                                     </th>
-                                    <th className={styles.tableHeader}>
+                                    <th
+                                      className={cx(
+                                        styles.tableHeader,
+                                        styles.hoverable
+                                      )}
+                                    >
                                       <p>Total Tests Administered</p>
                                     </th>
-                                    <th className={styles.tableHeader}>
+                                    <th
+                                      className={cx(
+                                        styles.tableHeader,
+                                        styles.hoverable
+                                      )}
+                                    >
                                       <p>Total Positive Cases</p>
                                     </th>
-                                    <th className={styles.tableHeader}>
+                                    <th
+                                      className={cx(
+                                        styles.tableHeader,
+                                        styles.hoverable
+                                      )}
+                                    >
                                       <p>Short Hills Students</p>
                                     </th>
-                                    <th className={styles.tableHeader}>
+                                    <th
+                                      className={cx(
+                                        styles.tableHeader,
+                                        styles.hoverable
+                                      )}
+                                    >
                                       <p>Short Hills Faculty & Staff</p>
                                     </th>
-                                    <th className={styles.tableHeader}>
+                                    <th
+                                      className={cx(
+                                        styles.tableHeader,
+                                        styles.hoverable
+                                      )}
+                                    >
                                       <p>Basking Ridge Students</p>
                                     </th>
-                                    <th className={styles.tableHeader}>
+                                    <th
+                                      className={cx(
+                                        styles.tableHeader,
+                                        styles.hoverable
+                                      )}
+                                    >
                                       <p>Basking Ridge Faculty & Staff</p>
                                     </th>
                                   </tr>
@@ -218,28 +253,63 @@ class App extends Component {
                                           }}
                                           key={i}
                                         >
-                                          <td className={styles.smallPadding}>
+                                          <td
+                                            className={cx(
+                                              styles.smallPadding,
+                                              styles.hoverable
+                                            )}
+                                          >
                                             {date.getMonth() +
                                               1 +
                                               "/" +
                                               date.getDate()}
                                           </td>
-                                          <td className={styles.smallPadding}>
+                                          <td
+                                            className={cx(
+                                              styles.smallPadding,
+                                              styles.hoverable
+                                            )}
+                                          >
                                             {this.formatNum(entry.numTests)}
                                           </td>
-                                          <td className={styles.smallPadding}>
+                                          <td
+                                            className={cx(
+                                              styles.smallPadding,
+                                              styles.hoverable
+                                            )}
+                                          >
                                             {Math.floor(Math.random() * 50)}
                                           </td>
-                                          <td className={styles.smallPadding}>
+                                          <td
+                                            className={cx(
+                                              styles.smallPadding,
+                                              styles.hoverable
+                                            )}
+                                          >
                                             {Math.floor(Math.random() * 50)}
                                           </td>
-                                          <td className={styles.smallPadding}>
+                                          <td
+                                            className={cx(
+                                              styles.smallPadding,
+                                              styles.hoverable
+                                            )}
+                                          >
                                             {Math.floor(Math.random() * 50)}
                                           </td>
-                                          <td className={styles.smallPadding}>
+                                          <td
+                                            className={cx(
+                                              styles.smallPadding,
+                                              styles.hoverable
+                                            )}
+                                          >
                                             {Math.floor(Math.random() * 50)}
                                           </td>
-                                          <td className={styles.smallPadding}>
+                                          <td
+                                            className={cx(
+                                              styles.smallPadding,
+                                              styles.hoverable
+                                            )}
+                                          >
                                             {Math.floor(Math.random() * 50)}
                                           </td>
                                         </tr>
