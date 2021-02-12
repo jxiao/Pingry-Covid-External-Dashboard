@@ -1,0 +1,97 @@
+/* Header Logo */
+.center {
+  margin: auto;
+  text-align: center;
+}
+
+.smallerText {
+  font-size: 1rem;
+}
+
+.smallerText {
+  font-size: 1rem;
+}
+
+/* Individual card icons */
+.icon {
+  float: right;
+  height: 100px;
+  width: 100px;
+}
+
+/* Text formatting */
+h2,
+h3 {
+  text-align: center;
+  font-weight: 900;
+}
+
+.change {
+  font-size: 18px !important;
+}
+
+.smallmargin {
+  margin-bottom: 0 !important;
+}
+
+.testing {
+  font-size: 1.2rem !important;
+  text-align: left;
+  overflow-x: scroll;
+}
+
+.right {
+  float: right;
+}
+
+.table {
+  text-align: center;
+  table-layout: fixed;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.smallPadding {
+  /* padding: 5px auto !important; */
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.tableHeader,
+.smallPadding {
+  vertical-align: middle !important;
+  white-space: normal !important;
+  word-break: normal !important;
+}
+
+.tableHeader {
+  color: rgb(0, 0, 0);
+  background-color: #f4f7fa;
+  width: 75px;
+}
+
+.testingButton {
+  background-color: #dbecf0;
+  border-color: rgba(0, 0, 0, 0.125);
+  border-radius: 5px;
+  box-shadow: none;
+  border-width: 1px;
+  margin-bottom: 5px;
+}
+
+.labelColumn {
+  width: 200px;
+}
+
+td {
+  border-bottom: 1px solid #eaeaea;
+}
+
+th:hover,
+td:not(.empty):hover {
+  background-color: #eaeaea;
+}
+
+.rowTitle {
+  font-weight: 500;
+}

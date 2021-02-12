@@ -22,12 +22,14 @@ import Charts from "./components/Charts/Charts";
 import CampusCharts from "./components/CampusCharts/CampusCharts";
 import Status from "./components/Status/Status";
 import CampusCards from "./components/CampusCards/CampusCards";
+import TestingChart from "./components/TestingChart/TestingChart";
 
 // Images + accessories
 import PingryAnywhere from "./assets/images/PingryAnywhere";
 import Spinner from "react-spinkit";
 import FadeIn from "react-fade-in";
 import cx from "classnames";
+// import Testing from "../../models/testing.model";
 
 class App extends Component {
   // LEVELS
@@ -165,6 +167,7 @@ class App extends Component {
               />
 
               <Row>
+                <TestingChart testingData={this.state.fetchedTestingData} />
                 <Col md={9} lg={7} className={styles.center}>
                   <Card>
                     <Card.Body>
