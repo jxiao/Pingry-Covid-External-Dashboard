@@ -76,6 +76,7 @@ h3 {
 .testing {
   font-size: 1.2rem !important;
   text-align: left;
+  overflow-x: scroll;
 }
 
 .right {
@@ -114,6 +115,10 @@ h3 {
   box-shadow: none;
   border-width: 1px;
   margin-bottom: 5px;
+}
+
+.hoverable {
+  width: 100px;
 }
 
 .hoverable:not(.empty):hover {
