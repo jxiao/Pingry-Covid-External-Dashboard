@@ -167,6 +167,108 @@ class App extends Component {
               />
 
               <Row>
+                <Col md={9} lg={7} className={styles.center}>
+                  <Card>
+                    <Card.Body>
+                      <h6 className={cx("mb-4", styles.smallmargin)}>
+                        Pingry's Return-to-School COVID-19 Testing
+                      </h6>
+                      <div className="row d-flex align-items-center">
+                        <div className="col-12">
+                          <h3 className="f-w-300 d-flex align-items-center m-b-0">
+                            <div className={cx(styles.center, styles.testing)}>
+                              <br />
+                              <table className={cx("table", styles.table)}>
+                                <thead>
+                                  <tr>
+                                    <th className={styles.tableHeader}>
+                                      <p>Date of Sample Collection</p>
+                                    </th>
+                                    <th className={styles.tableHeader}>
+                                      <p>Total Tests Administered</p>
+                                    </th>
+                                    <th className={styles.tableHeader}>
+                                      <p>Total Positive Cases</p>
+                                    </th>
+                                    <th className={styles.tableHeader}>
+                                      <p>Short Hills Students</p>
+                                    </th>
+                                    <th className={styles.tableHeader}>
+                                      <p>Short Hills Faculty & Staff</p>
+                                    </th>
+                                    <th className={styles.tableHeader}>
+                                      <p>Basking Ridge Students</p>
+                                    </th>
+                                    <th className={styles.tableHeader}>
+                                      <p>Basking Ridge Faculty & Staff</p>
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody className={styles.smallerText}>
+                                  {this.state.fetchedTestingData.map(
+                                    (entry, i) => {
+                                      const date = new Date(entry.date);
+                                      return (
+                                        <tr
+                                          style={{
+                                            display:
+                                              i < 3 || this.state.showMore
+                                                ? "table-row"
+                                                : "none",
+                                          }}
+                                          key={i}
+                                        >
+                                          <td className={styles.smallPadding}>
+                                            {date.getMonth() +
+                                              1 +
+                                              "/" +
+                                              date.getDate()}
+                                          </td>
+                                          <td className={styles.smallPadding}>
+                                            {this.formatNum(entry.numTests)}
+                                          </td>
+                                          <td className={styles.smallPadding}>
+                                            {Math.floor(Math.random() * 50)}
+                                          </td>
+                                          <td className={styles.smallPadding}>
+                                            {Math.floor(Math.random() * 50)}
+                                          </td>
+                                          <td className={styles.smallPadding}>
+                                            {Math.floor(Math.random() * 50)}
+                                          </td>
+                                          <td className={styles.smallPadding}>
+                                            {Math.floor(Math.random() * 50)}
+                                          </td>
+                                          <td className={styles.smallPadding}>
+                                            {Math.floor(Math.random() * 50)}
+                                          </td>
+                                        </tr>
+                                      );
+                                    }
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
+                          </h3>
+                        </div>
+                      </div>
+                      {icon}
+                      <div>
+                        Updated upon receipt of results from Mirimus Labs
+                      </div>
+                      <div>
+                        <a
+                          href="https://pingryanywhere.org/health-safety/covid-19-testing/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Detailed information regarding Pingry's COVID-19
+                          Testing
+                        </a>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
                 <TestingChart testingData={this.state.fetchedTestingData} />
                 <Col md={9} lg={7} className={styles.center}>
                   <Card>
