@@ -15,37 +15,37 @@ const TestingChart = function (props) {
   for (var i = 6; i >= 0; i--) {
     const date = new Date(props.testingData[i].date);
     headers.push(
-      <th className={styles.tableHeader} key={i}>
+      <th className={cx(styles.tableHeader, styles.hoverable)} key={i}>
         <p>{date.getMonth() + 1 + "/" + date.getDate()}</p>
       </th>
     );
     totalTestsAdministered.push(
-      <td className={styles.smallPadding} key={i}>
+      <td className={cx(styles.smallPadding, styles.hoverable)} key={i}>
         {props.testingData[i].numTests}
       </td>
     );
     numberPositiveCases.push(
-      <td className={styles.smallPadding} key={i}>
+      <td className={cx(styles.smallPadding, styles.hoverable)} key={i}>
         {Math.floor(Math.random() * 50)}
       </td>
     );
     baskingRidgeStudents.push(
-      <td className={styles.smallPadding} key={i}>
+      <td className={cx(styles.smallPadding, styles.hoverable)} key={i}>
         {Math.floor(Math.random() * 50)}
       </td>
     );
     baskingRidgeFacultyStaff.push(
-      <td className={styles.smallPadding} key={i}>
+      <td className={cx(styles.smallPadding, styles.hoverable)} key={i}>
         {Math.floor(Math.random() * 50)}
       </td>
     );
     shortHillsStudents.push(
-      <td className={styles.smallPadding} key={i}>
+      <td className={cx(styles.smallPadding, styles.hoverable)} key={i}>
         {Math.floor(Math.random() * 50)}
       </td>
     );
     shortHillsFacultyStaff.push(
-      <td className={styles.smallPadding} key={i}>
+      <td className={cx(styles.smallPadding, styles.hoverable)} key={i}>
         {Math.floor(Math.random() * 50)}
       </td>
     );
@@ -78,10 +78,11 @@ const TestingChart = function (props) {
                           className={cx(
                             styles.smallPadding,
                             styles.tableHeader,
-                            styles.rowTitle
+                            styles.rowTitle,
+                            styles.hoverable
                           )}
                         >
-                          Total tests administered
+                          Total Tests Administered
                         </td>
                         {totalTestsAdministered}
                       </tr>
@@ -90,7 +91,8 @@ const TestingChart = function (props) {
                           className={cx(
                             styles.smallPadding,
                             styles.tableHeader,
-                            styles.rowTitle
+                            styles.rowTitle,
+                            styles.hoverable
                           )}
                         >
                           Number of Positive Cases
@@ -107,7 +109,8 @@ const TestingChart = function (props) {
                           className={cx(
                             styles.smallPadding,
                             styles.tableHeader,
-                            styles.rowTitle
+                            styles.rowTitle,
+                            styles.hoverable
                           )}
                         >
                           Basking Ridge Students
@@ -119,7 +122,8 @@ const TestingChart = function (props) {
                           className={cx(
                             styles.smallPadding,
                             styles.tableHeader,
-                            styles.rowTitle
+                            styles.rowTitle,
+                            styles.hoverable
                           )}
                         >
                           Basking Ridge Faculty & Staff
@@ -136,7 +140,8 @@ const TestingChart = function (props) {
                           className={cx(
                             styles.smallPadding,
                             styles.tableHeader,
-                            styles.rowTitle
+                            styles.rowTitle,
+                            styles.hoverable
                           )}
                         >
                           Short Hills Students
@@ -148,7 +153,8 @@ const TestingChart = function (props) {
                           className={cx(
                             styles.smallPadding,
                             styles.tableHeader,
-                            styles.rowTitle
+                            styles.rowTitle,
+                            styles.hoverable
                           )}
                         >
                           Short Hills Faculty & Staff

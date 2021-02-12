@@ -83,12 +83,11 @@ h3 {
   width: 200px;
 }
 
-td {
+.hoverable {
   border-bottom: 1px solid #eaeaea;
 }
 
-th:hover,
-td:not(.empty):hover {
+.hoverable:not(.empty):hover {
   background-color: #eaeaea;
 }
 
