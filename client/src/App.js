@@ -7,6 +7,7 @@ import {
   fetchDetailedStats,
   fetchTestings,
   fetchCountyTotalsDB,
+  fetchUpdatedTestings,
 } from "./api";
 import Aux from "./hoc/_Aux";
 import "./assets/scss/style.scss";
@@ -72,7 +73,9 @@ class App extends Component {
       loading: true,
       detailedStats: [],
       fetchedTestingData: [],
+      fetchedUpdatedTestingData: [],
       showMore: false,
+      entriesShown: 3,
     };
     ReactGA.initialize("UA-177348263-1");
     ReactGA.initialize("UA-186911504-1");
@@ -87,6 +90,7 @@ class App extends Component {
     const fetchedDetailedStats = (await fetchDetailedStats())[0];
     const fetchedTestingData = (await fetchTestings())[0].data;
     const fetchedCountyTotals = await fetchCountyTotalsDB();
+    const fetchedUpdatedTestingData = (await fetchUpdatedTestings())[0].data;
     this.setState({
       statewideData: fetchedStatewideData,
       countyData: fetchedCountyData,
@@ -97,7 +101,9 @@ class App extends Component {
       loading: false,
       detailedStats: fetchedDetailedStats,
       fetchedTestingData: fetchedTestingData,
+      fetchedUpdatedTestingData: fetchedUpdatedTestingData,
       showMore: false,
+      entriesShown: 3,
     });
   }
 
@@ -107,14 +113,72 @@ class App extends Component {
   }
 
   render() {
-    let icon = (
+    let showMoreButton = (
       <button
         className={styles.testingButton}
-        onClick={() => this.setState({ showMore: !this.state.showMore })}
+        onClick={() =>
+          this.setState({
+            showMore: !this.state.showMore,
+            entriesShown: !this.state.showMore
+              ? this.state.entriesShown + 10
+              : 3,
+          })
+        }
       >
         {this.state.showMore ? "Show Less" : "Show More"}
       </button>
     );
+
+    let showMoreRowsButton = (
+      <button
+        style={{ marginRight: "1rem", marginTop: "0.5rem" }}
+        className={styles.testingButton}
+        onClick={() =>
+          this.setState({
+            // Pick nearest multiple of 10 or maximum number of rows
+            entriesShown: Math.min(
+              Math.floor((this.state.entriesShown + 10) / 10) * 10,
+              this.state.fetchedUpdatedTestingData.length +
+                this.state.fetchedTestingData.length
+            ),
+          })
+        }
+        disabled={
+          this.state.entriesShown >=
+          this.state.fetchedUpdatedTestingData.length +
+            this.state.fetchedTestingData.length
+        }
+      >
+        Show{" "}
+        {Math.min(
+          Math.floor((this.state.entriesShown + 10) / 10) * 10,
+          this.state.fetchedUpdatedTestingData.length +
+            this.state.fetchedTestingData.length
+        ) - this.state.entriesShown}{" "}
+        More
+      </button>
+    );
+
+    let showFewerRowsButton = (
+      <button
+        className={styles.testingButton}
+        onClick={() =>
+          this.setState({
+            entriesShown: Math.max(
+              3,
+              Math.ceil((this.state.entriesShown - 10) / 10) * 10
+            ),
+          })
+        }
+        disabled={this.state.entriesShown <= 3}
+      >
+        Show{" "}
+        {this.state.entriesShown -
+          Math.max(3, Math.ceil((this.state.entriesShown - 10) / 10) * 10)}{" "}
+        Fewer
+      </button>
+    );
+
     return (
       <Aux>
         {this.state.loading ? (
@@ -200,7 +264,8 @@ class App extends Component {
                                     <th
                                       className={cx(
                                         styles.tableHeader,
-                                        styles.hoverable
+                                        styles.hoverable,
+                                        styles.separator
                                       )}
                                     >
                                       <p>Total Positive Cases</p>
@@ -240,7 +305,7 @@ class App extends Component {
                                   </tr>
                                 </thead>
                                 <tbody className={styles.smallerText}>
-                                  {this.state.fetchedTestingData.map(
+                                  {this.state.fetchedUpdatedTestingData.map(
                                     (entry, i) => {
                                       const date = new Date(entry.date);
                                       return (
@@ -275,10 +340,13 @@ class App extends Component {
                                           <td
                                             className={cx(
                                               styles.smallPadding,
-                                              styles.hoverable
+                                              styles.hoverable,
+                                              styles.separator
                                             )}
                                           >
-                                            {Math.floor(Math.random() * 50)}
+                                            {this.formatNum(
+                                              entry.totalPositiveCases
+                                            )}
                                           </td>
                                           <td
                                             className={cx(
@@ -286,7 +354,9 @@ class App extends Component {
                                               styles.hoverable
                                             )}
                                           >
-                                            {Math.floor(Math.random() * 50)}
+                                            {this.formatNum(
+                                              entry.shortHillsStudents
+                                            )}
                                           </td>
                                           <td
                                             className={cx(
@@ -294,7 +364,9 @@ class App extends Component {
                                               styles.hoverable
                                             )}
                                           >
-                                            {Math.floor(Math.random() * 50)}
+                                            {this.formatNum(
+                                              entry.shortHillsFacultyStaff
+                                            )}
                                           </td>
                                           <td
                                             className={cx(
@@ -302,7 +374,9 @@ class App extends Component {
                                               styles.hoverable
                                             )}
                                           >
-                                            {Math.floor(Math.random() * 50)}
+                                            {this.formatNum(
+                                              entry.baskingRidgeStudents
+                                            )}
                                           </td>
                                           <td
                                             className={cx(
@@ -310,11 +384,107 @@ class App extends Component {
                                               styles.hoverable
                                             )}
                                           >
-                                            {Math.floor(Math.random() * 50)}
+                                            {this.formatNum(
+                                              entry.baskingRidgeFacultyStaff
+                                            )}
                                           </td>
                                         </tr>
                                       );
                                     }
+                                  )}
+
+                                  {this.state.fetchedUpdatedTestingData.length <
+                                    this.state.entriesShown && (
+                                    <>
+                                      <tr>
+                                        <td
+                                          className={cx(
+                                            styles.tableHeader,
+                                            styles.hoverable
+                                          )}
+                                        >
+                                          <p>Date of Sample Collection</p>
+                                        </td>
+                                        <td
+                                          className={cx(
+                                            styles.tableHeader,
+                                            styles.hoverable
+                                          )}
+                                        >
+                                          <p>Total Tests Administered</p>
+                                        </td>
+                                        <td
+                                          className={cx(
+                                            styles.tableHeader,
+                                            styles.hoverable,
+                                            styles.separator
+                                          )}
+                                        >
+                                          <p>
+                                            Number of Potentially Positive Pairs
+                                          </p>
+                                        </td>
+                                        <td className={styles.empty}></td>
+                                        <td className={styles.empty}></td>
+                                        <td className={styles.empty}></td>
+                                        <td className={styles.empty}></td>
+                                      </tr>
+                                      {this.state.fetchedTestingData.map(
+                                        (entry, i) => {
+                                          const date = new Date(entry.date);
+                                          return (
+                                            <tr
+                                              style={{
+                                                display:
+                                                  i +
+                                                    this.state
+                                                      .fetchedUpdatedTestingData
+                                                      .length <
+                                                  this.state.entriesShown
+                                                    ? "table-row"
+                                                    : "none",
+                                              }}
+                                              key={i}
+                                            >
+                                              <td
+                                                className={cx(
+                                                  styles.smallPadding,
+                                                  styles.hoverable
+                                                )}
+                                              >
+                                                {date.getMonth() +
+                                                  1 +
+                                                  "/" +
+                                                  date.getDate()}
+                                              </td>
+                                              <td
+                                                className={cx(
+                                                  styles.smallPadding,
+                                                  styles.hoverable
+                                                )}
+                                              >
+                                                {this.formatNum(entry.numTests)}
+                                              </td>
+                                              <td
+                                                className={cx(
+                                                  styles.smallPadding,
+                                                  styles.hoverable,
+                                                  styles.separator
+                                                )}
+                                              >
+                                                {this.formatNum(
+                                                  entry.potentiallyPositivePairs
+                                                )}
+                                              </td>
+                                              <td className={styles.empty}></td>
+                                              <td className={styles.empty}></td>
+                                              <td className={styles.empty}></td>
+                                              <td className={styles.empty}></td>
+                                            </tr>
+                                          );
+                                        }
+                                      )}
+                                    </>
                                   )}
                                 </tbody>
                               </table>
@@ -322,7 +492,8 @@ class App extends Component {
                           </h3>
                         </div>
                       </div>
-                      {icon}
+                      {showMoreRowsButton}
+                      {showFewerRowsButton}
                       <div>
                         Updated upon receipt of results from Mirimus Labs
                       </div>
@@ -410,7 +581,7 @@ class App extends Component {
                         <br />
                         <br />
                       </div>
-                      {icon}
+                      {showMoreButton}
                       <div>
                         Updated upon receipt of results from Mirimus Labs
                       </div>

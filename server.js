@@ -61,6 +61,8 @@ app.use("/detailedstats", detailedstatsRouter);
 const testingsRouter = require("./routes/testings");
 app.use("/testing", testingsRouter);
 
+const updatedTestingsRouter = require("./routes/updatedTestings");
+app.use("/updatedTesting", updatedTestingsRouter);
 /**
  * Production mode ONLY
  */
@@ -813,9 +815,9 @@ async function populatePingryTesting() {
               // Month is 0 indexed
               // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
               // node server.js populatePingryTesting
-              date: new Date(2021, 1, 10),
-              numTests: 1273,
-              potentiallyPositivePairs: 1,
+              date: new Date(2021, 1, 16),
+              numTests: 1247,
+              potentiallyPositivePairs: 0,
             },
           ],
           $position: 0,
@@ -827,6 +829,42 @@ async function populatePingryTesting() {
         console.log(err);
       } else {
         console.log(`Added newest data for populatePingryTesting`);
+      }
+    }
+  );
+}
+
+async function populateUpdatedPingryTesting() {
+  const UpdatedTesting = mongoose.model("UpdatedTesting");
+  UpdatedTesting.updateOne(
+    { _id: mongoose.Types.ObjectId(`6031345466a3955a51f55638`) },
+    {
+      $push: {
+        data: {
+          $each: [
+            {
+              // Month is 0 indexed
+              // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
+              // node server.js populateUpdatedPingryTesting
+              date: new Date(2021, 1, 18),
+              numTests: 1300,
+              totalPositiveCases: 75,
+              shortHillsStudents: 25,
+              shortHillsFacultyStaff: 10,
+              baskingRidgeStudents: 20,
+              baskingRidgeFacultyStaff: 20,
+            },
+          ],
+          $position: 0,
+        },
+      },
+    },
+    { upsert: true },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`Added newest data for populateUpdatedPingryTesting`);
       }
     }
   );
@@ -855,6 +893,7 @@ module.exports = {
   repopulateTestingCollection,
   repopulateDetailedstats,
   populatePingryTesting,
+  populateUpdatedPingryTesting,
   temporary,
 };
 
