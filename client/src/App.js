@@ -137,7 +137,7 @@ class App extends Component {
           this.setState({
             // Pick nearest multiple of 10 or maximum number of rows
             entriesShown: Math.min(
-              Math.floor((this.state.entriesShown + 10) / 10) * 10,
+              this.state.entriesShown + 10,
               this.state.fetchedUpdatedTestingData.length +
                 this.state.fetchedTestingData.length
             ),
@@ -151,7 +151,7 @@ class App extends Component {
       >
         Show{" "}
         {Math.min(
-          Math.floor((this.state.entriesShown + 10) / 10) * 10,
+          this.state.entriesShown + 10,
           this.state.fetchedUpdatedTestingData.length +
             this.state.fetchedTestingData.length
         ) - this.state.entriesShown}{" "}
@@ -164,17 +164,13 @@ class App extends Component {
         className={styles.testingButton}
         onClick={() =>
           this.setState({
-            entriesShown: Math.max(
-              3,
-              Math.ceil((this.state.entriesShown - 10) / 10) * 10
-            ),
+            entriesShown: Math.max(3, this.state.entriesShown - 10),
           })
         }
         disabled={this.state.entriesShown <= 3}
       >
         Show{" "}
-        {this.state.entriesShown -
-          Math.max(3, Math.ceil((this.state.entriesShown - 10) / 10) * 10)}{" "}
+        {this.state.entriesShown - Math.max(3, this.state.entriesShown - 10)}{" "}
         Fewer
       </button>
     );
