@@ -107,6 +107,7 @@ h3 {
   color: rgb(0, 0, 0);
   background-color: #f4f7fa;
   font-weight: bold;
+  width: 116px !important;
 }
 
 .testingButton {
@@ -132,4 +133,18 @@ h3 {
 
 .empty {
   background-color: #f1f1f1;
+}
+
+.background {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.2);
+  left: 0;
+  top: 0;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  margin: 0;
 }

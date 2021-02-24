@@ -76,6 +76,7 @@ class App extends Component {
       fetchedUpdatedTestingData: [],
       showMore: false,
       entriesShown: 3,
+      modalShown: false,
     };
     ReactGA.initialize("UA-177348263-1");
     ReactGA.initialize("UA-186911504-1");
@@ -104,6 +105,7 @@ class App extends Component {
       fetchedUpdatedTestingData: fetchedUpdatedTestingData,
       showMore: false,
       entriesShown: 3,
+      modalShown: false,
     });
   }
 
@@ -119,9 +121,6 @@ class App extends Component {
         onClick={() =>
           this.setState({
             showMore: !this.state.showMore,
-            entriesShown: !this.state.showMore
-              ? this.state.entriesShown + 10
-              : 3,
           })
         }
       >
@@ -161,6 +160,7 @@ class App extends Component {
 
     let showFewerRowsButton = (
       <button
+        // style={{ marginRight: "1rem", marginTop: "0.5rem" }}
         className={styles.testingButton}
         onClick={() =>
           this.setState({
@@ -172,6 +172,19 @@ class App extends Component {
         Show{" "}
         {this.state.entriesShown - Math.max(3, this.state.entriesShown - 10)}{" "}
         Fewer
+      </button>
+    );
+
+    let showModalButton = (
+      <button
+        className={styles.testingButton}
+        onClick={() =>
+          this.setState({
+            modalShown: !this.state.modalShown,
+          })
+        }
+      >
+        Show Prior Testing
       </button>
     );
 
@@ -308,7 +321,7 @@ class App extends Component {
                                         <tr
                                           style={{
                                             display:
-                                              i < 3 || this.state.showMore
+                                              i < this.state.entriesShown
                                                 ? "table-row"
                                                 : "none",
                                           }}
@@ -490,6 +503,9 @@ class App extends Component {
                       </div>
                       {showMoreRowsButton}
                       {showFewerRowsButton}
+                      <br />
+                      {showModalButton}
+
                       <div>
                         Updated upon receipt of results from Mirimus Labs
                       </div>
@@ -506,9 +522,13 @@ class App extends Component {
                     </Card.Body>
                   </Card>
                 </Col>
-                <TestingChart testingData={this.state.fetchedTestingData} />
+
                 <Col md={9} lg={7} className={styles.center}>
-                  <Card>
+                  <Card
+                    style={{
+                      display: this.state.modalShown ? "flex" : "none",
+                    }}
+                  >
                     <Card.Body>
                       <h6 className={cx("mb-4", styles.smallmargin)}>
                         Pingry's Return-to-School COVID-19 Testing
@@ -594,6 +614,8 @@ class App extends Component {
                     </Card.Body>
                   </Card>
                 </Col>
+                {/* <TestingChart testingData={this.state.fetchedTestingData} /> */}
+
                 <CampusCards
                   internal={this.state.internal}
                   detailedStats={this.state.detailedStats}
