@@ -76,7 +76,7 @@ class App extends Component {
       fetchedUpdatedTestingData: [],
       showMore: false,
       entriesShown: 3,
-      modalShown: false,
+      priorTestingShown: false,
     };
     ReactGA.initialize("UA-177348263-1");
     ReactGA.initialize("UA-186911504-1");
@@ -105,7 +105,7 @@ class App extends Component {
       fetchedUpdatedTestingData: fetchedUpdatedTestingData,
       showMore: false,
       entriesShown: 3,
-      modalShown: false,
+      priorTestingShown: false,
     });
   }
 
@@ -180,11 +180,11 @@ class App extends Component {
         className={styles.testingButton}
         onClick={() =>
           this.setState({
-            modalShown: !this.state.modalShown,
+            priorTestingShown: !this.state.priorTestingShown,
           })
         }
       >
-        Show Prior Testing
+        {this.state.priorTestingShown ? "Hide" : "Show"} Prior Testing
       </button>
     );
 
@@ -285,6 +285,23 @@ class App extends Component {
                                         styles.hoverable
                                       )}
                                     >
+                                      <p>Basking Ridge Students</p>
+                                    </th>
+                                    <th
+                                      className={cx(
+                                        styles.tableHeader,
+                                        styles.hoverable,
+                                        styles.dottedRight
+                                      )}
+                                    >
+                                      <p>Basking Ridge Faculty & Staff</p>
+                                    </th>
+                                    <th
+                                      className={cx(
+                                        styles.tableHeader,
+                                        styles.hoverable
+                                      )}
+                                    >
                                       <p>Short Hills Students</p>
                                     </th>
                                     <th
@@ -294,22 +311,6 @@ class App extends Component {
                                       )}
                                     >
                                       <p>Short Hills Faculty & Staff</p>
-                                    </th>
-                                    <th
-                                      className={cx(
-                                        styles.tableHeader,
-                                        styles.hoverable
-                                      )}
-                                    >
-                                      <p>Basking Ridge Students</p>
-                                    </th>
-                                    <th
-                                      className={cx(
-                                        styles.tableHeader,
-                                        styles.hoverable
-                                      )}
-                                    >
-                                      <p>Basking Ridge Faculty & Staff</p>
                                     </th>
                                   </tr>
                                 </thead>
@@ -364,6 +365,27 @@ class App extends Component {
                                             )}
                                           >
                                             {this.formatNum(
+                                              entry.baskingRidgeStudents
+                                            )}
+                                          </td>
+                                          <td
+                                            className={cx(
+                                              styles.smallPadding,
+                                              styles.hoverable,
+                                              styles.dottedRight
+                                            )}
+                                          >
+                                            {this.formatNum(
+                                              entry.baskingRidgeFacultyStaff
+                                            )}
+                                          </td>
+                                          <td
+                                            className={cx(
+                                              styles.smallPadding,
+                                              styles.hoverable
+                                            )}
+                                          >
+                                            {this.formatNum(
                                               entry.shortHillsStudents
                                             )}
                                           </td>
@@ -375,26 +397,6 @@ class App extends Component {
                                           >
                                             {this.formatNum(
                                               entry.shortHillsFacultyStaff
-                                            )}
-                                          </td>
-                                          <td
-                                            className={cx(
-                                              styles.smallPadding,
-                                              styles.hoverable
-                                            )}
-                                          >
-                                            {this.formatNum(
-                                              entry.baskingRidgeStudents
-                                            )}
-                                          </td>
-                                          <td
-                                            className={cx(
-                                              styles.smallPadding,
-                                              styles.hoverable
-                                            )}
-                                          >
-                                            {this.formatNum(
-                                              entry.baskingRidgeFacultyStaff
                                             )}
                                           </td>
                                         </tr>
@@ -526,7 +528,7 @@ class App extends Component {
                 <Col md={9} lg={7} className={styles.center}>
                   <Card
                     style={{
-                      display: this.state.modalShown ? "flex" : "none",
+                      display: this.state.priorTestingShown ? "flex" : "none",
                     }}
                   >
                     <Card.Body>
