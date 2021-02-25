@@ -77,6 +77,7 @@ class App extends Component {
       showMore: false,
       entriesShown: 3,
       priorTestingShown: false,
+      archiveEntriesShown: 3,
     };
     ReactGA.initialize("UA-177348263-1");
     ReactGA.initialize("UA-186911504-1");
@@ -137,23 +138,22 @@ class App extends Component {
             // Pick nearest multiple of 10 or maximum number of rows
             entriesShown: Math.min(
               this.state.entriesShown + 10,
-              this.state.fetchedUpdatedTestingData.length +
-                this.state.fetchedTestingData.length
+              this.state.fetchedUpdatedTestingData.length
             ),
           })
         }
         disabled={
-          this.state.entriesShown >=
-          this.state.fetchedUpdatedTestingData.length +
-            this.state.fetchedTestingData.length
+          this.state.entriesShown >= this.state.fetchedUpdatedTestingData.length
         }
       >
         Show{" "}
-        {Math.min(
-          this.state.entriesShown + 10,
-          this.state.fetchedUpdatedTestingData.length +
-            this.state.fetchedTestingData.length
-        ) - this.state.entriesShown}{" "}
+        {Math.max(
+          0,
+          Math.min(
+            this.state.entriesShown + 10,
+            this.state.fetchedUpdatedTestingData.length
+          ) - this.state.entriesShown
+        )}{" "}
         More
       </button>
     );
@@ -175,7 +175,7 @@ class App extends Component {
       </button>
     );
 
-    let showModalButton = (
+    let showArchiveData = (
       <button
         className={styles.testingButton}
         onClick={() =>
@@ -184,7 +184,57 @@ class App extends Component {
           })
         }
       >
-        {this.state.priorTestingShown ? "Hide" : "Show"} Prior Testing
+        {this.state.priorTestingShown ? "Hide" : "Show"} Archived Data
+      </button>
+    );
+
+    let showMoreRowsArchiveButton = (
+      <button
+        style={{ marginRight: "1rem", marginTop: "0.5rem" }}
+        className={styles.testingButton}
+        onClick={() =>
+          this.setState({
+            // Pick nearest multiple of 10 or maximum number of rows
+            archiveEntriesShown: Math.min(
+              this.state.archiveEntriesShown + 10,
+              this.state.fetchedTestingData.length
+            ),
+          })
+        }
+        disabled={
+          this.state.archiveEntriesShown >= this.state.fetchedTestingData.length
+        }
+      >
+        Show{" "}
+        {Math.max(
+          0,
+          Math.min(
+            this.state.archiveEntriesShown + 10,
+            this.state.fetchedTestingData.length
+          ) - this.state.archiveEntriesShown
+        )}{" "}
+        More
+      </button>
+    );
+
+    let showFewerRowsArchiveButton = (
+      <button
+        // style={{ marginRight: "1rem", marginTop: "0.5rem" }}
+        className={styles.testingButton}
+        onClick={() =>
+          this.setState({
+            archiveEntriesShown: Math.max(
+              3,
+              this.state.archiveEntriesShown - 10
+            ),
+          })
+        }
+        disabled={this.state.archiveEntriesShown <= 3}
+      >
+        Show{" "}
+        {this.state.archiveEntriesShown -
+          Math.max(3, this.state.archiveEntriesShown - 10)}{" "}
+        Fewer
       </button>
     );
 
@@ -403,100 +453,6 @@ class App extends Component {
                                       );
                                     }
                                   )}
-
-                                  {this.state.fetchedUpdatedTestingData.length <
-                                    this.state.entriesShown && (
-                                    <>
-                                      <tr>
-                                        <td
-                                          className={cx(
-                                            styles.tableHeader,
-                                            styles.hoverable
-                                          )}
-                                        >
-                                          <p>Date of Sample Collection</p>
-                                        </td>
-                                        <td
-                                          className={cx(
-                                            styles.tableHeader,
-                                            styles.hoverable
-                                          )}
-                                        >
-                                          <p>Total Tests Administered</p>
-                                        </td>
-                                        <td
-                                          className={cx(
-                                            styles.tableHeader,
-                                            styles.hoverable,
-                                            styles.separator
-                                          )}
-                                        >
-                                          <p>
-                                            Number of Potentially Positive Pairs
-                                          </p>
-                                        </td>
-                                        <td className={styles.empty}></td>
-                                        <td className={styles.empty}></td>
-                                        <td className={styles.empty}></td>
-                                        <td className={styles.empty}></td>
-                                      </tr>
-                                      {this.state.fetchedTestingData.map(
-                                        (entry, i) => {
-                                          const date = new Date(entry.date);
-                                          return (
-                                            <tr
-                                              style={{
-                                                display:
-                                                  i +
-                                                    this.state
-                                                      .fetchedUpdatedTestingData
-                                                      .length <
-                                                  this.state.entriesShown
-                                                    ? "table-row"
-                                                    : "none",
-                                              }}
-                                              key={i}
-                                            >
-                                              <td
-                                                className={cx(
-                                                  styles.smallPadding,
-                                                  styles.hoverable
-                                                )}
-                                              >
-                                                {date.getMonth() +
-                                                  1 +
-                                                  "/" +
-                                                  date.getDate()}
-                                              </td>
-                                              <td
-                                                className={cx(
-                                                  styles.smallPadding,
-                                                  styles.hoverable
-                                                )}
-                                              >
-                                                {this.formatNum(entry.numTests)}
-                                              </td>
-                                              <td
-                                                className={cx(
-                                                  styles.smallPadding,
-                                                  styles.hoverable,
-                                                  styles.separator
-                                                )}
-                                              >
-                                                {this.formatNum(
-                                                  entry.potentiallyPositivePairs
-                                                )}
-                                              </td>
-                                              <td className={styles.empty}></td>
-                                              <td className={styles.empty}></td>
-                                              <td className={styles.empty}></td>
-                                              <td className={styles.empty}></td>
-                                            </tr>
-                                          );
-                                        }
-                                      )}
-                                    </>
-                                  )}
                                 </tbody>
                               </table>
                             </div>
@@ -506,7 +462,7 @@ class App extends Component {
                       {showMoreRowsButton}
                       {showFewerRowsButton}
                       <br />
-                      {showModalButton}
+                      {showArchiveData}
 
                       <div>
                         Updated upon receipt of results from Mirimus Labs
@@ -533,7 +489,7 @@ class App extends Component {
                   >
                     <Card.Body>
                       <h6 className={cx("mb-4", styles.smallmargin)}>
-                        Pingry's Return-to-School COVID-19 Testing
+                        COVID-19 Testing - Archived Data
                       </h6>
                       <div className="row d-flex align-items-center">
                         <div className="col-12">
@@ -563,7 +519,7 @@ class App extends Component {
                                         <tr
                                           style={{
                                             display:
-                                              i < 3 || this.state.showMore
+                                              i < this.state.archiveEntriesShown
                                                 ? "table-row"
                                                 : "none",
                                           }}
@@ -599,7 +555,8 @@ class App extends Component {
                         <br />
                         <br />
                       </div>
-                      {showMoreButton}
+                      {showMoreRowsArchiveButton}
+                      {showFewerRowsArchiveButton}
                       <div>
                         Updated upon receipt of results from Mirimus Labs
                       </div>
