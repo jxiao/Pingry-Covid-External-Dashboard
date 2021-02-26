@@ -815,8 +815,8 @@ async function populatePingryTesting() {
               // Month is 0 indexed
               // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
               // node server.js populatePingryTesting
-              date: new Date(2021, 1, 22),
-              numTests: 1326,
+              date: new Date(2021, 1, 25),
+              numTests: 1310,
               potentiallyPositivePairs: 6,
             },
           ],
@@ -846,13 +846,13 @@ async function populateUpdatedPingryTesting() {
               // Month is 0 indexed
               // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
               // node server.js populateUpdatedPingryTesting
-              date: new Date(2021, 1, 18),
-              numTests: 1300,
-              totalPositiveCases: 75,
-              shortHillsStudents: 25,
-              shortHillsFacultyStaff: 10,
-              baskingRidgeStudents: 20,
-              baskingRidgeFacultyStaff: 20,
+              date: new Date(2021, 1, 19),
+              numTests: 1000,
+              totalPositiveCases: 20,
+              shortHillsStudents: 0,
+              shortHillsFacultyStaff: 0,
+              baskingRidgeStudents: 15,
+              baskingRidgeFacultyStaff: 5,
             },
           ],
           $position: 0,
