@@ -36,7 +36,7 @@ class App extends Component {
   // 3 --> fully remote
   // 0 --> special (atm: Fully Remote for Re-Entry)
   static SHORT_HILLS_LEVEL = 1;
-  static BASKING_RIDGE_LEVEL = 1;
+  static BASKING_RIDGE_LEVEL = 3;
 
   // TESTING RESULTS
   static POTENTIALLY_POSITIVE_PAIRS = 1;
