@@ -84,3 +84,15 @@ export const fetchTestings = async function () {
     console.log(error);
   }
 };
+
+/**
+ * Fetches Pingry's Statuses
+ */
+export const fetchStatuses = async function () {
+  try {
+    const res = await axios.get(`/statuses`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

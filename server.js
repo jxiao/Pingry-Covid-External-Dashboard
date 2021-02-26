@@ -61,6 +61,9 @@ app.use("/detailedstats", detailedstatsRouter);
 const testingsRouter = require("./routes/testings");
 app.use("/testing", testingsRouter);
 
+const statusesRouter = require("./routes/statuses");
+app.use("/statuses", statusesRouter);
+
 /**
  * Production mode ONLY
  */
@@ -831,6 +834,26 @@ async function populatePingryTesting() {
   );
 }
 
+async function updateStatuses() {
+  const Statuses = mongoose.model("Statuses");
+  Statuses.updateOne(
+    { _id: mongoose.Types.ObjectId(`6039560a1589321931606dd1`) },
+    {
+      // Month is 0 indexed
+      // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
+      shortHills: 1,
+      baskingRidge: 3,
+    },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`Updated statuses for Basking Ridge/Short Hills`);
+      }
+    }
+  );
+}
+
 async function temporary() {
   const Detailedstat = mongoose.model("Detailedstat");
   Detailedstat.findById(
@@ -854,6 +877,7 @@ module.exports = {
   repopulateTestingCollection,
   repopulateDetailedstats,
   populatePingryTesting,
+  updateStatuses,
   temporary,
 };
 
