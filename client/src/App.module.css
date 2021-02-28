@@ -138,3 +138,13 @@ h3 {
 .dottedRight {
   border-right: 1px dashed #aaa;
 }
+
+::-webkit-scrollbar {
+  width: 0.5em;
+  height: 0.5em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #95a5a6;
+  border-radius: 1px;
+}
