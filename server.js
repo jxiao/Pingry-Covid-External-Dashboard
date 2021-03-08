@@ -815,9 +815,9 @@ async function populatePingryTesting() {
               // Month is 0 indexed
               // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
               // node server.js populatePingryTesting
-              date: new Date(2021, 1, 25),
-              numTests: 1310,
-              potentiallyPositivePairs: 6,
+              date: new Date(2021, 2, 5),
+              numTests: 578,
+              potentiallyPositivePairs: 1,
             },
           ],
           $position: 0,
