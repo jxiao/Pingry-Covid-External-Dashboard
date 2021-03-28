@@ -815,8 +815,8 @@ async function populatePingryTesting() {
             {
               // Month is 0 indexed
               // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
-              date: new Date(2021, 2, 12),
-              numTests: 145,
+              date: new Date(2021, 2, 19),
+              numTests: 441,
               potentiallyPositivePairs: 0,
             },
           ],
