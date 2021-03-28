@@ -61,6 +61,9 @@ app.use("/detailedstats", detailedstatsRouter);
 const testingsRouter = require("./routes/testings");
 app.use("/testing", testingsRouter);
 
+const updatedTestingsRouter = require("./routes/updatedTestings");
+app.use("/updatedTesting", updatedTestingsRouter);
+
 const statusesRouter = require("./routes/statuses");
 app.use("/statuses", statusesRouter);
 
@@ -815,9 +818,10 @@ async function populatePingryTesting() {
             {
               // Month is 0 indexed
               // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
-              date: new Date(2021, 2, 19),
-              numTests: 441,
-              potentiallyPositivePairs: 0,
+              // node server.js populatePingryTesting
+              date: new Date(2021, 2, 5),
+              numTests: 578,
+              potentiallyPositivePairs: 1,
             },
           ],
           $position: 0,
@@ -829,6 +833,42 @@ async function populatePingryTesting() {
         console.log(err);
       } else {
         console.log(`Added newest data for populatePingryTesting`);
+      }
+    }
+  );
+}
+
+async function populateUpdatedPingryTesting() {
+  const UpdatedTesting = mongoose.model("UpdatedTesting");
+  UpdatedTesting.updateOne(
+    { _id: mongoose.Types.ObjectId(`6031345466a3955a51f55638`) },
+    {
+      $push: {
+        data: {
+          $each: [
+            {
+              // Month is 0 indexed
+              // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
+              // node server.js populateUpdatedPingryTesting
+              date: new Date(2021, 2, 26),
+              numTests: 1331,
+              totalPositiveCases: 9,
+              shortHillsStudents: 1,
+              shortHillsFacultyStaff: 1,
+              baskingRidgeStudents: 4,
+              baskingRidgeFacultyStaff: 3,
+            },
+          ],
+          $position: 0,
+        },
+      },
+    },
+    { upsert: true },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`Added newest data for populateUpdatedPingryTesting`);
       }
     }
   );
@@ -877,6 +917,7 @@ module.exports = {
   repopulateTestingCollection,
   repopulateDetailedstats,
   populatePingryTesting,
+  populateUpdatedPingryTesting,
   updateStatuses,
   temporary,
 };

@@ -1,9 +1,3 @@
-/* Heading text sizes */
-h5,
-h6 {
-  font-size: 1.5rem;
-}
-
 /* Header Logo */
 .center {
   margin: auto;
@@ -12,39 +6,6 @@ h6 {
 
 .smallerText {
   font-size: 1rem;
-}
-
-.pingryLogo {
-  display: inline-block;
-  margin: auto;
-  max-height: 75px;
-  width: auto;
-}
-
-.link:hover {
-  filter: brightness(105%);
-}
-
-/* Footer attributions */
-.attributions {
-  display: block;
-  width: 100%;
-  text-align: center;
-  font-size: 12px;
-}
-
-.spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-.icon {
-  float: right;
-  height: 100px;
-  width: 100px;
 }
 
 .smallerText {
@@ -87,7 +48,7 @@ h3 {
   text-align: center;
   table-layout: fixed;
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 0;
 }
 
 .smallPadding {
@@ -106,8 +67,7 @@ h3 {
 .tableHeader {
   color: rgb(0, 0, 0);
   background-color: #f4f7fa;
-  font-weight: bold;
-  width: 116px !important;
+  width: 75px;
 }
 
 .testingButton {
@@ -119,32 +79,18 @@ h3 {
   margin-bottom: 5px;
 }
 
+.labelColumn {
+  width: 200px;
+}
+
 .hoverable {
-  width: 100px;
+  border-bottom: 1px solid #eaeaea;
 }
 
 .hoverable:not(.empty):hover {
   background-color: #eaeaea;
 }
 
-.separator {
-  border-right: 2px solid #aaaaaa;
-}
-
-.empty {
-  background-color: #f1f1f1;
-}
-
-.dottedRight {
-  border-right: 1px dashed #aaa;
-}
-
-::-webkit-scrollbar {
-  width: 0.5em;
-  height: 0.5em;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #95a5a6;
-  border-radius: 1px;
+.rowTitle {
+  font-weight: 500;
 }
