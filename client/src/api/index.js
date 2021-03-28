@@ -86,11 +86,19 @@ export const fetchTestings = async function () {
 };
 
 /**
+<<<<<<< HEAD
  * Fetches Pingry's Updated Testing Data
  */
 export const fetchUpdatedTestings = async function () {
   try {
     const res = await axios.get(`/updatedTesting`);
+=======
+ * Fetches Pingry's Statuses
+ */
+export const fetchStatuses = async function () {
+  try {
+    const res = await axios.get(`/statuses`);
+>>>>>>> master
     return res.data;
   } catch (error) {
     console.log(error);

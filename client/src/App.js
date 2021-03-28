@@ -8,6 +8,7 @@ import {
   fetchTestings,
   fetchCountyTotalsDB,
   fetchUpdatedTestings,
+  fetchStatuses,
 } from "./api";
 import Aux from "./hoc/_Aux";
 import "./assets/scss/style.scss";
@@ -33,18 +34,18 @@ import cx from "classnames";
 // import Testing from "../../models/testing.model";
 
 class App extends Component {
-  // LEVELS
-  // 1 --> open
-  // 2 --> reduced density
-  // 3 --> fully remote
-  // 0 --> special (atm: Fully Remote for Re-Entry)
-  static SHORT_HILLS_LEVEL = 1;
-  static BASKING_RIDGE_LEVEL = 1;
+  // // LEVELS
+  // // 1 --> open
+  // // 2 --> reduced density
+  // // 3 --> fully remote
+  // // 0 --> special (atm: Fully Remote for Re-Entry)
+  // static SHORT_HILLS_LEVEL = 1;
+  // static BASKING_RIDGE_LEVEL = 3;
 
-  // TESTING RESULTS
-  static POTENTIALLY_POSITIVE_PAIRS = 1;
-  static TOTAL_NUM_TESTS = 1433;
-  static SAMPLE_COLLECTION_DATE = new Date(2020, 10, 16);
+  // // TESTING RESULTS
+  // static POTENTIALLY_POSITIVE_PAIRS = 1;
+  // static TOTAL_NUM_TESTS = 1433;
+  // static SAMPLE_COLLECTION_DATE = new Date(2020, 10, 16);
 
   static MONTHS = [
     "January",
@@ -78,6 +79,7 @@ class App extends Component {
       entriesShown: 3,
       priorTestingShown: false,
       archiveEntriesShown: 3,
+      fetchedStatuses: { baskingRidge: 1, shortHills: 1 },
     };
     ReactGA.initialize("UA-177348263-1");
     ReactGA.initialize("UA-186911504-1");
@@ -93,6 +95,7 @@ class App extends Component {
     const fetchedTestingData = (await fetchTestings())[0].data;
     const fetchedCountyTotals = await fetchCountyTotalsDB();
     const fetchedUpdatedTestingData = (await fetchUpdatedTestings())[0].data;
+    const fetchedStatuses = (await fetchStatuses())[0];
     this.setState({
       statewideData: fetchedStatewideData,
       countyData: fetchedCountyData,
@@ -107,6 +110,7 @@ class App extends Component {
       showMore: false,
       entriesShown: 3,
       priorTestingShown: false,
+      fetchedStatuses: fetchedStatuses,
     });
   }
 
@@ -272,8 +276,8 @@ class App extends Component {
                 </a>
               </Col>
               <Status
-                shortHills={App.SHORT_HILLS_LEVEL}
-                baskingRidge={App.BASKING_RIDGE_LEVEL}
+                shortHills={this.state.fetchedStatuses.shortHills}
+                baskingRidge={this.state.fetchedStatuses.baskingRidge}
               />
 
               <Row>
