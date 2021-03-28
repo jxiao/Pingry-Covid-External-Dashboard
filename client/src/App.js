@@ -116,19 +116,6 @@ class App extends Component {
   }
 
   render() {
-    let showMoreButton = (
-      <button
-        className={styles.testingButton}
-        onClick={() =>
-          this.setState({
-            showMore: !this.state.showMore,
-          })
-        }
-      >
-        {this.state.showMore ? "Show Less" : "Show More"}
-      </button>
-    );
-
     let showMoreRowsButton = (
       <button
         style={{ marginRight: "1rem", marginTop: "0.5rem" }}
