@@ -117,26 +117,8 @@ const zipcodesNJ = [
 ];
 
 const population = [
-  263670,
-  932202,
-  445349,
-  506471,
-  92039,
-  149527,
-  798975,
-  291636,
-  672391,
-  124371,
-  367430,
-  825062,
-  618795,
-  491845,
-  607186,
-  501826,
-  62385,
-  328934,
-  140488,
-  556341,
+  263670, 932202, 445349, 506471, 92039, 149527, 798975, 291636, 672391, 124371,
+  367430, 825062, 618795, 491845, 607186, 501826, 62385, 328934, 140488, 556341,
   105267,
 ];
 const localCountyPopulation = 6351603;
@@ -586,8 +568,10 @@ async function repopulateSummarystats() {
               const newData = {
                 pingryCountiesCaseRate: pingryCountiesCaseRate,
                 pingryCountiesInfectionRate: pingryCountiesInfectionRate,
-                shortHills7DayIsolationQuarantine: shortHills7DayIsolationQuarantine,
-                baskingRidge7DayIsolationQuarantine: baskingRidge7DayIsolationQuarantine,
+                shortHills7DayIsolationQuarantine:
+                  shortHills7DayIsolationQuarantine,
+                baskingRidge7DayIsolationQuarantine:
+                  baskingRidge7DayIsolationQuarantine,
               };
 
               Summarystat.replaceOne(
@@ -850,13 +834,13 @@ async function populateUpdatedPingryTesting() {
               // Month is 0 indexed
               // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
               // node server.js populateUpdatedPingryTesting
-              date: new Date(2021, 2, 26),
-              numTests: 1331,
-              totalPositiveCases: 9,
-              shortHillsStudents: 1,
-              shortHillsFacultyStaff: 1,
-              baskingRidgeStudents: 4,
-              baskingRidgeFacultyStaff: 3,
+              date: new Date(2021, 5, 15),
+              numTests: 400,
+              totalPositiveCases: 0,
+              shortHillsStudents: 0,
+              shortHillsFacultyStaff: 0,
+              baskingRidgeStudents: 0,
+              baskingRidgeFacultyStaff: 0,
             },
           ],
           $position: 0,
@@ -879,8 +863,6 @@ async function updateStatuses() {
   Statuses.updateOne(
     { _id: mongoose.Types.ObjectId(`6039560a1589321931606dd1`) },
     {
-      // Month is 0 indexed
-      // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
       shortHills: 1,
       baskingRidge: 1,
     },
@@ -905,7 +887,8 @@ async function temporary() {
         resp.baskingRidge7DayIsolationQuarantine;
       const newData = {
         shortHills7DayIsolationQuarantine: shortHills7DayIsolationQuarantine,
-        baskingRidge7DayIsolationQuarantine: baskingRidge7DayIsolationQuarantine,
+        baskingRidge7DayIsolationQuarantine:
+          baskingRidge7DayIsolationQuarantine,
       };
       console.log(newData);
     }

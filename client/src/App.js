@@ -570,24 +570,26 @@ class App extends Component {
                   internal={this.state.internal}
                   detailedStats={this.state.detailedStats}
                 />
-                <CampusCharts
+                {/* <CampusCharts
                   internal={this.state.internal}
                   detailedStats={this.state.detailedStats}
-                />
-                <CardSet
+                /> */}
+                {/* <CardSet
                   fetchedCountyData={this.state.countyData}
                   fetchedCountyProjections={this.state.fetchedCountyProjections}
-                />
+                /> */}
                 <Charts
                   IRAverages={this.state.fetchedCountyProjections[0].averages}
                   CRAverages={this.state.countyData.averages}
                 />
-                <CovidActNowCard />
-                <CountyTable
+                <CovidActNowCard default={"nj"} />
+                <CovidActNowCard default={"county/34013"} />
+                <CovidActNowCard default={"county/34035"} />
+                {/* <CountyTable
                   data={this.state.countyTotals}
                   countyData={this.state.countyData.data}
                   fetchedCountyProjections={this.state.fetchedCountyProjections}
-                />
+                /> */}
               </Row>
               <div className={styles.attributions}>
                 <div>
