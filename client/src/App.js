@@ -25,6 +25,7 @@ import CampusCharts from "./components/CampusCharts/CampusCharts";
 import Status from "./components/Status/Status";
 import CampusCards from "./components/CampusCards/CampusCards";
 import TestingChart from "./components/TestingChart/TestingChart";
+import VaccinationCharts from "./components/VaccinationCharts/VaccinationCharts";
 
 // Images + accessories
 import PingryAnywhere from "./assets/images/PingryAnywhere";
@@ -565,7 +566,7 @@ class App extends Component {
                   </Card>
                 </Col>
                 {/* <TestingChart testingData={this.state.fetchedTestingData} /> */}
-
+                <VaccinationCharts />
                 <CampusCards
                   internal={this.state.internal}
                   detailedStats={this.state.detailedStats}
