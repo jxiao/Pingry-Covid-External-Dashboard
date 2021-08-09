@@ -41,8 +41,14 @@ class VaccinationCharts extends Component {
     let as = pieSeries.slices.template.states.getKey("active");
     as.properties.shiftRadius = 0;
     studentChart.legend = new am4charts.Legend();
+    studentChart.legend.itemContainers.template.clickable = false;
+    studentChart.legend.itemContainers.template.focusable = false;
+    studentChart.legend.itemContainers.template.cursorOverStyle =
+      am4core.MouseCursorStyle.default;
     pieSeries.labels.template.text = "";
     pieSeries.slices.template.propertyFields.fill = "color";
+    pieSeries.numberFormatter.numberFormat = "#.0";
+    pieSeries.slices.template.tooltipText = "{status}: {value.percent}%";
 
     /**
      * FACULTY & STAFF
@@ -69,8 +75,14 @@ class VaccinationCharts extends Component {
     as = pieSeries.slices.template.states.getKey("active");
     as.properties.shiftRadius = 0;
     facultyChart.legend = new am4charts.Legend();
+    facultyChart.legend.itemContainers.template.clickable = false;
+    facultyChart.legend.itemContainers.template.focusable = false;
+    facultyChart.legend.itemContainers.template.cursorOverStyle =
+      am4core.MouseCursorStyle.default;
     pieSeries.labels.template.text = "";
+    pieSeries.numberFormatter.numberFormat = "#.0";
     pieSeries.slices.template.propertyFields.fill = "color";
+    pieSeries.slices.template.tooltipText = "{status}: {value.percent}%";
   }
   componentWillUnmount() {}
   render() {

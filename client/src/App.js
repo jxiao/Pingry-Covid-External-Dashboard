@@ -575,6 +575,9 @@ class App extends Component {
                 <WeeklyCasesCharts
                   internal={this.state.internal}
                   detailedStats={this.state.detailedStats}
+                  fetchedUpdatedTestingData={
+                    this.state.fetchedUpdatedTestingData
+                  }
                 />
                 {/* <CampusCharts
                   internal={this.state.internal}

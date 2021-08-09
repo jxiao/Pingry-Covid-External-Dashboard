@@ -60,13 +60,12 @@ class CovidActNowCard extends Component {
                     New Jersey
                   </option>
                   {COUNTY_OPTIONS.map((opt, i) => {
+                    const value = `county/${34001 + 2 * i}`;
                     return (
                       <option
                         key={i}
-                        value={`county/${34001 + 2 * i}`}
-                        selected={
-                          this.state.ending === `county/${34001 + 2 * i}`
-                        }
+                        value={value}
+                        selected={this.state.ending === value}
                       >
                         {opt}
                       </option>
