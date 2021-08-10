@@ -9,6 +9,7 @@ import {
   fetchCountyTotalsDB,
   fetchUpdatedTestings,
   fetchStatuses,
+  fetchVaccinations,
 } from "./api";
 import Aux from "./hoc/_Aux";
 import "./assets/scss/style.scss";
@@ -25,7 +26,7 @@ import CampusCharts from "./components/CampusCharts/CampusCharts";
 import Status from "./components/Status/Status";
 import CampusCards from "./components/CampusCards/CampusCards";
 import TestingChart from "./components/TestingChart/TestingChart";
-import VaccinationCharts from "./components/VaccinationCharts/VaccinationCharts";
+import VaccinationCharts from "./components/VaccinationCards/VaccinationCards";
 import WeeklyCasesCharts from "./components/WeeklyCasesCharts/WeeklyCasesCharts";
 
 // Images + accessories
@@ -77,6 +78,7 @@ class App extends Component {
       detailedStats: [],
       fetchedTestingData: [],
       fetchedUpdatedTestingData: [],
+      fetchedVaccinations: [],
       showMore: false,
       entriesShown: 3,
       priorTestingShown: false,
@@ -98,6 +100,7 @@ class App extends Component {
     const fetchedCountyTotals = await fetchCountyTotalsDB();
     const fetchedUpdatedTestingData = (await fetchUpdatedTestings())[0].data;
     const fetchedStatuses = (await fetchStatuses())[0];
+    const fetchedVaccinations = (await fetchVaccinations())[0].data;
     this.setState({
       statewideData: fetchedStatewideData,
       countyData: fetchedCountyData,
@@ -113,6 +116,7 @@ class App extends Component {
       entriesShown: 3,
       priorTestingShown: false,
       fetchedStatuses: fetchedStatuses,
+      fetchedVaccinations: fetchedVaccinations,
     });
   }
 
@@ -277,10 +281,11 @@ class App extends Component {
                   Learn More About Our Dashboard
                 </a>
               </Col>
-              <Status
+              <br />
+              {/* <Status
                 shortHills={this.state.fetchedStatuses.shortHills}
                 baskingRidge={this.state.fetchedStatuses.baskingRidge}
-              />
+              /> */}
 
               <Row>
                 <Col md={9} lg={7} className={styles.center}>
@@ -567,26 +572,13 @@ class App extends Component {
                   </Card>
                 </Col>
                 {/* <TestingChart testingData={this.state.fetchedTestingData} /> */}
-                <VaccinationCharts />
+                <VaccinationCharts
+                  fetchedVaccinations={this.state.fetchedVaccinations}
+                />
                 <CampusCards
                   internal={this.state.internal}
                   detailedStats={this.state.detailedStats}
                 />
-                <WeeklyCasesCharts
-                  internal={this.state.internal}
-                  detailedStats={this.state.detailedStats}
-                  fetchedUpdatedTestingData={
-                    this.state.fetchedUpdatedTestingData
-                  }
-                />
-                {/* <CampusCharts
-                  internal={this.state.internal}
-                  detailedStats={this.state.detailedStats}
-                /> */}
-                {/* <CardSet
-                  fetchedCountyData={this.state.countyData}
-                  fetchedCountyProjections={this.state.fetchedCountyProjections}
-                /> */}
                 <Charts
                   IRAverages={this.state.fetchedCountyProjections[0].averages}
                   CRAverages={this.state.countyData.averages}
@@ -594,11 +586,6 @@ class App extends Component {
                 <CovidActNowCard default={"nj"} />
                 <CovidActNowCard default={"county/34013"} />
                 <CovidActNowCard default={"county/34035"} />
-                {/* <CountyTable
-                  data={this.state.countyTotals}
-                  countyData={this.state.countyData.data}
-                  fetchedCountyProjections={this.state.fetchedCountyProjections}
-                /> */}
               </Row>
               <div className={styles.attributions}>
                 <div>

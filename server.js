@@ -64,6 +64,9 @@ app.use("/testing", testingsRouter);
 const updatedTestingsRouter = require("./routes/updatedTestings");
 app.use("/updatedTesting", updatedTestingsRouter);
 
+const vaccinationsRouter = require("./routes/vaccinations");
+app.use("/vaccination", vaccinationsRouter);
+
 const statusesRouter = require("./routes/statuses");
 app.use("/statuses", statusesRouter);
 
@@ -822,6 +825,24 @@ async function populatePingryTesting() {
   );
 }
 
+async function updateStatuses() {
+  const Statuses = mongoose.model("Statuses");
+  Statuses.updateOne(
+    { _id: mongoose.Types.ObjectId(`6039560a1589321931606dd1`) },
+    {
+      shortHills: 1,
+      baskingRidge: 1,
+    },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`Updated statuses for Basking Ridge/Short Hills`);
+      }
+    }
+  );
+}
+
 async function populateUpdatedPingryTesting() {
   const UpdatedTesting = mongoose.model("UpdatedTesting");
   UpdatedTesting.updateOne(
@@ -858,39 +879,34 @@ async function populateUpdatedPingryTesting() {
   );
 }
 
-async function updateStatuses() {
-  const Statuses = mongoose.model("Statuses");
-  Statuses.updateOne(
-    { _id: mongoose.Types.ObjectId(`6039560a1589321931606dd1`) },
+async function populateVaccinationPercentages() {
+  const UpdatedTesting = mongoose.model("Vaccination");
+  UpdatedTesting.updateOne(
+    { _id: mongoose.Types.ObjectId(`6112a21d0972b22fd9c74736`) },
     {
-      shortHills: 1,
-      baskingRidge: 1,
+      $push: {
+        data: {
+          $each: [
+            {
+              // Month is 0 indexed
+              // 0 = January, 1 = February, 2 = March, ... 9 = October, 10 = November, 11 = December
+              // node server.js populateVaccinationPercentages
+              date: new Date(2021, 5, 15),
+              students: 60,
+              facultyStaff: 70,
+            },
+          ],
+          $position: 0,
+        },
+      },
     },
+    { upsert: true },
     (err) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(`Updated statuses for Basking Ridge/Short Hills`);
+        console.log(`Added newest data for populateVaccinationPercentages`);
       }
-    }
-  );
-}
-
-async function temporary() {
-  const Detailedstat = mongoose.model("Detailedstat");
-  Detailedstat.findById(
-    { _id: mongoose.Types.ObjectId(`5f6cb087f749d8ad239fb131`) },
-    (err, resp) => {
-      const shortHills7DayIsolationQuarantine =
-        resp.shortHills7DayIsolationQuarantine;
-      const baskingRidge7DayIsolationQuarantine =
-        resp.baskingRidge7DayIsolationQuarantine;
-      const newData = {
-        shortHills7DayIsolationQuarantine: shortHills7DayIsolationQuarantine,
-        baskingRidge7DayIsolationQuarantine:
-          baskingRidge7DayIsolationQuarantine,
-      };
-      console.log(newData);
     }
   );
 }
@@ -902,7 +918,7 @@ module.exports = {
   populatePingryTesting,
   populateUpdatedPingryTesting,
   updateStatuses,
-  temporary,
+  populateVaccinationPercentages,
 };
 
 require("make-runnable");

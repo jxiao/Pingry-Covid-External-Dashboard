@@ -86,6 +86,18 @@ export const fetchTestings = async function () {
 };
 
 /**
+ * Fetches Pingry's Statuses
+ */
+export const fetchStatuses = async function () {
+  try {
+    const res = await axios.get(`/statuses`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+/**
  * Fetches Pingry's Updated Testing Data
  */
 export const fetchUpdatedTestings = async function () {
@@ -98,11 +110,11 @@ export const fetchUpdatedTestings = async function () {
 };
 
 /**
- * Fetches Pingry's Statuses
+ * Fetches Pingry's Updated Testing Data
  */
-export const fetchStatuses = async function () {
+export const fetchVaccinations = async function () {
   try {
-    const res = await axios.get(`/statuses`);
+    const res = await axios.get(`/vaccination`);
     return res.data;
   } catch (error) {
     console.log(error);
